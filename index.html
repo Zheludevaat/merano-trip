@@ -904,7 +904,7 @@
     <div class="day-block" data-group="d1">
       <div class="day-title d1">Day 1 &mdash; Sunday, April 19</div>
       <p class="day-subtitle">Depart Samnaun ~09:00 &bull; Arrive Merano ~11:30 &bull; Dinner &bull; Hotel</p>
-      <div id="day1-list"></div>
+      <div id="d1-list"></div>
     </div>
 
     <div class="day-block" data-group="route">
@@ -916,7 +916,7 @@
     <div class="day-block" data-group="d2">
       <div class="day-title d2">Day 2 &mdash; Monday, April 20</div>
       <p class="day-subtitle">Morning in Merano &bull; Leave by 15:00 &bull; Home by ~17:00&ndash;17:30</p>
-      <div id="day2-list"></div>
+      <div id="d2-list"></div>
     </div>
 
     <!-- Trip Summary -->
@@ -961,7 +961,7 @@
 </div>
 
 <!-- Back to Top Button -->
-<button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Back to top">â–²</button>
+<button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Back to top">▲</button>
 
 <!-- ============================================
      LEAFLET & OSRM
@@ -1319,10 +1319,10 @@ function createCard(stop) {
     const contactInfo = stop.contact[altName];
     if (contactInfo) {
       if (contactInfo.phone) {
-        contactHtml += `<a href="tel:${contactInfo.phone}" class="contact-btn call" onclick="event.stopPropagation()">ðŸ“ž Call</a>`;
+        contactHtml += `<a href="tel:${contactInfo.phone}" class="contact-btn call" onclick="event.stopPropagation()">&#x260E; Call</a>`;
       }
       if (contactInfo.web) {
-        contactHtml += `<a href="${contactInfo.web}" target="_blank" rel="noopener noreferrer" class="contact-btn web" onclick="event.stopPropagation()">ðŸ”— Website</a>`;
+        contactHtml += `<a href="${contactInfo.web}" target="_blank" rel="noopener noreferrer" class="contact-btn web" onclick="event.stopPropagation()">&#x1F310; Website</a>`;
       }
     }
   }
@@ -1333,7 +1333,7 @@ function createCard(stop) {
       <div class="card-time">${stop.time}</div>
     </div>
     <div class="card-tagline">${stop.tagline}</div>
-    ${stop.dist ? `<div class="card-distance">ðŸ“ ${stop.dist}</div>` : ''}
+    ${stop.dist ? `<div class="card-distance">&#x1F4CD; ${stop.dist}</div>` : ''}
     <div class="card-description" id="desc-${stop.id}">
       ${stop.desc}
     </div>
@@ -1343,7 +1343,7 @@ function createCard(stop) {
         <span id="expand-text-${stop.id}">Show details</span>
       </button>
       <button class="action-btn" onclick="navigateToStop('${stop.id}')" title="Navigate to this stop">
-        ðŸ§­ Navigate
+        &#x279C; Navigate
       </button>
     </div>
     <div style="display: flex; gap: 8px; margin-top: 8px;">
@@ -1393,10 +1393,10 @@ function selectAlternative(stopId, altIndex) {
       const contactInfo = stop.contact[alt.name];
       let html = '';
       if (contactInfo.phone) {
-        html += `<a href="tel:${contactInfo.phone}" class="contact-btn call" onclick="event.stopPropagation()">ðŸ“ž Call</a>`;
+        html += `<a href="tel:${contactInfo.phone}" class="contact-btn call" onclick="event.stopPropagation()">&#x260E; Call</a>`;
       }
       if (contactInfo.web) {
-        html += `<a href="${contactInfo.web}" target="_blank" rel="noopener noreferrer" class="contact-btn web" onclick="event.stopPropagation()">ðŸ”— Website</a>`;
+        html += `<a href="${contactInfo.web}" target="_blank" rel="noopener noreferrer" class="contact-btn web" onclick="event.stopPropagation()">&#x1F310; Website</a>`;
       }
       return html;
     })();
