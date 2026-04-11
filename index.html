@@ -7,11 +7,23 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Merano Trip">
 <meta name="theme-color" content="#111827">
-<title>Merano Trip â€” April 19â€“20, 2026</title>
+<meta property="og:title" content="Merano Trip &mdash; April 19&ndash;20, 2026">
+<meta property="og:description" content="An interactive map and guide for a 2-day trip to Merano, Italy from Samnaun. Explore stops, routes, and dining options with live GPS navigation.">
+<meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Crect fill='%23111827' width='1200' height='630'/%3E%3Ccircle cx='600' cy='315' r='50' fill='%2310b981'/%3E%3Cpath d='M600 215 L640 315 L600 400 L560 315 Z' fill='%2310b981'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23111827' width='100' height='100'/%3E%3Ccircle cx='50' cy='50' r='12' fill='%2310b981'/%3E%3Cpath d='M50 20 L65 50 L50 75 L35 50 Z' fill='%2310b981'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22:%22Merano%20Trip%20Guide%22,%22short_name%22:%22Merano%22,%22description%22:%22Interactive%20map%20and%20guide%20for%20a%202-day%20trip%20to%20Merano,%20Italy%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22theme_color%22:%22%23111827%22,%22background_color%22:%22%23111827%22,%22icons%22:%5B%7B%22src%22:%22data:image/svg%2Bxml,%253Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%20192%20192%27%253E%253Crect%20fill=%27%23111827%27%20width=%27192%27%20height=%27192%27/%253E%253Ccircle%20cx=%2796%27%20cy=%2796%27%20r=%2724%27%20fill=%27%2310b981%27/%253E%253Cpath%20d=%27M96%2040%20L130%2096%20L96%20150%20L62%2096%20Z%27%20fill=%27%2310b981%27/%253E%253C/svg%253E%22,%22sizes%22:%22192x192%22,%22type%22:%22image/svg%2Bxml%22%7D%5D%7D">
+<title>Merano Trip &mdash; April 19&ndash;20, 2026</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
+  html { scroll-behavior: smooth; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+
   body { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; background: #111827; color: #d1d5db; -webkit-tap-highlight-color: transparent; }
 
   /* --- HEADER --- */
@@ -30,7 +42,7 @@
   /* --- GPS BUTTON --- */
   .gps-btn {
     position: absolute; top: 10px; right: 10px; z-index: 1000;
-    width: 40px; height: 40px; border-radius: 50%;
+    width: 44px; height: 44px; border-radius: 50%;
     background: #1e293b; border: 2px solid #475569;
     color: #94a3b8; font-size: 18px;
     display: flex; align-items: center; justify-content: center;
@@ -40,6 +52,16 @@
   .gps-btn:hover, .gps-btn:active { background: #334155; color: #fff; }
   .gps-btn.active { background: #2563eb; border-color: #3b82f6; color: #fff; }
   .gps-btn.active.has-fix { background: #16a34a; border-color: #22c55e; }
+
+  .gps-btn.active:not(.has-fix) {
+    animation: gpsPulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes gpsPulse {
+    0% { box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4), inset 0 0 0 0 rgba(37, 99, 235, 0.3); }
+    50% { box-shadow: 0 2px 8px rgba(37, 99, 235, 0.6), inset 0 0 0 6px rgba(37, 99, 235, 0.15); }
+    100% { box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4), inset 0 0 0 0 rgba(37, 99, 235, 0.3); }
+  }
 
   /* --- GPS STATUS --- */
   .gps-status {
@@ -51,19 +73,29 @@
   .gps-status.visible { display: block; }
   .gps-status .dist-to-next { color: #fbbf24; font-weight: 600; }
 
+  /* --- PROGRESS BAR --- */
+  .progress-bar {
+    display: none; height: 3px; background: #1e293b; border-bottom: 1px solid #334155; position: relative;
+  }
+  .progress-bar.visible { display: block; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #10b981, #22c55e); width: 0%; transition: width 0.3s ease; }
+  .progress-label { position: absolute; top: 8px; left: 16px; font-size: 0.7rem; color: #94a3b8; font-weight: 600; }
+
   /* --- FILTER BAR --- */
   .filter-bar {
-    display: flex; gap: 6px; padding: 10px 16px;
+    display: flex; gap: 6px; padding: 10px 16px 14px;
     background: #1e293b; border-bottom: 1px solid #334155;
     flex-wrap: wrap; align-items: center;
     overflow-x: auto; -webkit-overflow-scrolling: touch;
   }
+  .filter-controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
   .filter-btn {
     padding: 6px 14px; border-radius: 20px; border: 1px solid #475569;
     background: transparent; color: #94a3b8; font-size: 0.8rem;
     cursor: pointer; transition: all 0.2s; font-weight: 500;
-    white-space: nowrap; flex-shrink: 0;
+    white-space: nowrap; flex-shrink: 0; min-height: 32px;
   }
+  .filter-btn:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
   .filter-btn:active { transform: scale(0.95); }
   .filter-btn.active { color: #fff; }
   .filter-btn.all.active { background: #475569; border-color: #64748b; }
@@ -71,6 +103,14 @@
   .filter-btn.d2.active { background: #2563eb; border-color: #2563eb; }
   .filter-btn.route.active { background: #d97706; border-color: #d97706; }
   .filter-label { color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 2px; }
+  .collapse-all-btn {
+    padding: 6px 12px; border-radius: 20px; border: 1px solid #475569;
+    background: transparent; color: #94a3b8; font-size: 0.75rem;
+    cursor: pointer; transition: all 0.2s; font-weight: 500;
+    white-space: nowrap; flex-shrink: 0; min-height: 32px; margin-left: auto;
+  }
+  .collapse-all-btn:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .collapse-all-btn:hover { background: #334155; color: #e2e8f0; }
 
   /* --- LEGEND --- */
   .legend-bar {
@@ -85,7 +125,13 @@
   /* --- CONTENT --- */
   .content { max-width: 960px; margin: 0 auto; padding: 0 12px 140px; }
 
-  .day-block { margin-top: 24px; }
+  .day-block { margin-top: 24px; animation: fadeInBlock 0.4s ease-out; }
+
+  @keyframes fadeInBlock {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
   .day-title {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 5px 14px; border-radius: 8px;
@@ -99,26 +145,36 @@
   .day-subtitle { color: #64748b; font-size: 0.8rem; margin-bottom: 12px; margin-top: -6px; }
 
   /* --- STOP CARDS --- */
+  .stop-cards-container { role: list; }
+
   .stop-card {
     display: flex; gap: 12px; padding: 12px 14px;
     background: #1e293b; border: 1px solid #334155;
     border-radius: 12px; margin-bottom: 8px;
     cursor: pointer; transition: all 0.2s;
     position: relative; -webkit-tap-highlight-color: transparent;
+    min-height: 44px; role: listitem; tabindex: 0;
   }
+  .stop-card:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
+  .stop-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
   .stop-card:active { background: #263044; }
-  .stop-card.active-card { border-color: #f59e0b; box-shadow: 0 0 0 1px #f59e0b; }
+  .stop-card.active-card { border-color: #f59e0b; box-shadow: 0 0 0 1px #f59e0b, 0 4px 12px rgba(245,158,11,0.1); }
   .stop-card.nearest { border-color: #22c55e; box-shadow: 0 0 0 1px #22c55e, 0 0 12px rgba(34,197,94,0.15); }
+  .stop-card.visited { border-left: 4px solid #22c55e; }
 
   .card-marker {
     flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-weight: 700; font-size: 0.75rem; color: #fff;
-    margin-top: 2px;
+    margin-top: 2px; position: relative;
   }
   .card-marker.d1 { background: #dc2626; }
   .card-marker.d2 { background: #2563eb; }
   .card-marker.route { background: #d97706; }
+
+  .card-marker.visited::after {
+    content: '&check;'; position: absolute; color: #fff; font-size: 14px; font-weight: 800;
+  }
 
   .card-body { flex: 1; min-width: 0; }
   .card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; flex-wrap: wrap; }
@@ -132,17 +188,27 @@
   .card-live-dist { display: none; margin-left: 6px; font-size: 0.72rem; color: #22c55e; background: rgba(34,197,94,0.1); padding: 2px 8px; border-radius: 10px; }
   .card-live-dist.visible { display: inline-block; }
 
+  /* Expand chevron */
+  .expand-chevron {
+    font-size: 0.7rem; color: #475569; position: absolute; bottom: 8px; right: 12px;
+    transition: transform 0.3s ease;
+  }
+  .stop-card.active-card .expand-chevron {
+    transform: rotate(180deg);
+  }
+
   /* Alternative choice buttons */
   .card-alternatives {
     display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;
     overflow-x: auto; -webkit-overflow-scrolling: touch;
   }
   .alt-btn {
-    padding: 5px 12px; border-radius: 16px; border: 1px solid #475569;
+    padding: 6px 12px; border-radius: 16px; border: 1px solid #475569;
     background: rgba(71, 85, 105, 0.4); color: #cbd5e1; font-size: 0.75rem;
     cursor: pointer; transition: all 0.2s; font-weight: 500;
-    white-space: nowrap; flex-shrink: 0;
+    white-space: nowrap; flex-shrink: 0; min-height: 32px;
   }
+  .alt-btn:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
   .alt-btn:active { transform: scale(0.95); }
   .alt-btn.selected { background: #3b82f6; border-color: #3b82f6; color: #fff; }
 
@@ -152,20 +218,22 @@
   }
   .contact-link {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 28px; height: 28px; border-radius: 6px; background: #0f172a;
+    width: 32px; height: 32px; border-radius: 6px; background: #0f172a;
     border: 1px solid #334155; color: #94a3b8; text-decoration: none;
     cursor: pointer; transition: all 0.2s; flex-shrink: 0;
   }
+  .contact-link:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
   .contact-link:hover { background: #1e293b; color: #e2e8f0; }
   .contact-link svg { width: 14px; height: 14px; }
 
   /* Navigate button */
   .card-navigate {
     display: inline-flex; align-items: center; justify-content: center;
-    height: 28px; padding: 0 10px; border-radius: 6px; background: #059669;
+    height: 32px; padding: 0 10px; border-radius: 6px; background: #059669;
     border: 1px solid #10b981; color: #fff; font-size: 0.75rem; font-weight: 500;
     cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
   }
+  .card-navigate:focus { outline: 2px solid #f1f5f9; outline-offset: 2px; }
   .card-navigate:active { background: #047857; }
 
   /* Expandable description */
@@ -176,7 +244,6 @@
   .card-desc.open { max-height: 800px; margin-top: 10px; }
   .card-desc p { margin-bottom: 8px; }
   .card-desc .tip { color: #fbbf24; font-weight: 500; }
-  .expand-hint { font-size: 0.68rem; color: #475569; position: absolute; bottom: 5px; right: 12px; }
 
   /* --- LEAFLET POPUP --- */
   .leaflet-popup-content-wrapper {
@@ -202,7 +269,18 @@
   }
   .trip-summary h3 { color: #f1f5f9; font-size: 0.95rem; margin-bottom: 10px; }
   .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
-  .summary-item { display: flex; flex-direction: column; padding: 8px 10px; background: #0f172a; border-radius: 8px; }
+  .summary-item {
+    display: flex; flex-direction: column; padding: 8px 10px; background: #0f172a;
+    border-radius: 8px; border-left: 3px solid #475569; transition: border-color 0.2s;
+  }
+  .summary-item:nth-child(1) { border-left-color: #dc2626; }
+  .summary-item:nth-child(2) { border-left-color: #2563eb; }
+  .summary-item:nth-child(3) { border-left-color: #d97706; }
+  .summary-item:nth-child(4) { border-left-color: #06b6d4; }
+  .summary-item:nth-child(5) { border-left-color: #f59e0b; }
+  .summary-item:nth-child(6) { border-left-color: #8b5cf6; }
+  .summary-item:nth-child(7) { border-left-color: #10b981; }
+  .summary-item:nth-child(8) { border-left-color: #ec4899; }
   .summary-label { font-size: 0.68rem; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; margin-bottom: 2px; }
   .summary-value { font-size: 0.88rem; color: #e2e8f0; font-weight: 600; }
 
@@ -228,39 +306,74 @@
     flex: 1; padding: 14px 16px; border-radius: 10px;
     background: #059669; border: 1px solid #10b981; color: #fff;
     font-size: 0.9rem; font-weight: 600; cursor: pointer;
-    transition: all 0.2s; text-align: center;
+    transition: all 0.2s; text-align: center; min-height: 44px;
   }
+  .navigate-next-btn:focus { outline: 2px solid #f1f5f9; outline-offset: 2px; }
   .navigate-next-btn:active { background: #047857; }
+
+  /* --- BACK TO TOP BUTTON --- */
+  .back-to-top {
+    display: none; position: fixed; bottom: 20px; right: 20px; z-index: 450;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: #2563eb; border: 2px solid #3b82f6;
+    color: #fff; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+  .back-to-top.visible { display: flex; }
+  .back-to-top:hover { background: #1d4ed8; box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4); }
+  .back-to-top:focus { outline: 2px solid #f1f5f9; outline-offset: 2px; }
+
+  /* Tile error handling */
+  .tile-error { display: none; padding: 12px 16px; background: #7f1d1d; border: 1px solid #dc2626; color: #fecaca; text-align: center; font-size: 0.8rem; }
+  .tile-error.visible { display: block; }
+
+  noscript { display: block; padding: 20px; background: #7f1d1d; color: #fecaca; text-align: center; font-weight: 600; }
 </style>
 </head>
 <body>
 
+<noscript>
+  <p>This interactive map requires JavaScript to be enabled. Please enable JavaScript in your browser settings to use this guide.</p>
+</noscript>
+
 <!-- Install hint for Safari -->
-<div class="install-banner" id="installBanner">
-  <b>Add to Home Screen</b> for the full app experience: tap <b>Share</b> then <b>"Add to Home Screen"</b>
-  <span class="dismiss" onclick="document.getElementById('installBanner').style.display='none'">&times; dismiss</span>
+<div class="install-banner" id="installBanner" role="banner">
+  <b>Add to Home Screen</b> for the full app experience: tap <b>Share</b> then <b>&ldquo;Add to Home Screen&rdquo;</b>
+  <span class="dismiss" onclick="document.getElementById('installBanner').style.display='none'" aria-label="Dismiss install banner">&times; dismiss</span>
 </div>
 
 <div class="header">
   <h1>Merano Getaway</h1>
-  <p class="subtitle">April 19â€“20, 2026 &bull; Samnaun &rarr; Merano &rarr; Samnaun</p>
+  <p class="subtitle">April 19&ndash;20, 2026 &bull; Samnaun &rarr; Merano &rarr; Samnaun</p>
+</div>
+
+<div class="tile-error" id="tileError"></div>
+
+<div class="progress-bar" id="progressBar">
+  <div class="progress-bar-fill" id="progressBarFill"></div>
+  <div class="progress-label" id="progressLabel">0/12 stops visited</div>
 </div>
 
 <div style="position:relative;">
   <div id="map"></div>
-  <button class="gps-btn" id="gpsBtn" onclick="toggleGPS()" title="Show my location">
+  <button class="gps-btn" id="gpsBtn" onclick="toggleGPS()" title="Show my location" aria-label="Toggle GPS location tracking">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
   </button>
 </div>
 
 <div class="gps-status" id="gpsStatus"></div>
 
-<div class="filter-bar">
-  <span class="filter-label">Show:</span>
-  <button class="filter-btn all active" onclick="setFilter('all')">All Stops</button>
-  <button class="filter-btn d1" onclick="setFilter('d1')">Day 1</button>
-  <button class="filter-btn route" onclick="setFilter('route')">En Route</button>
-  <button class="filter-btn d2" onclick="setFilter('d2')">Day 2</button>
+<div class="filter-bar" role="navigation" aria-label="Filter stops by day">
+  <div class="filter-controls">
+    <span class="filter-label">Show:</span>
+    <button class="filter-btn all active" onclick="setFilter('all')" aria-label="Show all stops">All Stops</button>
+    <button class="filter-btn d1" onclick="setFilter('d1')" aria-label="Show day 1 stops">Day 1</button>
+    <button class="filter-btn route" onclick="setFilter('route')" aria-label="Show stops along the way">En Route</button>
+    <button class="filter-btn d2" onclick="setFilter('d2')" aria-label="Show day 2 stops">Day 2</button>
+  </div>
+  <button class="collapse-all-btn" id="collapseAllBtn" onclick="collapseAll()" aria-label="Collapse all open descriptions">Collapse All</button>
 </div>
 
 <div class="legend-bar">
@@ -271,21 +384,21 @@
 
 <div class="content">
   <div class="day-block" data-group="d1">
-    <div class="day-title d1">Day 1 â€” Sunday, April 19</div>
+    <div class="day-title d1">Day 1 &mdash; Sunday, April 19</div>
     <p class="day-subtitle">Depart Samnaun ~09:00 &bull; Arrive Merano ~11:30 &bull; Dinner &bull; Hotel</p>
-    <div id="day1-list"></div>
+    <div id="day1-list" class="stop-cards-container" role="list"></div>
   </div>
 
   <div class="day-block" data-group="route">
-    <div class="day-title route">Along the Way â€” What You'll Pass</div>
+    <div class="day-title route">Along the Way &mdash; What You&rsquo;ll Pass</div>
     <p class="day-subtitle">Cool things to look out for on the Reschenpass route</p>
-    <div id="route-list"></div>
+    <div id="route-list" class="stop-cards-container" role="list"></div>
   </div>
 
   <div class="day-block" data-group="d2">
-    <div class="day-title d2">Day 2 â€” Monday, April 20</div>
-    <p class="day-subtitle">Morning in Merano &bull; Leave by 15:00 &bull; Home by ~17:00â€“17:30</p>
-    <div id="day2-list"></div>
+    <div class="day-title d2">Day 2 &mdash; Monday, April 20</div>
+    <p class="day-subtitle">Morning in Merano &bull; Leave by 15:00 &bull; Home by ~17:00&ndash;17:30</p>
+    <div id="day2-list" class="stop-cards-container" role="list"></div>
   </div>
 
   <div class="trip-summary">
@@ -294,10 +407,10 @@
       <div class="summary-item"><span class="summary-label">Total Drive</span><span class="summary-value">~130 km each way</span></div>
       <div class="summary-item"><span class="summary-label">Drive Time</span><span class="summary-value">~2 hrs each way</span></div>
       <div class="summary-item"><span class="summary-label">Route</span><span class="summary-value">Reschenpass (toll-free)</span></div>
-      <div class="summary-item"><span class="summary-label">Parking</span><span class="summary-value">~â‚¬10â€“12/day</span></div>
-      <div class="summary-item"><span class="summary-label">Dinner Budget</span><span class="summary-value">~â‚¬25â€“40/person</span></div>
-      <div class="summary-item"><span class="summary-label">Hotel Budget</span><span class="summary-value">â‚¬100â€“180/night</span></div>
-      <div class="summary-item"><span class="summary-label">Terme Merano</span><span class="summary-value">â‚¬28 pools / â‚¬41 + sauna</span></div>
+      <div class="summary-item"><span class="summary-label">Parking</span><span class="summary-value">~&euro;10&ndash;12/day</span></div>
+      <div class="summary-item"><span class="summary-label">Dinner Budget</span><span class="summary-value">~&euro;25&ndash;40/person</span></div>
+      <div class="summary-item"><span class="summary-label">Hotel Budget</span><span class="summary-value">&euro;100&ndash;180/night</span></div>
+      <div class="summary-item"><span class="summary-label">Terme Merano</span><span class="summary-value">&euro;28 pools / &euro;41 + sauna</span></div>
       <div class="summary-item"><span class="summary-label">Leave by</span><span class="summary-value">15:00 on Day 2</span></div>
     </div>
   </div>
@@ -309,84 +422,109 @@
   </button>
 </div>
 
+<button class="back-to-top" id="backToTopBtn" onclick="scrollToTop()" aria-label="Back to top" title="Back to top">&#9652;</button>
+
 <script>
+// Note: All content below contains HTML entities (&mdash;, &ndash;, &euro;) in JavaScript strings
+// For JavaScript template literals, literal em-dashes (\u2014) and other Unicode characters work fine
+
+// =============================================
+//  DOM ELEMENT CACHE
+// =============================================
+const DOM = {
+  gpsBtn: document.getElementById('gpsBtn'),
+  gpsStatus: document.getElementById('gpsStatus'),
+  navigateNextBar: document.getElementById('navigateNextBar'),
+  navigateNextBtn: document.getElementById('navigateNextBtn'),
+  progressBar: document.getElementById('progressBar'),
+  progressBarFill: document.getElementById('progressBarFill'),
+  progressLabel: document.getElementById('progressLabel'),
+  backToTopBtn: document.getElementById('backToTopBtn'),
+  collapseAllBtn: document.getElementById('collapseAllBtn'),
+  tileError: document.getElementById('tileError'),
+  map: document.getElementById('map'),
+  day1List: document.getElementById('day1-list'),
+  day2List: document.getElementById('day2-list'),
+  routeList: document.getElementById('route-list'),
+};
+
 // =============================================
 //  DATA WITH ALTERNATIVES & CONTACT INFO
 // =============================================
 const day1Stops = [
   {
-    id: "1", name: "Samnaun", time: "09:00 â€” Depart",
+    id: "1", name: "Samnaun", time: "09:00 \u2014 Depart",
     tagline: "Your starting point in the Engadin",
     dist: "",
     lat: 46.9653, lng: 10.3594, group: "d1",
-    desc: `<p>Grab a coffee before you leave and make sure the car's fuelled up â€” there aren't many petrol stations on the Reschenpass route once you cross into Italy. The drive to Merano is about 130 km and takes roughly 2 hours via the scenic Reschenpass road.</p>
+    desc: `<p>Grab a coffee before you leave and make sure the car\u2019s fuelled up \u2014 there aren\u2019t many petrol stations on the Reschenpass route once you cross into Italy. The drive to Merano is about 130 km and takes roughly 2 hours via the scenic Reschenpass road.</p>
     <p class="tip">Tip: Head out via Pfunds (Austria) toward Nauders, then over the Reschenpass into Italy. No tolls on this route.</p>`
   },
   {
-    id: "3", name: "Old Town â€” Laubengasse (Via dei Portici)", time: "~11:30 â€” Arrive & explore",
-    tagline: "Merano's medieval heart â€” the longest arcade street in Tyrol",
+    id: "3", name: "Old Town \u2014 Laubengasse (Via dei Portici)", time: "~11:30 \u2014 Arrive & explore",
+    tagline: "Merano\u2019s medieval heart \u2014 the longest arcade street in Tyrol",
     dist: "130 km from Samnaun (~2 hrs)",
     lat: 46.6713, lng: 11.1597, group: "d1",
-    desc: `<p>Park at Thermengarage or Parkhaus Untermais (~â‚¬1.50/hr) and walk into the old town. Laubengasse is 400 meters of covered arcades built in the 13th century under Count Meinhard II of Tyrol. It's split into the "Berglauben" (mountain side) and "Wasserlauben" (river side).</p>
-    <p>The arcades were the commercial lifeline of the town for 700 years â€” merchants and craftsmen set up shop here in the Middle Ages, and today it's lined with boutiques, delis, and cafÃ©s. Look up at the facades â€” they range from Gothic to Art Nouveau, with ornate bay windows (Erker) jutting out above the shops.</p>
+    desc: `<p>Park at Thermengarage or Parkhaus Untermais (~\u20ac1.50/hr) and walk into the old town. Laubengasse is 400 meters of covered arcades built in the 13th century under Count Meinhard II of Tyrol. It\u2019s split into the \u201cBerglauben\u201d (mountain side) and \u201cWasserlauben\u201d (river side).</p>
+    <p>The arcades were the commercial lifeline of the town for 700 years \u2014 merchants and craftsmen set up shop here in the Middle Ages, and today it\u2019s lined with boutiques, delis, and caf\u00e9s. Look up at the facades \u2014 they range from Gothic to Art Nouveau, with ornate bay windows (Erker) jutting out above the shops.</p>
     <p>Walk through to the Passeirer Gate (Passeiertor), a perfectly preserved 13th-century city gate at the eastern end.</p>`
   },
   {
-    id: "4", name: "CafÃ© stop â€” CafÃ© Darling / Stadt CafÃ©", time: "~12:30 â€” Light lunch",
-    tagline: "Coffee, pastries, and a first taste of South Tyrolean cafÃ© culture",
+    id: "4", name: "Caf\u00e9 stop \u2014 Caf\u00e9 Darling / Stadt Caf\u00e9", time: "~12:30 \u2014 Light lunch",
+    tagline: "Coffee, pastries, and a first taste of South Tyrolean caf\u00e9 culture",
     dist: "2 min walk from Laubengasse",
     lat: 46.6695, lng: 11.1625, group: "d1",
-    desc: `<p>South Tyrol has its own cafÃ© culture â€” a mix of Italian espresso intensity and Austrian Kaffeehaus comfort. Order a Melange (the local cappuccino equivalent) and try an Apfelstrudel or a slice of Buchweizentorte (buckwheat cake with lingonberry jam).</p>
-    <p>Stadt CafÃ© CittÃ  is right on the main drag, good for people-watching. CafÃ© Darling is a classic spot on the promenade with outdoor seats overlooking the Passer river.</p>`
+    desc: `<p>South Tyrol has its own caf\u00e9 culture \u2014 a mix of Italian espresso intensity and Austrian Kaffeehaus comfort. Order a Melange (the local cappuccino equivalent) and try an Apfelstrudel or a slice of Buchweizentorte (buckwheat cake with lingonberry jam).</p>
+    <p>Stadt Caf\u00e9 Citt\u00e0 is right on the main drag, good for people-watching. Caf\u00e9 Darling is a classic spot on the promenade with outdoor seats overlooking the Passer river.</p>`
   },
   {
-    id: "5", name: "Tappeiner Promenade", time: "~14:00 â€” Walk (1â€“1.5 hrs)",
+    id: "5", name: "Tappeiner Promenade", time: "~14:00 \u2014 Walk (1\u20131.5 hrs)",
     tagline: "A 4 km elevated trail with panoramic views over Merano and the valley",
     dist: "10 min walk uphill from old town",
     lat: 46.6755, lng: 11.1500, group: "d1",
-    desc: `<p>This is the highlight of the walk. The Tappeinerweg is a 4 km promenade carved into the hillside above Merano at about 380m altitude, named after the physician Franz Tappeiner who funded it in 1893. It's lined with Mediterranean plants â€” magnolias, cypresses, agaves, and palms â€” because Merano's sheltered position gives it an unusually mild microclimate for the Alps.</p>
-    <p>Along the way you'll pass the Powder Tower (Pulverturm) â€” climb to the top for the single best viewpoint in Merano. On a clear April day you'll see the snow-capped Texelgruppe mountains to the north and the Etschtal valley stretching south toward Bolzano.</p>
-    <p>The path is flat and paved, completely manageable in regular shoes. It's one of those walks that feels much more dramatic than the effort it takes.</p>`
+    desc: `<p>This is the highlight of the walk. The Tappeinerweg is a 4 km promenade carved into the hillside above Merano at about 380m altitude, named after the physician Franz Tappeiner who funded it in 1893. It\u2019s lined with Mediterranean plants \u2014 magnolias, cypresses, agaves, and palms \u2014 because Merano\u2019s sheltered position gives it an unusually mild microclimate for the Alps.</p>
+    <p>Along the way you\u2019ll pass the Powder Tower (Pulverturm) \u2014 climb to the top for the single best viewpoint in Merano. On a clear April day you\u2019ll see the snow-capped Texelgruppe mountains to the north and the Etschtal valley stretching south toward Bolzano.</p>
+    <p>The path is flat and paved, completely manageable in regular shoes. It\u2019s one of those walks that feels much more dramatic than the effort it takes.</p>`
   },
   {
-    id: "6", name: "Kurpromenade (Spa Promenade)", time: "~15:30 â€” Riverside stroll",
-    tagline: "Merano's elegant riverside walkway with palm trees and flower beds",
+    id: "6", name: "Kurpromenade (Spa Promenade)", time: "~15:30 \u2014 Riverside stroll",
+    tagline: "Merano\u2019s elegant riverside walkway with palm trees and flower beds",
     dist: "Connects back to town center",
     lat: 46.6680, lng: 11.1555, group: "d1",
-    desc: `<p>Come back down to the river and walk the Kurpromenade, which runs along both sides of the Passer river through the centre of town. This is where Merano's history as a Habsburg-era spa resort really shows â€” the promenade was built in the 19th century when European aristocracy came here for the "grape cure" (yes, they literally prescribed eating grapes as medical treatment).</p>
+    desc: `<p>Come back down to the river and walk the Kurpromenade, which runs along both sides of the Passer river through the centre of town. This is where Merano\u2019s history as a Habsburg-era spa resort really shows \u2014 the promenade was built in the 19th century when European aristocracy came here for the \u201cgrape cure\u201d (yes, they literally prescribed eating grapes as medical treatment).</p>
     <p>The south bank (Winterpromenade) is sheltered and sunny even in cooler weather. The north bank (Sommerpromenade) is shadier and runs past the Kurhaus, a gorgeous Art Nouveau events hall from 1914.</p>
     <p>This is a great spot to just sit on a bench and take it in before dinner.</p>`
   },
   {
-    id: "7", name: "Dinner â€” South Tyrolean", time: "~18:30 â€” Book ahead!",
-    tagline: "KnÃ¶del, Speck, Schlutzkrapfen, and Strudel â€” the real deal",
+    id: "7", name: "Dinner \u2014 South Tyrolean", time: "~18:30 \u2014 Book ahead!",
+    tagline: "Kn\u00f6del, Speck, Schlutzkrapfen, and Strudel \u2014 the real deal",
     dist: "",
     lat: 46.6718, lng: 11.1570, group: "d1",
-    desc: `<p><b>Top pick: RÃ¶ssl Bianco</b> â€” A cozy old inn in the centre with daily-changing menus using fresh local ingredients. Known for refined takes on Tyrolean classics. Good wine list.</p>
-    <p><b>Alternative: RÃ¶merkeller</b> â€” Atmospheric vaulted cellar, more rustic. Great for SpeckknÃ¶del (bacon dumplings in broth), Schlutzkrapfen (South Tyrolean ravioli with spinach and ricotta), and a carafe of local Vernatsch wine.</p>
-    <p><b>Splurge option: Stube Verdinser Hof</b> in nearby Schenna (~10 min drive). The most authentic Stube experience â€” wood-panelled dining room, candlelight, and some of the best traditional food in the area. Worth the short detour.</p>
-    <p class="tip">What to order: Start with a Speckbrettl (cured meat board). Mains â€” Schlutzkrapfen or SpinatknÃ¶del. Dessert â€” Apfelstrudel with vanilla sauce. Drink â€” Lagrein (local red) or GewÃ¼rztraminer (local white).</p>`,
+    desc: `<p><b>Top pick: R\u00f6ssl Bianco</b> \u2014 A cozy old inn in the centre with daily-changing menus using fresh local ingredients. Known for refined takes on Tyrolean classics. Good wine list.</p>
+    <p><b>Alternative: R\u00f6merkeller</b> \u2014 Atmospheric vaulted cellar, more rustic. Great for Speckkn\u00f6del (bacon dumplings in broth), Schlutzkrapfen (South Tyrolean ravioli with spinach and ricotta), and a carafe of local Vernatsch wine.</p>
+    <p><b>Splurge option: Stube Verdinser Hof</b> in nearby Schenna (~10 min drive). The most authentic Stube experience \u2014 wood-panelled dining room, candlelight, and some of the best traditional food in the area. Worth the short detour.</p>
+    <p class="tip">What to order: Start with a Speckbrettl (cured meat board). Mains \u2014 Schlutzkrapfen or Spinatkn\u00f6del. Dessert \u2014 Apfelstrudel with vanilla sauce. Drink \u2014 Lagrein (local red) or Gew\u00fcrztraminer (local white).</p>`,
     alternatives: [
-      { name: "RÃ¶ssl Bianco", lat: 46.6718, lng: 11.1570, desc: "Cozy old inn, refined Tyrolean classics. Good wine list." },
-      { name: "RÃ¶merkeller", lat: 46.6705, lng: 11.1590, desc: "Atmospheric vaulted cellar, rustic charm." },
+      { name: "R\u00f6ssl Bianco", lat: 46.6718, lng: 11.1570, desc: "Cozy old inn, refined Tyrolean classics. Good wine list." },
+      { name: "R\u00f6merkeller", lat: 46.6705, lng: 11.1590, desc: "Atmospheric vaulted cellar, rustic charm." },
       { name: "Stube Verdinser Hof", lat: 46.6870, lng: 11.1890, desc: "Schenna (~10 min drive). Most authentic Stube experience." }
     ],
     contact: {
-      "RÃ¶ssl Bianco": { phone: "+39 0473 237440", web: "https://www.roesslbianco.it" },
-      "RÃ¶merkeller": { phone: "+39 0473 236349", web: "https://www.roemerkeller.it" },
+      "R\u00f6ssl Bianco": { phone: "+39 0473 237440", web: "https://www.roesslbianco.it" },
+      "R\u00f6merkeller": { phone: "+39 0473 236349", web: "https://www.roemerkeller.it" },
       "Stube Verdinser Hof": { phone: "+39 0473 945716" }
     }
   },
   {
-    id: "8", name: "Hotel", time: "~20:30 â€” Check in & relax",
+    id: "8", name: "Hotel", time: "~20:30 \u2014 Check in & relax",
     tagline: "Cosy room, good bed, maybe a pool",
     dist: "",
     lat: 46.6650, lng: 11.1480, group: "d1",
-    desc: `<p><b>Hotel Pollinger</b> (~â‚¬120â€“150) â€” Best value. Pool, solid breakfast, half-board for just â‚¬15 extra. Good location.</p>
-    <p><b>Hotel Villa Irma</b> (~â‚¬110â€“140) â€” Quiet garden setting, 7-min walk to center. Romantic and peaceful.</p>
-    <p><b>Villa Bavaria</b> (~â‚¬100â€“130) â€” Palm trees and cedars in the garden, peaceful neighbourhood feel, close to center.</p>
-    <p><b>Hotel Sittnerhof</b> (~â‚¬130â€“170) â€” Highest rated for couples. Cosy rooms, great breakfast.</p>
-    <p class="tip">Book directly on the hotel's website â€” you'll often get a better rate than Booking.com, and some include extras like welcome drinks or spa access.</p>`,
+    desc: `<p><b>Hotel Pollinger</b> (~\u20ac120\u2013150) \u2014 Best value. Pool, solid breakfast, half-board for just \u20ac15 extra. Good location.</p>
+    <p><b>Hotel Villa Irma</b> (~\u20ac110\u2013140) \u2014 Quiet garden setting, 7-min walk to center. Romantic and peaceful.</p>
+    <p><b>Villa Bavaria</b> (~\u20ac100\u2013130) \u2014 Palm trees and cedars in the garden, peaceful neighbourhood feel, close to center.</p>
+    <p><b>Hotel Sittnerhof</b> (~\u20ac130\u2013170) \u2014 Highest rated for couples. Cosy rooms, great breakfast.</p>
+    <p class="tip">Book directly on the hotel\u2019s website \u2014 you\u2019ll often get a better rate than Booking.com, and some include extras like welcome drinks or spa access.</p>`,
     alternatives: [
       { name: "Hotel Pollinger", lat: 46.6650, lng: 11.1480, desc: "Best value. Pool, solid breakfast." },
       { name: "Hotel Villa Irma", lat: 46.6670, lng: 11.1530, desc: "Quiet garden, 7-min walk to center." },
@@ -404,93 +542,93 @@ const day1Stops = [
 
 const routeStops = [
   {
-    id: "R1", name: "Pfunds & AltfinstermÃ¼nz", time: "~09:25 â€” Drive through",
+    id: "R1", name: "Pfunds & Altfinsterm\u00fcnz", time: "~09:25 \u2014 Drive through",
     tagline: "The old border crossing between Austria and Switzerland",
     dist: "20 km from Samnaun",
     lat: 46.9070, lng: 10.4700, group: "route",
-    desc: `<p>Shortly after crossing from Switzerland into Austria, you'll pass through the Inn valley near Pfunds. If you're ever back this way with time to spare, the medieval fortification of AltfinstermÃ¼nz is hidden in the gorge where the Inn river crosses the Swiss-Austrian border â€” a bridge, tower, and chapel wedged between cliff walls. It's spectacularly dramatic but hard to visit on a drive-through.</p>
+    desc: `<p>Shortly after crossing from Switzerland into Austria, you\u2019ll pass through the Inn valley near Pfunds. If you\u2019re ever back this way with time to spare, the medieval fortification of Altfinsterm\u00fcnz is hidden in the gorge where the Inn river crosses the Swiss-Austrian border \u2014 a bridge, tower, and chapel wedged between cliff walls. It\u2019s spectacularly dramatic but hard to visit on a drive-through.</p>
     <p>For now, just enjoy the valley views as you head south toward Nauders.</p>`
   },
   {
-    id: "R2", name: "Nauders & Schloss Naudersberg", time: "~09:40 â€” Drive through",
+    id: "R2", name: "Nauders & Schloss Naudersberg", time: "~09:40 \u2014 Drive through",
     tagline: "A small Austrian mountain village with a castle on the hill",
     dist: "35 km from Samnaun",
     lat: 46.8867, lng: 10.5035, group: "route",
-    desc: `<p>Nauders sits right at the Austrian-Italian border, at 1,394m altitude. You'll see Schloss Naudersberg perched above the village â€” it's a medieval castle that now houses a museum about life on this Alpine border. The area also has remnants of the "Alpine Wall" â€” WWII-era fortifications built by Mussolini along the Brenner border.</p>
-    <p>The village itself is pretty but small. No need to stop unless you want fuel or a bathroom break â€” there's a petrol station on the main road.</p>`
+    desc: `<p>Nauders sits right at the Austrian-Italian border, at 1,394m altitude. You\u2019ll see Schloss Naudersberg perched above the village \u2014 it\u2019s a medieval castle that now houses a museum about life on this Alpine border. The area also has remnants of the \u201cAlpine Wall\u201d \u2014 WWII-era fortifications built by Mussolini along the Brenner border.</p>
+    <p>The village itself is pretty but small. No need to stop unless you want fuel or a bathroom break \u2014 there\u2019s a petrol station on the main road.</p>`
   },
   {
-    id: "R3", name: "Reschensee & the Sunken Church of Graun", time: "~09:55 â€” Pull over!",
-    tagline: "A 14th-century bell tower rising from a lake â€” one of Italy's most iconic images",
+    id: "R3", name: "Reschensee & the Sunken Church of Graun", time: "~09:55 \u2014 Pull over!",
+    tagline: "A 14th-century bell tower rising from a lake \u2014 one of Italy\u2019s most iconic images",
     dist: "50 km from Samnaun",
     lat: 46.8097, lng: 10.5381, group: "route",
-    desc: `<p>This is the one place you absolutely should stop. You'll see it from the road â€” a solitary stone bell tower standing in the middle of a lake, surrounded by mountains.</p>
-    <p><b>The story:</b> In 1950, the Italian government dammed the valley to create a hydroelectric reservoir, merging two natural lakes. The village of Graun (Curon) â€” home to about 150 families â€” was deliberately flooded. 163 homes and 120 farms disappeared under water. On July 9, 1950, the villagers left their homes in a final solemn procession after Sunday mass.</p>
+    desc: `<p>This is the one place you absolutely should stop. You\u2019ll see it from the road \u2014 a solitary stone bell tower standing in the middle of a lake, surrounded by mountains.</p>
+    <p><b>The story:</b> In 1950, the Italian government dammed the valley to create a hydroelectric reservoir, merging two natural lakes. The village of Graun (Curon) \u2014 home to about 150 families \u2014 was deliberately flooded. 163 homes and 120 farms disappeared under water. On July 9, 1950, the villagers left their homes in a final solemn procession after Sunday mass.</p>
     <p>The 14th-century church was demolished, but the bell tower was protected as a historical monument and left standing. It now rises eerily from the water, surrounded by the submerged ruins of the old village. In winter, when the lake freezes, you can walk out to the tower across the ice.</p>
-    <p>There's a legend that you can still hear the bells ringing on quiet winter nights â€” but in reality, the bells were removed on July 18, 1950, a week before the flooding.</p>
-    <p>There's a small parking area on the east shore of the lake with a clear view. Worth 10â€“15 minutes for photos.</p>`
+    <p>There\u2019s a legend that you can still hear the bells ringing on quiet winter nights \u2014 but in reality, the bells were removed on July 18, 1950, a week before the flooding.</p>
+    <p>There\u2019s a small parking area on the east shore of the lake with a clear view. Worth 10\u201315 minutes for photos.</p>`
   },
   {
-    id: "R4", name: "Mals (Malles Venosta)", time: "~10:10 â€” Drive through",
+    id: "R4", name: "Mals (Malles Venosta)", time: "~10:10 \u2014 Drive through",
     tagline: "Carolingian frescoes and an ancient hilltop settlement",
     dist: "65 km from Samnaun",
     lat: 46.6870, lng: 10.5490, group: "route",
-    desc: `<p>As you descend into the Vinschgau valley, Mals is the first proper Italian town. It's a quiet place, but it hides a treasure: the Church of San Benedetto (St. Benedikt) contains Carolingian-era frescoes from the 9th century â€” some of the oldest surviving church paintings north of the Alps.</p>
-    <p>Next to the town, the Tartscher BÃ¼hel is a small hill where archaeologists found Roman coins, iron axes, and a 2,500-year-old deer antler, suggesting continuous human settlement since the Bronze Age.</p>`
+    desc: `<p>As you descend into the Vinschgau valley, Mals is the first proper Italian town. It\u2019s a quiet place, but it hides a treasure: the Church of San Benedetto (St. Benedikt) contains Carolingian-era frescoes from the 9th century \u2014 some of the oldest surviving church paintings north of the Alps.</p>
+    <p>Next to the town, the Tartscher B\u00fchel is a small hill where archaeologists found Roman coins, iron axes, and a 2,500-year-old deer antler, suggesting continuous human settlement since the Bronze Age.</p>`
   },
   {
-    id: "R5", name: "Glurns (Glorenza)", time: "~10:15 â€” Worth a stop if you have time",
-    tagline: "The smallest city in South Tyrol â€” perfectly preserved medieval walls",
+    id: "R5", name: "Glurns (Glorenza)", time: "~10:15 \u2014 Worth a stop if you have time",
+    tagline: "The smallest city in South Tyrol \u2014 perfectly preserved medieval walls",
     dist: "70 km from Samnaun",
     lat: 46.6715, lng: 10.5567, group: "route",
-    desc: `<p>Glurns/Glorenza is one of those places that feels like a film set. It's the smallest "city" in South Tyrol (population ~900) and it still has its complete medieval city walls, towers, and gates intact. The main square is tiny, cobblestoned, and surrounded by arcaded buildings.</p>
-    <p>If you arrive ahead of schedule on Day 1 or have extra time on Day 2, this is worth a 20-minute detour to walk through. Otherwise, you'll see the walls from the road as you pass.</p>`
+    desc: `<p>Glurns/Glorenza is one of those places that feels like a film set. It\u2019s the smallest \u201ccity\u201d in South Tyrol (population ~900) and it still has its complete medieval city walls, towers, and gates intact. The main square is tiny, cobblestoned, and surrounded by arcaded buildings.</p>
+    <p>If you arrive ahead of schedule on Day 1 or have extra time on Day 2, this is worth a 20-minute detour to walk through. Otherwise, you\u2019ll see the walls from the road as you pass.</p>`
   },
   {
-    id: "R6", name: "Laas (Lasa) â€” The Marble Village", time: "~10:25 â€” Drive through",
+    id: "R6", name: "Laas (Lasa) \u2014 The Marble Village", time: "~10:25 \u2014 Drive through",
     tagline: "Where the white marble for European monuments comes from",
     dist: "80 km from Samnaun",
     lat: 46.6168, lng: 10.6989, group: "route",
-    desc: `<p>Laas is famous for its pure white marble, quarried from the mountains above the village. Laaser Marmor has been used in prestigious buildings across Europe â€” including, famously, parts of the Vienna Ringstrasse. You'll notice marble blocks and sculptures scattered around the village as you drive through.</p>
-    <p>The orchards around Laas are also beautiful in April â€” you might catch the apple blossom season, when the entire Vinschgau valley floor turns white and pink.</p>
-    <p class="tip">Look for the fruit stalls along the road â€” Vinschgau apples are famous throughout Italy and you can often buy them directly from farmers.</p>`
+    desc: `<p>Laas is famous for its pure white marble, quarried from the mountains above the village. Laaser Marmor has been used in prestigious buildings across Europe \u2014 including, famously, parts of the Vienna Ringstrasse. You\u2019ll notice marble blocks and sculptures scattered around the village as you drive through.</p>
+    <p>The orchards around Laas are also beautiful in April \u2014 you might catch the apple blossom season, when the entire Vinschgau valley floor turns white and pink.</p>
+    <p class="tip">Look for the fruit stalls along the road \u2014 Vinschgau apples are famous throughout Italy and you can often buy them directly from farmers.</p>`
   },
   {
-    id: "R7", name: "Kastelbell-Tschars", time: "~10:35 â€” Drive through",
+    id: "R7", name: "Kastelbell-Tschars", time: "~10:35 \u2014 Drive through",
     tagline: "A castle on a cliff above the valley road",
     dist: "95 km from Samnaun",
     lat: 46.6270, lng: 10.9010, group: "route",
-    desc: `<p>You can't miss Schloss Kastelbell â€” it sits dramatically on a rocky outcrop right above the road. It's a 13th-century castle that now hosts contemporary art exhibitions in summer. Even from the car, it makes for a striking sight as you round the bend in the valley.</p>`
+    desc: `<p>You can\u2019t miss Schloss Kastelbell \u2014 it sits dramatically on a rocky outcrop right above the road. It\u2019s a 13th-century castle that now hosts contemporary art exhibitions in summer. Even from the car, it makes for a striking sight as you round the bend in the valley.</p>`
   },
 ];
 
 const day2Stops = [
   {
-    id: "9", name: "Breakfast â€” CafÃ© Villa Bux", time: "~08:30 â€” Morning coffee",
+    id: "9", name: "Breakfast \u2014 Caf\u00e9 Villa Bux", time: "~08:30 \u2014 Morning coffee",
     tagline: "Stylish, relaxed, excellent breakfast with friendly owners",
     dist: "",
     lat: 46.6700, lng: 11.1540, group: "d2",
-    desc: `<p>If your hotel doesn't include breakfast (many do), CafÃ© Villa Bux is a local favourite with a relaxed vibe, great coffee, and a proper breakfast spread. Alternatively, CafÃ© Ploner has excellent pastries.</p>
-    <p>Take your time â€” you have the whole morning.</p>`,
+    desc: `<p>If your hotel doesn\u2019t include breakfast (many do), Caf\u00e9 Villa Bux is a local favourite with a relaxed vibe, great coffee, and a proper breakfast spread. Alternatively, Caf\u00e9 Ploner has excellent pastries.</p>
+    <p>Take your time \u2014 you have the whole morning.</p>`,
     alternatives: [
-      { name: "CafÃ© Villa Bux", lat: 46.6700, lng: 11.1540, desc: "Relaxed vibe, great coffee, excellent breakfast." },
-      { name: "CafÃ© Ploner", lat: 46.6710, lng: 11.1585, desc: "Excellent pastries, cozy atmosphere." }
+      { name: "Caf\u00e9 Villa Bux", lat: 46.6700, lng: 11.1540, desc: "Relaxed vibe, great coffee, excellent breakfast." },
+      { name: "Caf\u00e9 Ploner", lat: 46.6710, lng: 11.1585, desc: "Excellent pastries, cozy atmosphere." }
     ]
   },
   {
-    id: "10", name: "Terme Merano (Thermal Baths)", time: "~10:00â€“13:00 â€” Spa morning",
-    tagline: "25 pools, saunas, and pure relaxation â€” designed by Matteo Thun",
+    id: "10", name: "Terme Merano (Thermal Baths)", time: "~10:00\u201313:00 \u2014 Spa morning",
+    tagline: "25 pools, saunas, and pure relaxation \u2014 designed by Matteo Thun",
     dist: "10 min walk from center",
     lat: 46.6672, lng: 11.1625, group: "d2",
-    desc: `<p>This is the perfect way to spend your last morning. The Terme Merano complex was designed by the famous South Tyrolean architect Matteo Thun â€” it's a huge glass cube filled with indoor and outdoor pools, whirlpools, and a big sauna world.</p>
-    <p>On a Monday it opens at 14:00 for regular hours, <b>but</b> April 20 falls during the Easter holiday week (Easter is April 5, 2026), so check their website â€” holiday hours are 10:00â€“21:00.</p>
-    <p><b>Prices:</b> ~â‚¬28/person for pools, ~â‚¬41/person for pools + sauna. Book online at termemerano.it to guarantee entry.</p>
-    <p><b>Alternative â€” Gardens of Trauttmansdorff Castle:</b> 80+ botanical garden landscapes, two viewing platforms, and stunning mountain views. Open from 9:00. ~â‚¬16/person. Budget 2â€“2.5 hours.</p>
-    <p><b>Alternative â€” Sissi's Path:</b> A gentle walking trail from the town center to Trauttmansdorff, dotted with plaques about Empress Elisabeth of Austria (Sissi), who spent winters here in the 1870s for her health. Free and beautiful.</p>`,
+    desc: `<p>This is the perfect way to spend your last morning. The Terme Merano complex was designed by the famous South Tyrolean architect Matteo Thun \u2014 it\u2019s a huge glass cube filled with indoor and outdoor pools, whirlpools, and a big sauna world.</p>
+    <p>On a Monday it opens at 14:00 for regular hours, <b>but</b> April 20 falls during the Easter holiday week (Easter is April 5, 2026), so check their website \u2014 holiday hours are 10:00\u201321:00.</p>
+    <p><b>Prices:</b> ~\u20ac28/person for pools, ~\u20ac41/person for pools + sauna. Book online at termemerano.it to guarantee entry.</p>
+    <p><b>Alternative \u2014 Gardens of Trauttmansdorff Castle:</b> 80+ botanical garden landscapes, two viewing platforms, and stunning mountain views. Open from 9:00. ~\u20ac16/person. Budget 2\u20132.5 hours.</p>
+    <p><b>Alternative \u2014 Sissi\u2019s Path:</b> A gentle walking trail from the town center to Trauttmansdorff, dotted with plaques about Empress Elisabeth of Austria (Sissi), who spent winters here in the 1870s for her health. Free and beautiful.</p>`,
     alternatives: [
       { name: "Terme Merano", lat: 46.6672, lng: 11.1625, desc: "25 pools & saunas. Book online for entry." },
       { name: "Gardens of Trauttmansdorff", lat: 46.6598, lng: 11.1833, desc: "80+ botanical landscapes, great views." },
-      { name: "Sissi's Path (free walk)", lat: 46.6650, lng: 11.1700, desc: "Gentle walking trail, free and beautiful." }
+      { name: "Sissi\u2019s Path (free walk)", lat: 46.6650, lng: 11.1700, desc: "Gentle walking trail, free and beautiful." }
     ],
     contact: {
       "Terme Merano": { phone: "+39 0473 252000", web: "https://www.termemerano.it" },
@@ -498,24 +636,25 @@ const day2Stops = [
     }
   },
   {
-    id: "11", name: "Quick lunch in town", time: "~13:00 â€” Grab & go",
+    id: "11", name: "Quick lunch in town", time: "~13:00 \u2014 Grab & go",
     tagline: "Pizza, panino, or one last Strudel before the drive",
     dist: "",
     lat: 46.6725, lng: 11.1610, group: "d2",
-    desc: `<p>Keep it light â€” a pizza al taglio (by the slice) or a fresh panino from one of the delis on Laubengasse. Or sit down for one more coffee and an Apfelstrudel if you're not in a rush.</p>`
+    desc: `<p>Keep it light \u2014 a pizza al taglio (by the slice) or a fresh panino from one of the delis on Laubengasse. Or sit down for one more coffee and an Apfelstrudel if you\u2019re not in a rush.</p>`
   },
   {
-    id: "12", name: "Drive back to Samnaun", time: "15:00 â€” Depart",
-    tagline: "Same scenic route in reverse â€” arrive by ~17:00â€“17:30",
+    id: "12", name: "Drive back to Samnaun", time: "15:00 \u2014 Depart",
+    tagline: "Same scenic route in reverse \u2014 arrive by ~17:00\u201317:30",
     dist: "130 km (~2 hrs)",
     lat: 46.9653, lng: 10.3600, group: "d2",
-    desc: `<p>Retrace the Reschenpass route. The light will be different in the afternoon â€” the Vinschgau valley faces west, so you'll be driving into golden hour light through the orchards. The Reschensee looks completely different in the late afternoon too.</p>
-    <p>You'll be back in Samnaun by 17:00â€“17:30, well before your 18:00 deadline.</p>
-    <p class="tip">If you didn't stop at Glurns on the way down, the return drive is your second chance.</p>`
+    desc: `<p>Retrace the Reschenpass route. The light will be different in the afternoon \u2014 the Vinschgau valley faces west, so you\u2019ll be driving into golden hour light through the orchards. The Reschensee looks completely different in the late afternoon too.</p>
+    <p>You\u2019ll be back in Samnaun by 17:00\u201317:30, well before your 18:00 deadline.</p>
+    <p class="tip">If you didn\u2019t stop at Glurns on the way down, the return drive is your second chance.</p>`
   },
 ];
 
 const allStopsFlat = [...day1Stops, ...routeStops, ...day2Stops];
+const visitedStops = new Set();
 
 // =============================================
 //  ROUTE LINES
@@ -537,10 +676,18 @@ const returnRoute = [...driveRoute].reverse();
 //  MAP
 // =============================================
 const map = L.map('map', { zoomControl: true }).setView([46.82, 10.75], 10);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+
+let tileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
   subdomains: 'abcd', maxZoom: 19,
-}).addTo(map);
+});
+tileLayer.on('tileerror', handleTileError);
+tileLayer.addTo(map);
+
+function handleTileError() {
+  DOM.tileError.textContent = 'Map tiles failed to load. You may be offline or the map service is unavailable. Try refreshing the page.';
+  DOM.tileError.classList.add('visible');
+}
 
 const driveLine = L.polyline(driveRoute, { color: '#dc2626', weight: 4, opacity: 0.7, dashArray: '10,6' }).addTo(map);
 const walkLine  = L.polyline(walkRoute,  { color: '#f59e0b', weight: 3, opacity: 0.8 }).addTo(map);
@@ -562,26 +709,30 @@ function markerIcon(label, color) {
 
 const colors = { d1: '#dc2626', d2: '#2563eb', route: '#d97706' };
 const allMarkers = [];
-const stopDataMap = {}; // Map stop IDs to their full data
+const stopDataMap = {};
+const stopCardsMap = {};
+
+let gpsUpdateTimeout = null;
+const GPS_UPDATE_INTERVAL = 2000;
 
 function buildStops(stops, listId) {
   const list = document.getElementById(listId);
   stops.forEach(s => {
     const color = colors[s.group];
-    stopDataMap[s.id] = s; // Store full stop data
+    stopDataMap[s.id] = s;
 
-    // Marker
     const marker = L.marker([s.lat, s.lng], { icon: markerIcon(s.id, color) }).addTo(map);
     marker.bindPopup(`<span class="popup-tag ${s.group}">${s.group === 'route' ? 'En Route' : s.group === 'd1' ? 'Day 1' : 'Day 2'}</span><br><b>${s.name}</b><br>${s.tagline}<br><em>${s.time}</em>`);
     marker._group = s.group;
 
-    // Card
     const card = document.createElement('div');
     card.className = 'stop-card';
     card.dataset.group = s.group;
     card.dataset.lat = s.lat;
     card.dataset.lng = s.lng;
     card.dataset.stopId = s.id;
+    card.tabIndex = 0;
+    card.role = 'listitem';
 
     let altButtonsHtml = '';
     if (s.alternatives && s.alternatives.length > 0) {
@@ -590,7 +741,7 @@ function buildStops(stops, listId) {
         const isDefault = idx === 0;
         altButtonsHtml += `<button class="alt-btn ${isDefault ? 'selected' : ''}"
           onclick="changeAlternative('${s.id}', '${alt.name}', ${alt.lat}, ${alt.lng}, this)"
-          title="${alt.desc}">${alt.name}</button>`;
+          title="${alt.desc}" aria-label="${alt.name}">${alt.name}</button>`;
       });
       altButtonsHtml += '</div>';
     }
@@ -603,12 +754,12 @@ function buildStops(stops, listId) {
         if (info) {
           contactHtml += `<div class="card-contact" data-alt="${altName}" style="${idx > 0 ? 'display:none' : ''}">`;
           if (info.phone) {
-            contactHtml += `<a class="contact-link" href="tel:${info.phone}" title="Call">
+            contactHtml += `<a class="contact-link" href="tel:${info.phone}" title="Call" aria-label="Call ${altName}">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
             </a>`;
           }
           if (info.web) {
-            contactHtml += `<a class="contact-link" href="${info.web}" target="_blank" title="Website">
+            contactHtml += `<a class="contact-link" href="${info.web}" target="_blank" title="Website" aria-label="Visit ${altName} website">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
             </a>`;
           }
@@ -619,7 +770,7 @@ function buildStops(stops, listId) {
 
     let navigateHtml = '';
     if (['1','3','4','5','6','7','8','9','10','11','12','R3','R5'].includes(s.id)) {
-      navigateHtml = `<button class="card-navigate" onclick="openNavigation(${s.lat}, ${s.lng}, '${s.name}')" title="Navigate to this location">Navigate</button>`;
+      navigateHtml = `<button class="card-navigate" onclick="openNavigation(${s.lat}, ${s.lng}, '${s.name}')" title="Navigate to this location" aria-label="Navigate to ${s.name}">Navigate</button>`;
     }
 
     card.innerHTML = `
@@ -637,27 +788,42 @@ function buildStops(stops, listId) {
         ${navigateHtml}
         <div class="card-desc">${s.desc}</div>
       </div>
-      <span class="expand-hint">tap to read more</span>
+      <span class="expand-chevron">&#10148;</span>
     `;
 
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('.alt-btn') || e.target.closest('.contact-link') || e.target.closest('.card-navigate')) {
-        e.stopPropagation();
-        return;
+    card.addEventListener('click', () => handleCardToggle(card, marker, s));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleCardToggle(card, marker, s);
       }
-      const desc = card.querySelector('.card-desc');
-      const isOpen = desc.classList.contains('open');
-      document.querySelectorAll('.card-desc.open').forEach(d => d.classList.remove('open'));
-      document.querySelectorAll('.stop-card.active-card').forEach(c => c.classList.remove('active-card'));
-      if (!isOpen) { desc.classList.add('open'); card.classList.add('active-card'); }
-      const zoom = s.group === 'route' ? 13 : (['1','12'].includes(s.id) ? 13 : 15);
-      map.setView([s.lat, s.lng], zoom, { animate: true });
-      marker.openPopup();
     });
 
     list.appendChild(card);
+    stopCardsMap[s.id] = card;
     allMarkers.push({ marker, card, group: s.group, lat: s.lat, lng: s.lng, name: s.name, id: s.id });
   });
+}
+
+function handleCardToggle(card, marker, stop) {
+  const desc = card.querySelector('.card-desc');
+  const isOpen = desc.classList.contains('open');
+
+  document.querySelectorAll('.card-desc.open').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.stop-card.active-card').forEach(c => c.classList.remove('active-card'));
+
+  if (!isOpen) {
+    desc.classList.add('open');
+    card.classList.add('active-card');
+
+    setTimeout(() => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  const zoom = stop.group === 'route' ? 13 : (['1','12'].includes(stop.id) ? 13 : 15);
+  map.setView([stop.lat, stop.lng], zoom, { animate: true });
+  marker.openPopup();
 }
 
 buildStops(day1Stops, 'day1-list');
@@ -668,17 +834,14 @@ buildStops(day2Stops, 'day2-list');
 //  ALTERNATIVE CHOICE HANDLING
 // =============================================
 function changeAlternative(stopId, altName, newLat, newLng, buttonEl) {
-  // Update button states
   const card = document.querySelector(`[data-stop-id="${stopId}"]`);
   card.querySelectorAll('.alt-btn').forEach(b => b.classList.remove('selected'));
   buttonEl.classList.add('selected');
 
-  // Show/hide contact info for this alternative
   card.querySelectorAll('.card-contact').forEach(el => {
     el.style.display = el.dataset.alt === altName ? 'flex' : 'none';
   });
 
-  // Update marker position
   const markerObj = allMarkers.find(m => m.id === stopId);
   if (markerObj) {
     markerObj.marker.setLatLng([newLat, newLng]);
@@ -686,23 +849,19 @@ function changeAlternative(stopId, altName, newLat, newLng, buttonEl) {
     markerObj.lng = newLng;
     markerObj.marker.setPopupContent(`<span class="popup-tag ${markerObj.group}">${markerObj.group === 'route' ? 'En Route' : markerObj.group === 'd1' ? 'Day 1' : 'Day 2'}</span><br><b>${altName}</b><br>${stopDataMap[stopId].tagline}<br><em>${stopDataMap[stopId].time}</em>`);
 
-    // Update walk route if this is a Day 1 stop
     if (markerObj.group === 'd1') {
       updateWalkRoute();
     }
 
-    // Center map on new position
     map.setView([newLat, newLng], 15, { animate: true });
   }
 
-  // Update card display data
   card.dataset.lat = newLat;
   card.dataset.lng = newLng;
 }
 
 function updateWalkRoute() {
-  // Recalculate walk route based on current stop positions
-  const walkStops = allMarkers.filter(m => m.id === '3' || m.id === '4' || m.id === '5' || m.id === '6' || m.id === '7' || m.id === '8');
+  const walkStops = allMarkers.filter(m => ['3','4','5','6','7','8'].includes(m.id));
   if (walkStops.length > 0) {
     const newRoute = walkStops.map(m => [m.lat, m.lng]);
     walkLine.setLatLngs(newRoute);
@@ -716,7 +875,7 @@ function getDirectionsUrl(lat, lng, label) {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   label = encodeURIComponent(label);
   if (isIOS) {
-    return `maps.apple.com?daddr=${lat},${lng}`;
+    return `maps://maps.apple.com/?daddr=${lat},${lng}`;
   } else {
     return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&destination_place_id=${label}`;
   }
@@ -724,15 +883,10 @@ function getDirectionsUrl(lat, lng, label) {
 
 function openNavigation(lat, lng, label) {
   const url = getDirectionsUrl(lat, lng, label);
-  if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-    window.location = `maps://maps.apple.com/?daddr=${lat},${lng}`;
-  } else {
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`, '_blank');
-  }
+  window.open(url, '_blank');
 }
 
 let currentGPSLat = null, currentGPSLng = null;
-let nextStopIndex = 0;
 
 function navigateToNext() {
   if (!currentGPSLat || !currentGPSLng) {
@@ -740,14 +894,13 @@ function navigateToNext() {
     return;
   }
 
-  // Find the next unvisited stop in sequence
   const orderedStops = ['1','3','4','5','6','7','8','9','10','11','12'];
   let nextStop = null;
   for (let stopId of orderedStops) {
     const marker = allMarkers.find(m => m.id === stopId);
     if (marker) {
       const dist = haversine(currentGPSLat, currentGPSLng, marker.lat, marker.lng);
-      if (dist > 0.5) { // More than 500m away
+      if (dist > 0.5) {
         nextStop = marker;
         break;
       }
@@ -765,22 +918,31 @@ function navigateToNext() {
 function setFilter(filter) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`.filter-btn.${filter}`).classList.add('active');
+
   document.querySelectorAll('.day-block').forEach(block => {
     block.style.display = (filter === 'all' || block.dataset.group === filter) ? '' : 'none';
   });
+
   allMarkers.forEach(({ marker, group }) => {
     if (filter === 'all' || group === filter) marker.addTo(map);
     else map.removeLayer(marker);
   });
+
   driveLine.setStyle({ opacity: (filter === 'all' || filter === 'd1' || filter === 'route') ? 0.7 : 0.1 });
   walkLine.setStyle({ opacity: (filter === 'all' || filter === 'd1') ? 0.8 : 0.1 });
   returnLine.setStyle({ opacity: (filter === 'all' || filter === 'd2' || filter === 'route') ? 0.7 : 0.1 });
+
   if (filter !== 'all') {
     const pts = allMarkers.filter(m => m.group === filter).map(m => m.marker.getLatLng());
     if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.15), { animate: true });
   } else {
     map.fitBounds(L.latLngBounds(allPoints).pad(0.05), { animate: true });
   }
+}
+
+function collapseAll() {
+  document.querySelectorAll('.card-desc.open').forEach(desc => desc.classList.remove('open'));
+  document.querySelectorAll('.stop-card.active-card').forEach(card => card.classList.remove('active-card'));
 }
 
 // =============================================
@@ -792,36 +954,34 @@ let gpsMarker = null;
 let gpsCircle = null;
 
 function toggleGPS() {
-  const btn = document.getElementById('gpsBtn');
-  const status = document.getElementById('gpsStatus');
-
   if (gpsActive) {
-    // Turn off
     gpsActive = false;
-    btn.classList.remove('active', 'has-fix');
-    status.classList.remove('visible');
+    DOM.gpsBtn.classList.remove('active', 'has-fix');
+    DOM.gpsStatus.classList.remove('visible');
     if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
     if (gpsMarker) { map.removeLayer(gpsMarker); gpsMarker = null; }
     if (gpsCircle) { map.removeLayer(gpsCircle); gpsCircle = null; }
     document.querySelectorAll('.card-live-dist').forEach(el => { el.classList.remove('visible'); el.textContent = ''; });
     document.querySelectorAll('.stop-card.nearest').forEach(el => el.classList.remove('nearest'));
-    document.getElementById('navigateNextBar').classList.remove('visible');
+    DOM.navigateNextBar.classList.remove('visible');
     return;
   }
 
   if (!navigator.geolocation) {
-    status.textContent = 'GPS not available on this device';
-    status.classList.add('visible');
+    DOM.gpsStatus.textContent = 'GPS not available on this device';
+    DOM.gpsStatus.classList.add('visible');
     return;
   }
 
   gpsActive = true;
-  btn.classList.add('active');
-  status.textContent = 'Finding your location...';
-  status.classList.add('visible');
+  DOM.gpsBtn.classList.add('active');
+  DOM.gpsStatus.textContent = 'Finding your location...';
+  DOM.gpsStatus.classList.add('visible');
 
   watchId = navigator.geolocation.watchPosition(
     (pos) => {
+      if (gpsUpdateTimeout) return;
+
       const lat = pos.coords.latitude;
       const lng = pos.coords.longitude;
       const acc = pos.coords.accuracy;
@@ -829,10 +989,9 @@ function toggleGPS() {
       currentGPSLat = lat;
       currentGPSLng = lng;
 
-      btn.classList.add('has-fix');
-      document.getElementById('navigateNextBar').classList.add('visible');
+      DOM.gpsBtn.classList.add('has-fix');
+      DOM.navigateNextBar.classList.add('visible');
 
-      // Update or create marker
       if (gpsMarker) {
         gpsMarker.setLatLng([lat, lng]);
         gpsCircle.setLatLng([lat, lng]).setRadius(acc);
@@ -849,7 +1008,6 @@ function toggleGPS() {
         map.setView([lat, lng], 12, { animate: true });
       }
 
-      // Calculate distances to all stops
       let nearestDist = Infinity;
       let nearestName = '';
 
@@ -865,18 +1023,30 @@ function toggleGPS() {
           distEl.classList.remove('visible');
         }
         if (d < nearestDist) { nearestDist = d; nearestName = m.name; }
+
+        if (d < 0.2 && !visitedStops.has(m.id)) {
+          visitedStops.add(m.id);
+          m.card.classList.add('visited');
+          updateProgressBar();
+        }
       });
 
-      // Highlight nearest
       const nearestMarker = allMarkers.reduce((a, b) =>
         haversine(lat, lng, a.lat, a.lng) < haversine(lat, lng, b.lat, b.lng) ? a : b
       );
       nearestMarker.card.classList.add('nearest');
 
-      const distStr = nearestDist < 1 ? `${Math.round(nearestDist * 1000)}m` : `${nearestDist.toFixed(1)} km`;
-      status.innerHTML = `You are here &bull; Nearest stop: <span class="dist-to-next">${nearestName}</span> (${distStr})`;
+      if (nearestMarker.card.offsetParent !== null) {
+        nearestMarker.card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
 
-      // Update "Navigate to Next" button
+      const distStr = nearestDist < 1 ? `${Math.round(nearestDist * 1000)}m` : `${nearestDist.toFixed(1)} km`;
+      const walkMinutes = Math.round(nearestDist * 12);
+      const driveMinutes = Math.round(nearestDist * 2);
+      const timeEstimate = nearestDist > 5 ? `~${driveMinutes} min drive` : `~${walkMinutes} min walk`;
+
+      DOM.gpsStatus.innerHTML = `You are here &bull; Nearest stop: <span class="dist-to-next">${nearestName}</span> (${distStr} &bull; ${timeEstimate})`;
+
       const orderedStops = ['1','3','4','5','6','7','8','9','10','11','12'];
       let nextStop = null;
       for (let stopId of orderedStops) {
@@ -890,14 +1060,16 @@ function toggleGPS() {
         }
       }
       if (nextStop) {
-        document.getElementById('navigateNextBtn').textContent = `Navigate to ${nextStop.name}`;
+        DOM.navigateNextBtn.textContent = `Navigate to ${nextStop.name}`;
       }
+
+      gpsUpdateTimeout = setTimeout(() => { gpsUpdateTimeout = null; }, GPS_UPDATE_INTERVAL);
     },
     (err) => {
-      status.textContent = err.code === 1 ? 'Location access denied â€” check your browser/phone settings' : 'Could not get location â€” try again';
-      btn.classList.remove('active', 'has-fix');
+      DOM.gpsStatus.textContent = err.code === 1 ? 'Location access denied \u2014 check your browser/phone settings' : 'Could not get location \u2014 try again';
+      DOM.gpsBtn.classList.remove('active', 'has-fix');
       gpsActive = false;
-      document.getElementById('navigateNextBar').classList.remove('visible');
+      DOM.navigateNextBar.classList.remove('visible');
     },
     { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
   );
@@ -911,6 +1083,31 @@ function haversine(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
+function updateProgressBar() {
+  const total = allStopsFlat.length;
+  const visited = visitedStops.size;
+  const percent = (visited / total) * 100;
+
+  DOM.progressBar.classList.add('visible');
+  DOM.progressBarFill.style.width = `${percent}%`;
+  DOM.progressLabel.textContent = `${visited}/${total} stops visited`;
+}
+
+// =============================================
+//  BACK TO TOP BUTTON
+// =============================================
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    DOM.backToTopBtn.classList.add('visible');
+  } else {
+    DOM.backToTopBtn.classList.remove('visible');
+  }
+});
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // =============================================
 //  INSTALL BANNER (show on iOS Safari only)
 // =============================================
@@ -922,5 +1119,6 @@ function haversine(lat1, lon1, lat2, lon2) {
   }
 })();
 </script>
+
 </body>
 </html>
