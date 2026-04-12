@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <meta name="theme-color" content="#0c1222">
+  <meta name="theme-color" content="#fdf2f8">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Merano Trip">
-  <title>Merano Getaway v4</title>
+  <title>Merano Getaway</title>
 
-  <!-- Inter Font from Google Fonts -->
+  <!-- Playfair Display + Inter from Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
@@ -31,8 +31,8 @@
       width: 100%;
       height: 100%;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0c1222;
-      color: #e2e8f0;
+      background: #fdf2f8;
+      color: #4a3728;
       overflow: hidden;
     }
 
@@ -47,32 +47,34 @@
     .header {
       padding: 16px 20px;
       padding-top: max(16px, env(safe-area-inset-top));
-      background: linear-gradient(135deg, #0c1222 0%, #1a2a52 100%);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);
+      border-bottom: 1px solid rgba(219, 39, 119, 0.12);
       z-index: 100;
       flex-shrink: 0;
     }
 
     .header h1 {
-      font-size: 1.5rem;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.6rem;
       font-weight: 700;
-      color: #f1f5f9;
+      color: #831843;
       margin-bottom: 4px;
       letter-spacing: -0.5px;
     }
 
     .header .subtitle {
       font-size: 0.85rem;
-      color: #94a3b8;
+      color: #9d174d;
       font-weight: 500;
+      opacity: 0.8;
     }
 
     .map-container {
       position: relative;
       flex: 0 0 40vh;
-      background: #1e293b;
+      background: #fce7f3;
       z-index: 10;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      border-bottom: 1px solid rgba(219, 39, 119, 0.12);
     }
 
     #map {
@@ -86,6 +88,7 @@
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
       position: relative;
+      background: linear-gradient(180deg, #fdf2f8 0%, #fff1f2 50%, #fdf2f8 100%);
     }
 
     .content-pane::before {
@@ -93,7 +96,7 @@
       position: sticky;
       top: 0;
       height: 1px;
-      background: linear-gradient(to bottom, rgba(148, 163, 184, 0.2), transparent);
+      background: linear-gradient(to bottom, rgba(219, 39, 119, 0.1), transparent);
       pointer-events: none;
       z-index: 50;
     }
@@ -113,14 +116,14 @@
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #3b82f6, #2563eb);
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      background: linear-gradient(135deg, #ec4899, #db2777);
+      border: 2px solid rgba(255, 255, 255, 0.5);
       color: white;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(59, 130, 246, 0.1);
+      box-shadow: 0 4px 14px rgba(219, 39, 119, 0.35), 0 0 0 3px rgba(236, 72, 153, 0.15);
       transition: all 0.3s ease;
       z-index: 35;
       padding: 0;
@@ -128,7 +131,7 @@
 
     .gps-btn:active {
       transform: scale(0.95);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 2px 8px rgba(219, 39, 119, 0.3);
     }
 
     .gps-btn:disabled {
@@ -140,17 +143,18 @@
       position: absolute;
       bottom: 70px;
       right: 16px;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(219, 39, 119, 0.2);
+      color: #9d174d;
       padding: 8px 12px;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 0.75rem;
-      font-weight: 500;
+      font-weight: 600;
       text-align: center;
       min-width: 80px;
       display: none;
       z-index: 35;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .gps-status.active {
@@ -167,12 +171,12 @@
        GPS MARKER ON MAP
        ============================================ */
     .gps-dot {
-      width: 12px;
-      height: 12px;
-      background: #06b6d4;
+      width: 14px;
+      height: 14px;
+      background: #ec4899;
       border: 3px solid white;
       border-radius: 50%;
-      box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2);
+      box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.25), 0 2px 6px rgba(0,0,0,0.15);
     }
 
     /* Remove default Leaflet div-icon background/border */
@@ -190,49 +194,58 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 100%);
-      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+      border-top: 2px solid rgba(219, 39, 119, 0.2);
       padding: 16px 20px;
       padding-bottom: max(16px, env(safe-area-inset-bottom));
       transform: translateY(100%);
       transition: transform 0.3s ease;
-      z-index: 45;
-      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+      box-shadow: 0 -4px 20px rgba(219, 39, 119, 0.12);
+      pointer-events: none;
+      border-radius: 20px 20px 0 0;
     }
 
     .nav-panel.active {
       transform: translateY(0);
+      pointer-events: auto;
     }
 
     .nav-panel-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       margin-bottom: 12px;
     }
 
     .nav-destination {
-      font-size: 1rem;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.05rem;
       font-weight: 600;
-      color: #f1f5f9;
+      color: #831843;
+      flex: 1;
+      margin-right: 12px;
     }
 
     .nav-cancel-btn {
-      background: none;
-      border: none;
-      color: #94a3b8;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #dc2626;
       cursor: pointer;
-      font-size: 1.5rem;
-      padding: 0;
-      width: 24px;
-      height: 24px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      min-width: 44px;
+      min-height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
+      border-radius: 12px;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .nav-cancel-btn:active {
-      color: #f1f5f9;
+      background: rgba(239, 68, 68, 0.2);
     }
 
     .nav-info {
@@ -247,16 +260,68 @@
       gap: 4px;
     }
 
+    .nav-loading {
+      color: #9d174d;
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 8px 0;
+    }
+
     .nav-info-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
-      color: #64748b;
+      color: #be185d;
       letter-spacing: 0.5px;
       font-weight: 600;
     }
 
     .nav-info-value {
-      color: #e2e8f0;
+      color: #831843;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .nav-steps {
+      margin-top: 12px;
+      max-height: 120px;
+      overflow-y: auto;
+      border-top: 1px solid rgba(219, 39, 119, 0.1);
+      padding-top: 10px;
+    }
+
+    .nav-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 0.82rem;
+      color: #4a3728;
+      border-bottom: 1px solid rgba(219, 39, 119, 0.06);
+    }
+
+    .nav-step-icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(236, 72, 153, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #db2777;
+      font-weight: 700;
+    }
+
+    .nav-step-text {
+      flex: 1;
+      line-height: 1.4;
+    }
+
+    .nav-step-dist {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      color: #be185d;
       font-weight: 600;
     }
 
@@ -268,7 +333,7 @@
       gap: 8px;
       margin-bottom: 20px;
       padding: 16px 0;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      border-bottom: 1px solid rgba(219, 39, 119, 0.1);
       align-items: center;
       flex-wrap: wrap;
     }
@@ -277,7 +342,7 @@
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
-      color: #64748b;
+      color: #be185d;
       letter-spacing: 0.5px;
       margin-right: 8px;
     }
@@ -285,9 +350,9 @@
     .filter-btn {
       padding: 8px 14px;
       border-radius: 20px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      background: rgba(30, 41, 59, 0.4);
-      color: #94a3b8;
+      border: 1px solid rgba(219, 39, 119, 0.15);
+      background: rgba(255, 255, 255, 0.7);
+      color: #9d174d;
       font-size: 0.85rem;
       font-weight: 500;
       cursor: pointer;
@@ -300,9 +365,11 @@
     }
 
     .filter-btn.active {
-      border-color: rgba(59, 130, 246, 0.5);
-      background: rgba(59, 130, 246, 0.2);
-      color: #60a5fa;
+      border-color: rgba(219, 39, 119, 0.4);
+      background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+      color: #831843;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(219, 39, 119, 0.15);
     }
 
     /* ============================================
@@ -313,7 +380,7 @@
       gap: 16px;
       margin-bottom: 20px;
       padding: 12px 0;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      border-bottom: 1px solid rgba(219, 39, 119, 0.1);
       flex-wrap: wrap;
       font-size: 0.8rem;
     }
@@ -322,13 +389,13 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #94a3b8;
+      color: #6b4c3b;
     }
 
     .legend-swatch {
       width: 16px;
       height: 16px;
-      border-radius: 2px;
+      border-radius: 4px;
       background: currentColor;
       flex-shrink: 0;
     }
@@ -362,7 +429,8 @@
     }
 
     .day-title {
-      font-size: 1.25rem;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.3rem;
       font-weight: 700;
       margin-bottom: 8px;
       padding-bottom: 8px;
@@ -371,23 +439,23 @@
     }
 
     .day-title.d1 {
-      color: #fca5a5;
-      border-bottom-color: #dc2626;
+      color: #be185d;
+      border-bottom-color: #ec4899;
     }
 
     .day-title.route {
-      color: #fbbf24;
+      color: #b45309;
       border-bottom-color: #f59e0b;
     }
 
     .day-title.d2 {
-      color: #93c5fd;
-      border-bottom-color: #3b82f6;
+      color: #7c3aed;
+      border-bottom-color: #a78bfa;
     }
 
     .day-subtitle {
       font-size: 0.9rem;
-      color: #94a3b8;
+      color: #78716c;
       margin-bottom: 16px;
       font-weight: 500;
     }
@@ -396,14 +464,14 @@
        CARDS
        ============================================ */
     .card {
-      background: rgba(30, 41, 59, 0.85);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(148, 163, 184, 0.15);
-      border-radius: 12px;
+      border: 1px solid rgba(219, 39, 119, 0.1);
+      border-radius: 16px;
       padding: 16px;
       margin-bottom: 14px;
       border-left: 4px solid;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 12px rgba(219, 39, 119, 0.06), 0 1px 3px rgba(0,0,0,0.04);
       transition: all 0.3s ease;
       cursor: pointer;
       animation: slideUp 0.4s ease;
@@ -421,7 +489,7 @@
     }
 
     .card.d1 {
-      border-left-color: #dc2626;
+      border-left-color: #ec4899;
     }
 
     .card.route {
@@ -429,12 +497,16 @@
     }
 
     .card.d2 {
-      border-left-color: #3b82f6;
+      border-left-color: #a78bfa;
     }
 
     .card:active {
       transform: scale(0.99);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 16px rgba(219, 39, 119, 0.12);
+    }
+
+    .card.highlight {
+      box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.3), 0 4px 16px rgba(219, 39, 119, 0.15);
     }
 
     .card-header {
@@ -446,35 +518,38 @@
     }
 
     .card-title {
+      font-family: 'Playfair Display', Georgia, serif;
       font-size: 1.1rem;
       font-weight: 600;
-      color: #f1f5f9;
+      color: #4a3728;
       flex: 1;
     }
 
     .card-time {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      background: rgba(59, 130, 246, 0.15);
-      color: #60a5fa;
+      background: linear-gradient(135deg, #fce7f3, #fdf2f8);
+      color: #be185d;
       padding: 4px 10px;
       border-radius: 12px;
       white-space: nowrap;
       flex-shrink: 0;
+      border: 1px solid rgba(219, 39, 119, 0.12);
     }
 
     .card-tagline {
-      font-size: 0.9rem;
-      color: #cbd5e1;
+      font-size: 0.88rem;
+      color: #78716c;
       margin-bottom: 10px;
       font-weight: 500;
+      font-style: italic;
     }
 
     .card-distance {
       display: inline-block;
       font-size: 0.8rem;
-      color: #94a3b8;
-      background: rgba(148, 163, 184, 0.1);
+      color: #9d174d;
+      background: rgba(252, 231, 243, 0.6);
       padding: 4px 10px;
       border-radius: 12px;
       margin-bottom: 12px;
@@ -483,8 +558,8 @@
 
     .card-description {
       font-size: 0.9rem;
-      line-height: 1.6;
-      color: #cbd5e1;
+      line-height: 1.65;
+      color: #57534e;
       margin-bottom: 12px;
       display: none;
     }
@@ -499,25 +574,25 @@
     }
 
     .card-description p.tip {
-      background: rgba(59, 130, 246, 0.1);
+      background: linear-gradient(135deg, rgba(252, 231, 243, 0.5), rgba(254, 205, 211, 0.3));
       padding: 10px 12px;
-      border-radius: 8px;
-      border-left: 3px solid #3b82f6;
+      border-radius: 10px;
+      border-left: 3px solid #ec4899;
       margin-top: 8px;
       font-style: italic;
-      color: #93c5fd;
+      color: #9d174d;
     }
 
     .card-description a {
-      color: #60a5fa;
+      color: #db2777;
       text-decoration: none;
       font-weight: 500;
-      border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+      border-bottom: 1px solid rgba(219, 39, 119, 0.3);
     }
 
     .card-description a:active {
-      color: #93c5fd;
-      border-bottom-color: rgba(147, 197, 253, 0.5);
+      color: #be185d;
+      border-bottom-color: rgba(190, 24, 93, 0.5);
     }
 
     /* ============================================
@@ -532,10 +607,10 @@
 
     .action-btn {
       padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      background: rgba(59, 130, 246, 0.1);
-      color: #60a5fa;
+      border-radius: 10px;
+      border: 1px solid rgba(219, 39, 119, 0.2);
+      background: linear-gradient(135deg, rgba(252, 231, 243, 0.6), rgba(255, 255, 255, 0.8));
+      color: #be185d;
       font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
@@ -547,27 +622,29 @@
     }
 
     .action-btn:active {
-      background: rgba(59, 130, 246, 0.2);
+      background: linear-gradient(135deg, #fce7f3, #fbcfe8);
       transform: scale(0.98);
     }
 
     .expand-btn {
       flex: 1;
-      background: rgba(148, 163, 184, 0.1);
-      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(120, 113, 108, 0.15);
+      color: #78716c;
     }
 
     .expand-btn.expanded {
-      background: rgba(59, 130, 246, 0.1);
-      color: #60a5fa;
+      background: linear-gradient(135deg, rgba(252, 231, 243, 0.6), rgba(255, 255, 255, 0.8));
+      border-color: rgba(219, 39, 119, 0.2);
+      color: #be185d;
     }
 
     .contact-btn {
       padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      background: rgba(59, 130, 246, 0.1);
-      color: #60a5fa;
+      border-radius: 10px;
+      border: 1px solid rgba(219, 39, 119, 0.15);
+      background: rgba(255, 255, 255, 0.7);
+      color: #be185d;
       font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
@@ -581,28 +658,28 @@
     }
 
     .contact-btn:active {
-      background: rgba(59, 130, 246, 0.2);
+      background: rgba(252, 231, 243, 0.8);
       transform: scale(0.98);
     }
 
     .contact-btn.call {
-      color: #10b981;
-      border-color: rgba(16, 185, 129, 0.2);
-      background: rgba(16, 185, 129, 0.1);
+      color: #059669;
+      border-color: rgba(5, 150, 105, 0.2);
+      background: rgba(236, 253, 245, 0.7);
     }
 
     .contact-btn.call:active {
-      background: rgba(16, 185, 129, 0.2);
+      background: rgba(209, 250, 229, 0.8);
     }
 
     .contact-btn.web {
-      color: #f59e0b;
-      border-color: rgba(245, 158, 11, 0.2);
-      background: rgba(245, 158, 11, 0.1);
+      color: #b45309;
+      border-color: rgba(180, 83, 9, 0.15);
+      background: rgba(255, 251, 235, 0.7);
     }
 
     .contact-btn.web:active {
-      background: rgba(245, 158, 11, 0.2);
+      background: rgba(254, 243, 199, 0.8);
     }
 
     /* ============================================
@@ -612,9 +689,9 @@
       display: flex;
       gap: 0;
       margin-bottom: 12px;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(252, 231, 243, 0.4);
       padding: 4px;
-      border-radius: 8px;
+      border-radius: 10px;
       margin-top: 12px;
     }
 
@@ -623,18 +700,19 @@
       padding: 8px 10px;
       border: none;
       background: transparent;
-      color: #94a3b8;
+      color: #9d174d;
       font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
-      border-radius: 6px;
+      border-radius: 8px;
       transition: all 0.2s ease;
       font-family: inherit;
     }
 
     .alt-btn.active {
-      background: rgba(59, 130, 246, 0.3);
-      color: #60a5fa;
+      background: linear-gradient(135deg, #fbcfe8, #fce7f3);
+      color: #831843;
+      box-shadow: 0 1px 4px rgba(219, 39, 119, 0.12);
     }
 
     /* ============================================
@@ -643,13 +721,14 @@
     .trip-summary {
       margin-top: 32px;
       padding-top: 20px;
-      border-top: 1px solid rgba(148, 163, 184, 0.15);
+      border-top: 1px solid rgba(219, 39, 119, 0.1);
     }
 
     .trip-summary h3 {
-      font-size: 1.1rem;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.15rem;
       font-weight: 600;
-      color: #f1f5f9;
+      color: #831843;
       margin-bottom: 16px;
     }
 
@@ -660,27 +739,28 @@
     }
 
     .summary-item {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(148, 163, 184, 0.1);
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(219, 39, 119, 0.08);
+      border-radius: 12px;
       padding: 12px;
       display: flex;
       flex-direction: column;
       gap: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
     }
 
     .summary-label {
       font-size: 0.7rem;
       font-weight: 600;
       text-transform: uppercase;
-      color: #64748b;
+      color: #be185d;
       letter-spacing: 0.5px;
     }
 
     .summary-value {
       font-size: 0.9rem;
       font-weight: 600;
-      color: #e2e8f0;
+      color: #4a3728;
     }
 
     /* ============================================
@@ -691,11 +771,11 @@
       bottom: 20px;
       right: 20px;
       bottom: max(20px, calc(20px + env(safe-area-inset-bottom)));
-      background: rgba(59, 130, 246, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      color: #60a5fa;
-      width: 40px;
-      height: 40px;
+      background: linear-gradient(135deg, #ec4899, #db2777);
+      border: none;
+      color: white;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       display: none;
       align-items: center;
@@ -703,8 +783,9 @@
       cursor: pointer;
       transition: all 0.3s ease;
       z-index: 30;
-      font-size: 1.2rem;
+      font-size: 1rem;
       font-weight: 600;
+      box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
     }
 
     .back-to-top.visible {
@@ -712,16 +793,15 @@
     }
 
     .back-to-top:active {
-      background: rgba(59, 130, 246, 0.3);
       transform: scale(0.95);
     }
 
     .collapse-all-btn {
       padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      background: rgba(148, 163, 184, 0.1);
-      color: #94a3b8;
+      border-radius: 10px;
+      border: 1px solid rgba(219, 39, 119, 0.15);
+      background: rgba(255, 255, 255, 0.6);
+      color: #9d174d;
       font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
@@ -732,7 +812,7 @@
     }
 
     .collapse-all-btn:active {
-      background: rgba(148, 163, 184, 0.15);
+      background: rgba(252, 231, 243, 0.6);
     }
 
     /* ============================================
@@ -777,15 +857,15 @@
        LEAFLET OVERRIDES
        ============================================ */
     .leaflet-control-zoom {
-      border: 1px solid rgba(148, 163, 184, 0.2) !important;
-      border-radius: 8px !important;
+      border: 1px solid rgba(219, 39, 119, 0.15) !important;
+      border-radius: 10px !important;
       overflow: hidden !important;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
     }
 
     .leaflet-control-zoom a {
-      background: rgba(30, 41, 59, 0.95) !important;
-      color: #60a5fa !important;
+      background: rgba(255, 255, 255, 0.95) !important;
+      color: #be185d !important;
       width: 36px !important;
       height: 36px !important;
       line-height: 36px !important;
@@ -796,16 +876,17 @@
 
     .leaflet-control-zoom a:hover,
     .leaflet-control-zoom a:active {
-      background: rgba(30, 41, 59, 1) !important;
+      background: #fce7f3 !important;
+      color: #831843 !important;
     }
 
     .leaflet-marker-icon {
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
       transition: all 0.2s ease;
     }
 
     .leaflet-marker-icon:hover {
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)) brightness(1.1);
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) brightness(1.05);
     }
 
     /* ============================================
@@ -826,7 +907,7 @@
     /* Focus visible for keyboard navigation */
     button:focus-visible,
     a:focus-visible {
-      outline: 2px solid #60a5fa;
+      outline: 2px solid #ec4899;
       outline-offset: 2px;
     }
   </style>
@@ -856,22 +937,26 @@
     </svg>
   </button>
   <div class="gps-status" id="gpsStatus" aria-live="polite"></div>
-  <div class="nav-panel" id="navPanel">
-    <div class="nav-panel-header">
-      <div class="nav-destination" id="navDestination"></div>
-      <button class="nav-cancel-btn" onclick="cancelNavigation()" aria-label="Cancel navigation">&times;</button>
+</div>
+
+<!-- Navigation Panel (outside map-container to avoid stacking context issues) -->
+<div class="nav-panel" id="navPanel">
+  <div class="nav-panel-header">
+    <div class="nav-destination" id="navDestination"></div>
+    <button class="nav-cancel-btn" onclick="cancelNavigation()" aria-label="Cancel navigation">Cancel</button>
+  </div>
+  <div class="nav-info" id="navInfo">
+    <div class="nav-info-item">
+      <span class="nav-info-label">Distance</span>
+      <span class="nav-info-value" id="navDistance">&mdash;</span>
     </div>
-    <div class="nav-info">
-      <div class="nav-info-item">
-        <span class="nav-info-label">Distance</span>
-        <span class="nav-info-value" id="navDistance">&mdash;</span>
-      </div>
-      <div class="nav-info-item">
-        <span class="nav-info-label">Est. Time</span>
-        <span class="nav-info-value" id="navTime">&mdash;</span>
-      </div>
+    <div class="nav-info-item">
+      <span class="nav-info-label">Est. Time</span>
+      <span class="nav-info-value" id="navTime">&mdash;</span>
     </div>
   </div>
+  <div class="nav-steps" id="navSteps" style="display:none;"></div>
+  <div class="nav-loading" id="navLoading" style="display:none;">Fetching route&hellip;</div>
 </div>
 
 <!-- ============================================
@@ -891,7 +976,7 @@
     <!-- Legend -->
     <div class="legend-bar" aria-label="Map legend">
       <div class="legend-item">
-        <div class="legend-swatch dashed" style="color:#dc2626;"></div>
+        <div class="legend-swatch dashed" style="color:#ec4899;"></div>
         <span>Day 1 drive</span>
       </div>
       <div class="legend-item">
@@ -899,7 +984,7 @@
         <span>Walking</span>
       </div>
       <div class="legend-item">
-        <div class="legend-swatch dashed" style="color:#3b82f6;"></div>
+        <div class="legend-swatch dashed" style="color:#a78bfa;"></div>
         <span>Day 2 return</span>
       </div>
     </div>
@@ -968,7 +1053,7 @@
 </div>
 
 <!-- Back to Top Button -->
-<button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Back to top">▲</button>
+<button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Back to top">&#9650;</button>
 
 <!-- ============================================
      LEAFLET & OSRM
@@ -1211,22 +1296,23 @@ let currentPosition = null;
 let navigationActive = false;
 let navigationRoute = null;
 let navigationMarker = null;
+let navUpdateInterval = null;
 
 // =============================================
 //  MAP INITIALIZATION
 // =============================================
 const map = L.map('map', { zoomControl: true }).setView([46.82, 10.75], 10);
 
-// Dark CartoDB tiles
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" rel="noopener noreferrer">CARTO</a>',
+// Bright, beautiful CartoDB Voyager tiles (Google Maps-like clarity)
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
   subdomains: 'abcd',
   maxZoom: 19,
 }).addTo(map);
 
-// Route lines with better styling
+// Route lines with beautiful colors
 const driveLine = L.polyline(driveRoute, {
-  color: '#dc2626',
+  color: '#ec4899',
   weight: 4,
   opacity: 0.7,
   dashArray: '10,6',
@@ -1243,7 +1329,7 @@ const walkLine = L.polyline(walkRoute, {
 }).addTo(map);
 
 const returnLine = L.polyline(returnRoute, {
-  color: '#3b82f6',
+  color: '#a78bfa',
   weight: 4,
   opacity: 0.7,
   dashArray: '10,6',
@@ -1263,18 +1349,18 @@ const cardMap = {};
 
 function createMarker(stop) {
   const colorMap = {
-    'd1': '#dc2626',
+    'd1': '#ec4899',
     'route': '#f59e0b',
-    'd2': '#3b82f6'
+    'd2': '#a78bfa'
   };
 
-  const color = colorMap[stop.group] || '#60a5fa';
+  const color = colorMap[stop.group] || '#ec4899';
 
   const svgIcon = L.divIcon({
     html: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="16" cy="16" r="14" fill="${color}" opacity="0.2" stroke="${color}" stroke-width="1"/>
+      <circle cx="16" cy="16" r="14" fill="${color}" opacity="0.15" stroke="${color}" stroke-width="1.5"/>
       <circle cx="16" cy="16" r="10" fill="${color}"/>
-      <circle cx="16" cy="16" r="6" fill="white"/>
+      <circle cx="16" cy="16" r="5" fill="white"/>
     </svg>`,
     iconSize: [32, 32],
     iconAnchor: [16, 16],
@@ -1285,11 +1371,14 @@ function createMarker(stop) {
   const marker = L.marker([stop.lat, stop.lng], { icon: svgIcon })
     .addTo(map)
     .on('click', function() {
+      // Pan map to this marker
+      map.flyTo([stop.lat, stop.lng], 15, { duration: 0.8 });
+
       const card = document.getElementById(`card-${stop.id}`);
       if (card) {
         card.scrollIntoView({ behavior: 'smooth', block: 'start' });
         card.classList.add('highlight');
-        setTimeout(() => card.classList.remove('highlight'), 600);
+        setTimeout(() => card.classList.remove('highlight'), 1200);
       }
     });
 
@@ -1306,6 +1395,13 @@ function createCard(stop) {
   card.className = `card ${stop.group}`;
   card.dataset.group = stop.group;
   card.dataset.stopId = stop.id;
+
+  // Click on card header area => fly map to destination
+  card.addEventListener('click', function(e) {
+    // Don't fly if clicking on buttons, links, or action areas
+    if (e.target.closest('button, a, .card-actions, .alt-controls, .contact-btn')) return;
+    map.flyTo([stop.lat, stop.lng], 15, { duration: 0.8 });
+  });
 
   let alternativesHtml = '';
   if (stop.alternatives && stop.alternatives.length > 0) {
@@ -1392,6 +1488,9 @@ function selectAlternative(stopId, altIndex) {
       btn.setAttribute('aria-pressed', 'false');
     }
   });
+
+  // Fly map to the selected alternative
+  map.flyTo([alt.lat, alt.lng], 15, { duration: 0.8 });
 
   // Update contact info
   if (stop.contact && stop.contact[alt.name]) {
@@ -1521,6 +1620,11 @@ function startGPS() {
           .addTo(map);
 
         map.setView([currentPosition.lat, currentPosition.lng], map.getZoom());
+
+        // If navigation active, update route
+        if (navigationActive && navigationRoute) {
+          updateNavigation();
+        }
       },
       function(error) {
         gpsBtn.disabled = false;
@@ -1564,24 +1668,129 @@ function stopGPS() {
 }
 
 // =============================================
-//  NAVIGATION WITH OSRM
+//  NAVIGATION WITH OSRM (Turn-by-Turn)
 // =============================================
+
+// Helper: decode OSRM turn type/modifier into a readable instruction
+function formatStep(step) {
+  const maneuver = step.maneuver;
+  let instruction = '';
+
+  switch(maneuver.type) {
+    case 'depart': instruction = 'Start driving'; break;
+    case 'arrive': instruction = 'You have arrived'; break;
+    case 'turn':
+      instruction = `Turn ${maneuver.modifier || ''}`;
+      break;
+    case 'new name':
+    case 'continue':
+      instruction = `Continue ${maneuver.modifier ? maneuver.modifier : 'straight'}`;
+      break;
+    case 'merge':
+      instruction = `Merge ${maneuver.modifier || ''}`;
+      break;
+    case 'fork':
+      instruction = `Take the ${maneuver.modifier || ''} fork`;
+      break;
+    case 'roundabout':
+    case 'rotary':
+      instruction = `At the roundabout, take exit ${maneuver.exit || ''}`;
+      break;
+    case 'end of road':
+      instruction = `Turn ${maneuver.modifier || ''} at end of road`;
+      break;
+    default:
+      instruction = maneuver.type + (maneuver.modifier ? ` ${maneuver.modifier}` : '');
+  }
+
+  if (step.name && step.name !== '') {
+    instruction += ` onto ${step.name}`;
+  }
+
+  return instruction;
+}
+
+function formatDist(meters) {
+  if (meters < 1000) return `${Math.round(meters)} m`;
+  return `${(meters / 1000).toFixed(1)} km`;
+}
+
+let currentNavStopId = null;
+
 async function navigateToStop(stopId) {
   const stop = allStopsFlat.find(s => s.id === stopId);
   if (!stop) return;
 
+  // If GPS is not active, start it and fly to destination meanwhile
   if (!currentPosition) {
-    alert('GPS required for navigation. Please enable GPS first.');
     startGPS();
+    // Show destination on map immediately
+    map.flyTo([stop.lat, stop.lng], 14, { duration: 0.8 });
+
+    const navPanel = document.getElementById('navPanel');
+    const navInfo = document.getElementById('navInfo');
+    const navLoading = document.getElementById('navLoading');
+    document.getElementById('navDestination').textContent = stop.name.replace(/&[^;]+;/g, ' ');
+    navInfo.style.display = 'none';
+    navLoading.style.display = 'block';
+    navLoading.textContent = 'Waiting for GPS signal...';
+    navPanel.classList.add('active');
+    currentNavStopId = stopId;
+
+    // Wait for GPS and then fetch route
+    const waitForGPS = setInterval(() => {
+      if (currentPosition) {
+        clearInterval(waitForGPS);
+        fetchAndShowRoute(stop);
+      }
+    }, 500);
+
+    // Timeout after 15s
+    setTimeout(() => {
+      clearInterval(waitForGPS);
+      if (!currentPosition) {
+        navLoading.textContent = 'Could not get GPS. Showing destination.';
+        setTimeout(() => {
+          if (!currentPosition) cancelNavigation();
+        }, 2000);
+      }
+    }, 15000);
+
     return;
   }
+
+  currentNavStopId = stopId;
+
+  // Clear any existing navigation
+  if (navigationMarker) {
+    map.removeLayer(navigationMarker);
+    navigationMarker = null;
+  }
+
+  const navPanel = document.getElementById('navPanel');
+  const navInfo = document.getElementById('navInfo');
+  const navLoading = document.getElementById('navLoading');
+  document.getElementById('navDestination').textContent = stop.name.replace(/&[^;]+;/g, ' ');
+  navInfo.style.display = 'none';
+  document.getElementById('navSteps').style.display = 'none';
+  navLoading.style.display = 'block';
+  navLoading.textContent = 'Fetching route\u2026';
+  navPanel.classList.add('active');
+
+  await fetchAndShowRoute(stop);
+}
+
+async function fetchAndShowRoute(stop) {
+  const navInfo = document.getElementById('navInfo');
+  const navLoading = document.getElementById('navLoading');
+  const navStepsEl = document.getElementById('navSteps');
 
   const startLng = currentPosition.lng;
   const startLat = currentPosition.lat;
   const endLng = stop.lng;
   const endLat = stop.lat;
 
-  const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${startLng},${startLat};${endLng},${endLat}?overview=full&geometries=geojson`;
+  const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${startLng},${startLat};${endLng},${endLat}?overview=full&geometries=geojson&steps=true`;
 
   try {
     const response = await fetch(osrmUrl);
@@ -1591,41 +1800,75 @@ async function navigateToStop(stopId) {
       navigationRoute = data;
       navigationActive = true;
 
-      // Draw route line
+      const routeCoords = data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+
       if (navigationMarker) {
         map.removeLayer(navigationMarker);
       }
 
-      const routeCoords = data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
       navigationMarker = L.polyline(routeCoords, {
-        color: '#06b6d4',
+        color: '#db2777',
         weight: 5,
-        opacity: 0.8,
+        opacity: 0.85,
         lineCap: 'round',
         lineJoin: 'round'
       }).addTo(map);
 
-      // Show navigation panel
+      // Show route info
       const distance = (data.routes[0].distance / 1000).toFixed(1);
       const durationMins = Math.round(data.routes[0].duration / 60);
 
-      document.getElementById('navDestination').textContent = stop.name;
       document.getElementById('navDistance').textContent = `${distance} km`;
       document.getElementById('navTime').textContent = `~${durationMins} min`;
 
-      document.getElementById('navPanel').classList.add('active');
+      // Show turn-by-turn steps
+      const steps = data.routes[0].legs[0].steps;
+      let stepsHtml = '';
+      steps.forEach((step, i) => {
+        if (step.maneuver.type === 'depart' || step.maneuver.type === 'arrive' || step.distance > 50) {
+          stepsHtml += `
+            <div class="nav-step">
+              <div class="nav-step-icon">${i + 1}</div>
+              <div class="nav-step-text">${formatStep(step)}</div>
+              <div class="nav-step-dist">${formatDist(step.distance)}</div>
+            </div>
+          `;
+        }
+      });
+
+      navStepsEl.innerHTML = stepsHtml;
+      navStepsEl.style.display = 'block';
+
+      navLoading.style.display = 'none';
+      navInfo.style.display = 'flex';
 
       // Fit map to route
-      map.fitBounds(L.latLngBounds(routeCoords).pad(0.05));
+      map.fitBounds(L.latLngBounds(routeCoords).pad(0.08));
+    } else {
+      navLoading.textContent = 'No route found. Try a different stop.';
+      setTimeout(() => cancelNavigation(), 2500);
     }
   } catch (error) {
     console.error('Navigation error:', error);
-    alert('Could not fetch route. Check connection and try again.');
+    navLoading.textContent = 'Route unavailable. Check your connection.';
+    setTimeout(() => cancelNavigation(), 2500);
   }
+}
+
+// Live-update navigation when GPS position changes
+async function updateNavigation() {
+  if (!navigationActive || !currentNavStopId || !currentPosition) return;
+
+  const stop = allStopsFlat.find(s => s.id === currentNavStopId);
+  if (!stop) return;
+
+  // Re-fetch the route from current position
+  await fetchAndShowRoute(stop);
 }
 
 function cancelNavigation() {
   navigationActive = false;
+  currentNavStopId = null;
 
   if (navigationMarker) {
     map.removeLayer(navigationMarker);
@@ -1633,7 +1876,23 @@ function cancelNavigation() {
   }
 
   navigationRoute = null;
-  document.getElementById('navPanel').classList.remove('active');
+
+  if (navUpdateInterval) {
+    clearInterval(navUpdateInterval);
+    navUpdateInterval = null;
+  }
+
+  const navPanel = document.getElementById('navPanel');
+  const navLoading = document.getElementById('navLoading');
+  const navStepsEl = document.getElementById('navSteps');
+  navPanel.classList.remove('active');
+
+  // Reset loading state for next use
+  navLoading.style.display = 'none';
+  navLoading.textContent = 'Fetching route\u2026';
+  navStepsEl.style.display = 'none';
+  navStepsEl.innerHTML = '';
+  document.getElementById('navInfo').style.display = 'flex';
 
   // Fit back to all stops
   const allPoints = [...driveRoute, ...walkRoute];
