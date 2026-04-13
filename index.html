@@ -21,10 +21,6 @@
     .header{padding:14px 20px;padding-top:max(14px,env(safe-area-inset-top));background:linear-gradient(135deg,#fdf2f8 0%,#fce7f3 50%,#fbcfe8 100%);border-bottom:1px solid rgba(219,39,119,.12);z-index:100;flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
     .header-left h1{font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;color:#831843;letter-spacing:-.5px}
     .header-left .subtitle{font-size:.8rem;color:#9d174d;font-weight:500;opacity:.8;margin-top:2px}
-    .header-right{display:flex;gap:8px}
-    .header-icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid rgba(219,39,119,.15);background:rgba(255,255,255,.7);color:#be185d;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
-    .header-icon-btn:active{background:#fce7f3;transform:scale(.95)}
-    .header-icon-btn svg{width:18px;height:18px}
 
     /* MAP */
     .map-container{position:relative;flex:0 0 40vh;background:#fce7f3;z-index:10;border-bottom:1px solid rgba(219,39,119,.12);transition:flex .4s ease}
@@ -67,7 +63,7 @@
     .sheet-card-desc p{margin-bottom:10px}
     .sheet-card-desc p.tip{background:linear-gradient(135deg,rgba(252,231,243,.5),rgba(254,205,211,.3));padding:10px 12px;border-radius:10px;border-left:3px solid #ec4899;font-style:italic;color:#9d174d}
     .sheet-quick-actions{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}
-    .sheet-action-btn{padding:10px 16px;border-radius:12px;border:1px solid rgba(219,39,119,.15);background:rgba(255,255,255,.8);color:#be185d;font-size:.8rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;transition:all .2s}
+    .sheet-action-btn{padding:10px 16px;border-radius:12px;border:1px solid rgba(219,39,119,.15);background:rgba(255,255,255,.8);color:#be185d;font-size:.8rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;transition:all .2s;text-decoration:none}
     .sheet-action-btn:active{background:#fce7f3;transform:scale(.97)}
     .sheet-action-btn.green{color:#059669;border-color:rgba(5,150,105,.2);background:rgba(236,253,245,.7)}
     .sheet-action-btn.amber{color:#b45309;border-color:rgba(180,83,9,.15);background:rgba(255,251,235,.7)}
@@ -126,8 +122,6 @@
     .timeline-dot.d1{border-color:#ec4899}
     .timeline-dot.d2{border-color:#a78bfa}
     .timeline-dot.d3{border-color:#22d3ee}
-    .timeline-connector{position:relative}
-    .timeline-distance{font-size:.72rem;color:#9d174d;font-weight:600;padding:4px 10px;background:rgba(252,231,243,.5);border-radius:10px;display:inline-block;margin:4px 0 8px -28px;margin-left:0}
 
     /* CARDS */
     .card{background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border:1px solid rgba(219,39,119,.1);border-radius:16px;padding:14px;border-left:4px solid;box-shadow:0 2px 12px rgba(219,39,119,.06),0 1px 3px rgba(0,0,0,.04);transition:all .3s;cursor:pointer;animation:slideUp .4s ease}
@@ -176,7 +170,7 @@
     .info-card-sub{font-size:.75rem;color:#78716c;margin-top:2px}
     .info-card a{color:#db2777;text-decoration:none;font-weight:500}
 
-    /* WEATHER WIDGET */
+    /* WEATHER */
     .weather-row{display:flex;gap:10px;overflow-x:auto;padding:4px 0;-webkit-overflow-scrolling:touch}
     .weather-day{min-width:100px;flex-shrink:0;background:rgba(252,231,243,.3);border-radius:12px;padding:12px;text-align:center;border:1px solid rgba(219,39,119,.08)}
     .weather-day-name{font-size:.72rem;font-weight:600;color:#be185d;text-transform:uppercase;margin-bottom:6px}
@@ -227,7 +221,6 @@
     .leaflet-control-zoom a:hover,.leaflet-control-zoom a:active{background:#fce7f3!important;color:#831843!important}
     .leaflet-marker-icon{filter:drop-shadow(0 2px 4px rgba(0,0,0,.15));transition:all .2s}
     .leaflet-marker-icon:hover{filter:drop-shadow(0 4px 8px rgba(0,0,0,.2)) brightness(1.05)}
-
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
     button:focus-visible,a:focus-visible{outline:2px solid #ec4899;outline-offset:2px}
   </style>
@@ -238,45 +231,33 @@
 <div class="header">
   <div class="header-left">
     <h1 id="contextualHeader">Merano Getaway</h1>
-    <p class="subtitle">April 19&ndash;21, 2026 &bull; 3 Days &bull; Samnaun &rarr; Merano</p>
+    <p class="subtitle">April 19&ndash;21, 2026 &bull; 3 Days / 2 Nights &bull; Samnaun &rarr; Merano</p>
   </div>
 </div>
 
 <!-- MAP -->
 <div class="map-container" id="mapContainer">
   <div id="map"></div>
-
-  <!-- Day pills on map -->
   <div class="map-day-pills" id="mapDayPills">
     <button class="map-day-pill active" onclick="setMapDay('all')">All</button>
     <button class="map-day-pill" onclick="setMapDay('d1')">Day 1</button>
     <button class="map-day-pill" onclick="setMapDay('d2')">Day 2</button>
     <button class="map-day-pill" onclick="setMapDay('d3')">Day 3</button>
   </div>
-
-  <!-- Fullscreen toggle -->
   <button class="map-fullscreen-btn" id="fullscreenBtn" onclick="toggleFullscreen()" title="Toggle fullscreen map">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
-    </svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
   </button>
-
-  <!-- GPS -->
   <button class="gps-btn" id="gpsBtn" onclick="toggleGPS()" title="Show my location" aria-label="Show my location">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>
-    </svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
   </button>
   <div class="gps-status" id="gpsStatus" aria-live="polite"></div>
-
-  <!-- Next Stop -->
   <button class="next-stop-btn" id="nextStopBtn" onclick="goToNextStop()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
     <span id="nextStopLabel">Next stop</span>
   </button>
 </div>
 
-<!-- Bottom Sheet (for fullscreen map info) -->
+<!-- Bottom Sheet -->
 <div class="bottom-sheet" id="bottomSheet">
   <div class="sheet-handle" id="sheetHandle"><div class="sheet-handle-bar"></div></div>
   <div class="sheet-content" id="sheetContent"></div>
@@ -299,7 +280,6 @@
 <!-- CONTENT PANE -->
 <div class="content-pane" id="contentPane">
   <div class="content-inner">
-    <!-- Filter -->
     <div class="filter-bar" role="group" aria-label="Filter stops">
       <span class="filter-label">Show:</span>
       <button class="filter-btn all active" onclick="setFilter('all')" aria-pressed="true">All</button>
@@ -307,8 +287,6 @@
       <button class="filter-btn d2" onclick="setFilter('d2')" aria-pressed="false">Day 2</button>
       <button class="filter-btn d3" onclick="setFilter('d3')" aria-pressed="false">Day 3</button>
     </div>
-
-    <!-- Legend -->
     <div class="legend-bar" aria-label="Map legend">
       <div class="legend-item"><div class="legend-swatch dashed" style="color:#ec4899"></div><span>Day 1 drive</span></div>
       <div class="legend-item"><div class="legend-swatch" style="background:#f59e0b"></div><span>Day 1 walk</span></div>
@@ -316,24 +294,24 @@
       <div class="legend-item"><div class="legend-swatch" style="background:#22d3ee"></div><span>Day 3 drive</span></div>
     </div>
 
-    <!-- DAY 1 -->
+    <!-- DAY 1: Sunday April 19 -->
     <div class="day-block" data-group="d1">
       <div class="day-title d1">Day 1 &mdash; Sunday, April 19</div>
-      <p class="day-subtitle">Depart Samnaun ~09:00 &bull; Arrive Merano ~11:30 &bull; Old Town &bull; Walk &bull; Dinner</p>
+      <p class="day-subtitle">Drive to Merano &bull; Check in &bull; Explore Old Town &bull; Dinner &bull; Romantic evening</p>
       <div id="d1-list" class="timeline"></div>
     </div>
 
-    <!-- DAY 2 -->
+    <!-- DAY 2: Monday April 20 -->
     <div class="day-block" data-group="d2">
       <div class="day-title d2">Day 2 &mdash; Monday, April 20</div>
-      <p class="day-subtitle">Full day in Merano &bull; Gardens &bull; Lunch &bull; Spa &bull; Dinner</p>
+      <p class="day-subtitle">Breakfast &bull; Terme Merano &bull; Lunch &bull; Trauttmansdorff Gardens &bull; Dinner</p>
       <div id="d2-list" class="timeline"></div>
     </div>
 
-    <!-- DAY 3 -->
+    <!-- DAY 3: Tuesday April 21 -->
     <div class="day-block" data-group="d3">
       <div class="day-title d3">Day 3 &mdash; Tuesday, April 21</div>
-      <p class="day-subtitle">Morning stroll &bull; Last coffee &bull; Depart ~14:00 &bull; Home by ~16:00</p>
+      <p class="day-subtitle">Breakfast &bull; Last stroll &bull; Lunch &bull; Drive home by ~19:00</p>
       <div id="d3-list" class="timeline"></div>
     </div>
 
@@ -344,20 +322,14 @@
         <div class="info-card">
           <div class="info-card-label">Thermengarage</div>
           <div class="info-card-value">&euro;1.50/hr &bull; &euro;12/day</div>
-          <div class="info-card-sub">Closest to Old Town & Terme</div>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=46.6678,11.1618" target="_blank" style="font-size:.75rem">Navigate &rarr;</a>
+          <div class="info-card-sub">Closest to Old Town &amp; Terme</div>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=46.6693,11.1604" target="_blank" style="font-size:.75rem">Navigate &rarr;</a>
         </div>
         <div class="info-card">
           <div class="info-card-label">Parkhaus Untermais</div>
           <div class="info-card-value">&euro;1.20/hr &bull; &euro;10/day</div>
-          <div class="info-card-sub">Good for south end</div>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=46.6635,11.1590" target="_blank" style="font-size:.75rem">Navigate &rarr;</a>
-        </div>
-        <div class="info-card">
-          <div class="info-card-label">Parkplatz Prader</div>
-          <div class="info-card-value">&euro;1.00/hr &bull; &euro;8/day</div>
-          <div class="info-card-sub">Budget option, 8 min walk</div>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=46.6652,11.1530" target="_blank" style="font-size:.75rem">Navigate &rarr;</a>
+          <div class="info-card-sub">Good for south end of town</div>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=46.6630,11.1595" target="_blank" style="font-size:.75rem">Navigate &rarr;</a>
         </div>
       </div>
     </div>
@@ -366,35 +338,17 @@
     <div class="info-section" id="emergencySection">
       <div class="info-section-title">&#x1F6D1; Emergency Info</div>
       <div class="info-grid">
-        <div class="info-card">
-          <div class="info-card-label">Emergency</div>
-          <div class="info-card-value"><a href="tel:112">112</a></div>
-          <div class="info-card-sub">All emergencies (EU-wide)</div>
-        </div>
-        <div class="info-card">
-          <div class="info-card-label">Hospital</div>
-          <div class="info-card-value">Krankenhaus Meran</div>
-          <div class="info-card-sub"><a href="tel:+390473263333">+39 0473 263 333</a></div>
-        </div>
-        <div class="info-card">
-          <div class="info-card-label">Pharmacy</div>
-          <div class="info-card-value">Apotheke/Farmacia</div>
-          <div class="info-card-sub">Central: Laubengasse 58</div>
-        </div>
-        <div class="info-card">
-          <div class="info-card-label">Police</div>
-          <div class="info-card-value"><a href="tel:113">113</a></div>
-          <div class="info-card-sub">Carabinieri: <a href="tel:112">112</a></div>
-        </div>
+        <div class="info-card"><div class="info-card-label">Emergency</div><div class="info-card-value"><a href="tel:112">112</a></div><div class="info-card-sub">All emergencies (EU-wide)</div></div>
+        <div class="info-card"><div class="info-card-label">Hospital</div><div class="info-card-value">Krankenhaus Meran</div><div class="info-card-sub"><a href="tel:+390473263333">+39 0473 263 333</a></div></div>
+        <div class="info-card"><div class="info-card-label">Pharmacy</div><div class="info-card-value">Farmacia Centrale</div><div class="info-card-sub">Laubengasse 58, Old Town</div></div>
+        <div class="info-card"><div class="info-card-label">Police</div><div class="info-card-value"><a href="tel:113">113</a> / <a href="tel:112">112</a></div><div class="info-card-sub">Carabinieri &amp; Polizia</div></div>
       </div>
     </div>
 
     <!-- WEATHER -->
     <div class="info-section" id="weatherSection">
       <div class="info-section-title">&#x26C5; Weather Forecast</div>
-      <div class="weather-row" id="weatherRow">
-        <div style="color:#9d174d;font-size:.85rem;padding:8px">Loading forecast...</div>
-      </div>
+      <div class="weather-row" id="weatherRow"><div style="color:#9d174d;font-size:.85rem;padding:8px">Loading forecast...</div></div>
     </div>
 
     <!-- BUDGET -->
@@ -407,10 +361,10 @@
         <div class="budget-row"><span class="budget-item">Dinner Day 1</span><span class="budget-cost">&euro;50&ndash;80</span></div>
         <div class="budget-row"><span class="budget-item">Lunch Day 2</span><span class="budget-cost">&euro;20&ndash;35</span></div>
         <div class="budget-row"><span class="budget-item">Dinner Day 2</span><span class="budget-cost">&euro;50&ndash;80</span></div>
+        <div class="budget-row"><span class="budget-item">Terme Merano (pools + sauna)</span><span class="budget-cost">&euro;56&ndash;82</span></div>
         <div class="budget-row"><span class="budget-item">Trauttmansdorff Gardens</span><span class="budget-cost">&euro;32</span></div>
-        <div class="budget-row"><span class="budget-item">Terme Merano (pools+sauna)</span><span class="budget-cost">&euro;56&ndash;82</span></div>
-        <div class="budget-row"><span class="budget-item">Coffees &amp; snacks</span><span class="budget-cost">&euro;25&ndash;40</span></div>
-        <div class="budget-row"><span class="budget-item"><b>Estimated Total</b></span><span class="budget-cost"><b>&euro;504&ndash;726</b></span></div>
+        <div class="budget-row"><span class="budget-item">Coffees, snacks, gelato</span><span class="budget-cost">&euro;30&ndash;50</span></div>
+        <div class="budget-row"><span class="budget-item"><b>Estimated Total</b></span><span class="budget-cost"><b>&euro;509&ndash;768</b></span></div>
       </div>
     </div>
 
@@ -420,7 +374,7 @@
       <ul class="checklist" id="checklistItems"></ul>
     </div>
 
-    <!-- TRIP SUMMARY -->
+    <!-- QUICK REFERENCE -->
     <div class="trip-summary">
       <h3>Quick Reference</h3>
       <div class="summary-grid">
@@ -430,7 +384,7 @@
         <div class="summary-item"><span class="summary-label">Nights</span><span class="summary-value">2 (Sun &amp; Mon)</span></div>
         <div class="summary-item"><span class="summary-label">Terme Merano</span><span class="summary-value">&euro;28 pools / &euro;41+sauna</span></div>
         <div class="summary-item"><span class="summary-label">Gardens</span><span class="summary-value">&euro;16/person</span></div>
-        <div class="summary-item"><span class="summary-label">Leave Day 3</span><span class="summary-value">~14:00 Tue</span></div>
+        <div class="summary-item"><span class="summary-label">Depart Day 3</span><span class="summary-value">~17:00 Tue</span></div>
         <div class="summary-item"><span class="summary-label">Currency</span><span class="summary-value">Euro (&euro;)</span></div>
       </div>
     </div>
@@ -442,95 +396,44 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 // =============================================
-//  DATA: 3-DAY TRIP
+//  ACCURATE COORDINATES
+// =============================================
+// Verified via OpenStreetMap / Google Maps:
+// Samnaun center: 46.9498, 10.3687
+// Laubengasse/Via Portici: 46.6723, 11.1626
+// Terme Merano: 46.6693, 11.1604
+// Trauttmansdorff: 46.6596, 11.1841
+// Kurhaus/Wandelhalle: 46.6695, 11.1657
+// Reschensee tower: 46.8097, 10.5381
+
+// =============================================
+//  DAY 1 DATA: Sun Apr 19
+//  Drive -> Hotel check-in -> Old Town -> Cafe -> Walk -> Dinner -> Romantic evening
 // =============================================
 const day1Stops = [
   {
     id:"1", name:"Samnaun", time:"09:00", timeLabel:"Depart",
     tagline:"Your starting point in the Engadin",
     spend:"", dist:"",
-    lat:46.9653, lng:10.3594, group:"d1",
-    desc:`<p>Grab a coffee before you leave and make sure the car's fuelled up. The drive to Merano is about 130 km via the scenic Reschenpass road (toll-free). Head via Pfunds (Austria) toward Nauders, then over the Reschenpass into Italy.</p>
-    <p class="tip">Tip: Stop at Reschensee for photos of the famous sunken church tower rising from the lake. 10 min stop, totally worth it.</p>`
+    lat:46.9498, lng:10.3687, group:"d1",
+    desc:`<p>Grab a coffee, fuel up the car. The drive is ~130 km via the scenic Reschenpass (toll-free). Head via Pfunds (Austria) toward Nauders, then over the pass into Italy.</p>
+    <p class="tip">Stop at Reschensee for photos of the famous sunken church tower rising from the lake. 10 min, totally worth it.</p>`
   },
   {
-    id:"2", name:"Old Town \u2014 Laubengasse", time:"~11:30", timeLabel:"Arrive & explore",
-    tagline:"Merano's medieval heart \u2014 the longest arcade street in Tyrol",
-    spend:"~1.5 hrs", dist:"130 km from Samnaun (~2 hrs)",
-    lat:46.6713, lng:11.1597, group:"d1",
-    desc:`<p>Park at Thermengarage or Parkhaus Untermais and walk into the old town. Laubengasse is 400 metres of covered arcades built in the 13th century \u2014 lined with boutiques, delis, and caf\u00e9s. Look up at the facades ranging from Gothic to Art Nouveau.</p>
-    <p>Walk through to the Passeirer Gate (Passeiertor), a perfectly preserved 13th-century city gate at the eastern end.</p>`
-  },
-  {
-    id:"3", name:"Caf\u00e9 Darling / Stadt Caf\u00e9", time:"~12:30", timeLabel:"Light lunch",
-    tagline:"Coffee, pastries, and South Tyrolean caf\u00e9 culture",
-    spend:"~45 min", dist:"2 min walk",
-    lat:46.6695, lng:11.1625, group:"d1",
-    desc:`<p>Try a Melange (local cappuccino) and Apfelstrudel or Buchweizentorte (buckwheat cake with lingonberry jam). Stadt Caf\u00e9 is great for people-watching; Caf\u00e9 Darling has outdoor seats overlooking the Passer river.</p>`,
+    id:"2", name:"Hotel check-in", time:"~11:30", timeLabel:"Arrive & settle in",
+    tagline:"Drop the bags, freshen up, get excited",
+    spend:"~30 min", dist:"130 km from Samnaun (~2 hrs)",
+    lat:46.6650, lng:11.1500, group:"d1",
+    desc:`<p><b>Hotel Pollinger</b> (~\u20ac120\u2013150/night) \u2014 Best value. Pool, solid breakfast, half-board \u20ac15 extra. Central location.</p>
+    <p><b>Hotel Villa Irma</b> (~\u20ac110\u2013140/night) \u2014 Quiet garden, 7-min walk to center. Romantic and peaceful.</p>
+    <p><b>Villa Bavaria</b> (~\u20ac100\u2013130/night) \u2014 Palm trees in garden, peaceful neighbourhood feel.</p>
+    <p><b>Hotel Sittnerhof</b> (~\u20ac130\u2013170/night) \u2014 Highest rated for couples. Cosy rooms, great breakfast.</p>
+    <p class="tip">Book directly on the hotel's website for better rates and extras like welcome drinks or spa access.</p>`,
     alternatives:[
-      {name:"Caf\u00e9 Darling", lat:46.6695, lng:11.1625, desc:"Outdoor terrace overlooking Passer river."},
-      {name:"Stadt Caf\u00e9 Citt\u00e0", lat:46.6710, lng:11.1600, desc:"Right on the main drag, great people-watching."},
-      {name:"Caf\u00e9 Ploner", lat:46.6710, lng:11.1585, desc:"Excellent pastries, cozy atmosphere."}
-    ]
-  },
-  {
-    id:"4", name:"Tappeiner Promenade", time:"~14:00", timeLabel:"Walk",
-    tagline:"A 4 km elevated trail with panoramic views over Merano",
-    spend:"~1\u20131.5 hrs", dist:"10 min walk uphill",
-    lat:46.6755, lng:11.1500, group:"d1",
-    desc:`<p>The highlight walk. A 4 km promenade at ~380m altitude lined with Mediterranean plants \u2014 magnolias, cypresses, palms. Pass the Powder Tower (Pulverturm) and climb to the top for the single best viewpoint in Merano.</p>
-    <p>The path is flat and paved, completely manageable in regular shoes.</p>`,
-    alternatives:[
-      {name:"Tappeiner Promenade", lat:46.6755, lng:11.1500, desc:"4 km elevated panoramic trail. The must-do walk."},
-      {name:"Gilf Gorge (Gilfenklamm)", lat:46.6770, lng:11.1460, desc:"Dramatic narrow gorge at the start of Tappeiner path."},
-      {name:"Castello Principesco", lat:46.6720, lng:11.1565, desc:"15th-century prince's castle in town center. Quick 30-min visit."}
-    ]
-  },
-  {
-    id:"5", name:"Kurpromenade", time:"~15:30", timeLabel:"Riverside stroll",
-    tagline:"Merano's elegant riverside walkway with palm trees",
-    spend:"~45 min", dist:"Connects back to town",
-    lat:46.6680, lng:11.1555, group:"d1",
-    desc:`<p>Walk along the Passer river through the centre. The south bank (Winterpromenade) is sheltered and sunny. The north bank runs past the Kurhaus, a gorgeous Art Nouveau events hall from 1914.</p>
-    <p>A great spot to sit on a bench and take it all in before dinner.</p>`
-  },
-  {
-    id:"6", name:"Dinner", time:"~18:30", timeLabel:"Book ahead!",
-    tagline:"Kn\u00f6del, Speck, Schlutzkrapfen \u2014 South Tyrolean classics",
-    spend:"~1.5 hrs", dist:"",
-    lat:46.6718, lng:11.1570, group:"d1",
-    desc:`<p><b>R\u00f6ssl Bianco</b> \u2014 Cozy old inn with daily-changing menus, refined Tyrolean classics, good wine list.</p>
-    <p><b>R\u00f6merkeller</b> \u2014 Atmospheric vaulted cellar, rustic. Great for Speckk\u00f6del and Schlutzkrapfen.</p>
-    <p><b>Stube Verdinser Hof</b> (Schenna, ~10 min drive) \u2014 Most authentic Stube experience.</p>
-    <p class="tip">Order: Speckbrettl to start. Mains: Schlutzkrapfen or Spinatkn\u00f6del. Drink: Lagrein (red) or Gew\u00fcrztraminer (white).</p>`,
-    alternatives:[
-      {name:"R\u00f6ssl Bianco", lat:46.6718, lng:11.1570, desc:"Cozy inn, refined Tyrolean classics."},
-      {name:"R\u00f6merkeller", lat:46.6705, lng:11.1590, desc:"Atmospheric vaulted cellar, rustic charm."},
-      {name:"Stube Verdinser Hof", lat:46.6870, lng:11.1890, desc:"Schenna (~10 min). Most authentic."},
-      {name:"Sigmund", lat:46.6708, lng:11.1575, desc:"Modern South Tyrolean with creative twists."}
-    ],
-    contact:{
-      "R\u00f6ssl Bianco":{phone:"+39 0473 237440",web:"https://www.roesslbianco.it"},
-      "R\u00f6merkeller":{phone:"+39 0473 236349",web:"https://www.roemerkeller.it"},
-      "Stube Verdinser Hof":{phone:"+39 0473 945716"},
-      "Sigmund":{phone:"+39 0473 210036",web:"https://www.sigmund.bz"}
-    }
-  },
-  {
-    id:"7", name:"Hotel", time:"~20:30", timeLabel:"Check in",
-    tagline:"Cosy room, good bed, maybe a pool",
-    spend:"", dist:"",
-    lat:46.6650, lng:11.1480, group:"d1",
-    desc:`<p><b>Hotel Pollinger</b> (~\u20ac120\u2013150) \u2014 Pool, solid breakfast, half-board \u20ac15 extra.</p>
-    <p><b>Hotel Villa Irma</b> (~\u20ac110\u2013140) \u2014 Quiet garden, 7-min walk to center. Romantic.</p>
-    <p><b>Villa Bavaria</b> (~\u20ac100\u2013130) \u2014 Palm trees in garden, peaceful neighbourhood.</p>
-    <p><b>Hotel Sittnerhof</b> (~\u20ac130\u2013170) \u2014 Highest rated for couples.</p>
-    <p class="tip">Book directly on the hotel's website for better rates and extras.</p>`,
-    alternatives:[
-      {name:"Hotel Pollinger", lat:46.6650, lng:11.1480, desc:"Best value. Pool, solid breakfast."},
-      {name:"Hotel Villa Irma", lat:46.6670, lng:11.1530, desc:"Quiet garden, romantic."},
-      {name:"Villa Bavaria", lat:46.6640, lng:11.1500, desc:"Palm trees, peaceful."},
-      {name:"Hotel Sittnerhof", lat:46.6695, lng:11.1445, desc:"Highest rated for couples."}
+      {name:"Hotel Pollinger", lat:46.6650, lng:11.1500, tagline:"Best value. Pool, breakfast, great location.", desc:"Pool, solid breakfast, half-board available. Central."},
+      {name:"Hotel Villa Irma", lat:46.6670, lng:11.1530, tagline:"Quiet garden setting, romantic and peaceful.", desc:"Quiet garden, 7-min walk to center. Romantic."},
+      {name:"Villa Bavaria", lat:46.6640, lng:11.1505, tagline:"Palm trees in garden, peaceful neighbourhood.", desc:"Palm trees, peaceful neighbourhood feel."},
+      {name:"Hotel Sittnerhof", lat:46.6695, lng:11.1445, tagline:"Highest rated for couples in Merano.", desc:"Highest rated for couples. Cosy rooms."}
     ],
     contact:{
       "Hotel Pollinger":{phone:"+39 0473 448553",web:"https://www.pollinger.it/en/hotel-pollinger.html"},
@@ -538,54 +441,129 @@ const day1Stops = [
       "Villa Bavaria":{phone:"+39 0473 236375",web:"https://www.villabavaria.it"},
       "Hotel Sittnerhof":{phone:"+39 0473 236292",web:"https://www.sittnerhof.it"}
     }
-  }
-];
-
-const day2Stops = [
+  },
   {
-    id:"8", name:"Breakfast", time:"~08:30", timeLabel:"Morning",
-    tagline:"Start the day right with South Tyrolean coffee and pastries",
-    spend:"~45 min", dist:"",
-    lat:46.6700, lng:11.1540, group:"d2",
-    desc:`<p>If your hotel doesn't include breakfast, Caf\u00e9 Villa Bux is a local favourite. Take your time \u2014 you have the whole day.</p>`,
+    id:"3", name:"Old Town \u2014 Laubengasse", time:"~12:00", timeLabel:"Explore",
+    tagline:"Merano's medieval heart \u2014 the longest arcade street in Tyrol",
+    spend:"~1 hr", dist:"5\u201310 min walk from hotel",
+    lat:46.6723, lng:11.1626, group:"d1",
+    desc:`<p>Laubengasse is 400 metres of covered arcades built in the 13th century \u2014 lined with boutiques, delis, and caf\u00e9s. Look up at the facades ranging from Gothic to Art Nouveau with ornate bay windows.</p>
+    <p>Walk through to the Passeirer Gate (Passeiertor), a perfectly preserved 13th-century city gate at the eastern end.</p>`,
     alternatives:[
-      {name:"Caf\u00e9 Villa Bux", lat:46.6700, lng:11.1540, desc:"Relaxed vibe, great coffee."},
-      {name:"Caf\u00e9 Ploner", lat:46.6710, lng:11.1585, desc:"Excellent pastries, cozy."},
-      {name:"Hotel breakfast", lat:46.6650, lng:11.1480, desc:"Included with most hotels."}
+      {name:"Laubengasse (Via Portici)", lat:46.6723, lng:11.1626, tagline:"700 years of arcade shopping, Gothic to Art Nouveau.", desc:"Medieval arcade street, boutiques, delis, cafes."},
+      {name:"Castello Principesco", lat:46.6720, lng:11.1565, tagline:"15th-century prince\u2019s castle in the town center.", desc:"Quick 30-min visit. Restored medieval interiors."},
+      {name:"Duomo di Merano", lat:46.6718, lng:11.1640, tagline:"Gothic cathedral with a 83m bell tower.", desc:"14th-century Gothic church, beautiful interior."}
     ]
   },
   {
-    id:"9", name:"Trauttmansdorff Gardens", time:"~09:30", timeLabel:"Gardens",
-    tagline:"80+ botanical landscapes with stunning mountain views",
-    spend:"~2\u20132.5 hrs", dist:"15 min walk or 5 min drive",
-    lat:46.6598, lng:11.1833, group:"d2",
-    desc:`<p>The Gardens of Trauttmansdorff Castle are Merano's crown jewel \u2014 80+ garden landscapes spread across a sunny slope with two spectacular viewing platforms. The gardens include Mediterranean, exotic, and Alpine zones, plus the Touriseum museum inside the castle.</p>
-    <p><b>Prices:</b> ~\u20ac16/person. Open from 9:00 in April.</p>
-    <p>Walk there via Sissi's Path from the town center \u2014 a gentle trail dotted with plaques about Empress Elisabeth of Austria who spent winters in Merano in the 1870s.</p>
-    <p class="tip">The panoramic viewing platform (Matteo Thun's steel binoculars structure) is the single best photo spot in all of Merano.</p>`,
+    id:"4", name:"Caf\u00e9 \u2014 Light lunch", time:"~13:00", timeLabel:"Lunch",
+    tagline:"Coffee, pastries, and South Tyrolean caf\u00e9 culture",
+    spend:"~45 min", dist:"2 min walk",
+    lat:46.6695, lng:11.1657, group:"d1",
+    desc:`<p>Try a Melange (local cappuccino) and Apfelstrudel or Buchweizentorte (buckwheat cake with lingonberry jam). Stadt Caf\u00e9 is great for people-watching; Caf\u00e9 Darling has outdoor seats overlooking the Passer river.</p>`,
     alternatives:[
-      {name:"Trauttmansdorff Gardens", lat:46.6598, lng:11.1833, desc:"80+ gardens, viewing platforms. The must-do."},
-      {name:"Sissi's Path (free walk)", lat:46.6650, lng:11.1700, desc:"Free trail from town to the gardens."},
-      {name:"Schloss Tirol (Castle Tyrol)", lat:46.6920, lng:11.1380, desc:"The castle that gave Tyrol its name. Museum + views."}
+      {name:"Caf\u00e9 Darling", lat:46.6690, lng:11.1650, tagline:"Outdoor terrace overlooking the Passer river.", desc:"Classic spot on the Winterpromenade, outdoor seats."},
+      {name:"Stadt Caf\u00e9 Citt\u00e0", lat:46.6715, lng:11.1620, tagline:"Right on the main drag, great people-watching.", desc:"On Rennweg, perfect for watching the world go by."},
+      {name:"Caf\u00e9 Wandelhalle", lat:46.6695, lng:11.1657, tagline:"Inside the beautiful Kurhaus, elegant setting.", desc:"Elegant cafe inside the Art Nouveau Kurhaus."}
+    ]
+  },
+  {
+    id:"5", name:"Tappeiner Promenade", time:"~14:30", timeLabel:"Walk",
+    tagline:"A 4 km elevated trail with panoramic views over Merano",
+    spend:"~1\u20131.5 hrs", dist:"10 min walk uphill from old town",
+    lat:46.6755, lng:11.1520, group:"d1",
+    desc:`<p>The highlight walk. A 4 km promenade at ~380m altitude lined with Mediterranean plants \u2014 magnolias, cypresses, palms. Named after physician Franz Tappeiner (1893).</p>
+    <p>Pass the Powder Tower (Pulverturm) and climb to the top for the single best viewpoint in Merano. On a clear day you'll see the Texelgruppe mountains and the Etschtal valley stretching toward Bolzano.</p>
+    <p>Flat and paved, completely manageable in regular shoes.</p>`,
+    alternatives:[
+      {name:"Tappeiner Promenade", lat:46.6755, lng:11.1520, tagline:"4 km panoramic trail \u2014 the must-do walk.", desc:"Elevated trail with Mediterranean plants and mountain views."},
+      {name:"Gilf Gorge (Gilfenklamm)", lat:46.6770, lng:11.1460, tagline:"Dramatic narrow gorge at the start of Tappeiner.", desc:"Short, dramatic gorge walk. Very photogenic."},
+      {name:"Kurpromenade (riverside)", lat:46.6685, lng:11.1560, tagline:"Elegant riverside walkway with palm trees.", desc:"Flat riverside walk, Kurhaus views, palm trees and flowers."}
+    ]
+  },
+  {
+    id:"6", name:"Kurpromenade", time:"~16:00", timeLabel:"Stroll",
+    tagline:"Merano's elegant riverside walkway",
+    spend:"~45 min", dist:"Walk back down to the river",
+    lat:46.6685, lng:11.1560, group:"d1",
+    desc:`<p>The Kurpromenade runs along both sides of the Passer river through the centre. The south bank (Winterpromenade) is sheltered and sunny. The north bank runs past the Kurhaus, a gorgeous Art Nouveau events hall from 1914.</p>
+    <p>Great spot to sit on a bench and take it in before heading to dinner.</p>`
+  },
+  {
+    id:"7", name:"Dinner", time:"~18:30", timeLabel:"Book ahead!",
+    tagline:"Kn\u00f6del, Speck, Schlutzkrapfen \u2014 the real South Tyrolean deal",
+    spend:"~1.5 hrs", dist:"",
+    lat:46.6717, lng:11.1627, group:"d1",
+    desc:`<p><b>R\u00f6ssl Bianco</b> \u2014 Cozy old inn with daily-changing menus, refined Tyrolean classics, good wine list.</p>
+    <p><b>R\u00f6merkeller</b> \u2014 Atmospheric vaulted cellar, rustic. Great for Speckk\u00f6del and Schlutzkrapfen.</p>
+    <p><b>Sigmund</b> \u2014 Modern South Tyrolean with creative twists, stylish ambiance.</p>
+    <p class="tip">Order: Speckbrettl to start. Mains: Schlutzkrapfen or Spinatkn\u00f6del. Drink: Lagrein (red) or Gew\u00fcrztraminer (white). Dessert: Apfelstrudel with vanilla sauce.</p>`,
+    alternatives:[
+      {name:"R\u00f6ssl Bianco", lat:46.6717, lng:11.1627, tagline:"Cozy inn, refined Tyrolean classics, good wine.", desc:"Daily-changing menus, refined Tyrolean classics."},
+      {name:"R\u00f6merkeller", lat:46.6713, lng:11.1632, tagline:"Atmospheric vaulted cellar, rustic charm.", desc:"Vaulted cellar, great for Speckkn\u00f6del and Schlutzkrapfen."},
+      {name:"Sigmund", lat:46.6708, lng:11.1575, tagline:"Modern South Tyrolean, creative and stylish.", desc:"Creative modern takes on Tyrolean classics."},
+      {name:"Stube Verdinser Hof", lat:46.6870, lng:11.1890, tagline:"Schenna (~10 min drive). Most authentic Stube.", desc:"Wood-panelled dining, candlelight. Worth the detour."}
     ],
     contact:{
-      "Trauttmansdorff Gardens":{phone:"+39 0473 235730",web:"https://www.trauttmansdorff.it"},
-      "Schloss Tirol (Castle Tyrol)":{phone:"+39 0473 220221",web:"https://www.schlosstirol.it"}
+      "R\u00f6ssl Bianco":{phone:"+39 0473 237440",web:"https://www.roesslbianco.it"},
+      "R\u00f6merkeller":{phone:"+39 0473 236349",web:"https://www.roemerkeller.it"},
+      "Sigmund":{phone:"+39 0473 210036",web:"https://www.sigmund.bz"},
+      "Stube Verdinser Hof":{phone:"+39 0473 945716"}
     }
   },
   {
-    id:"10", name:"Lunch", time:"~12:30", timeLabel:"Midday meal",
-    tagline:"Proper South Tyrolean lunch in a cozy setting",
-    spend:"~1 hr", dist:"Back in town center",
+    id:"8", name:"Romantic evening at the hotel", time:"~20:30", timeLabel:"Your time",
+    tagline:"Wine, the hotel room, and each other \u2764\uFE0F",
+    spend:"All evening", dist:"",
+    lat:46.6650, lng:11.1500, group:"d1",
+    desc:`<p>Pick up a bottle of local wine on the way back \u2014 a Gew\u00fcrztraminer or Lagrein from one of the wine shops on Laubengasse. Many hotels have balconies or garden terraces that are perfect in the April evening air.</p>
+    <p class="tip">If your hotel has a pool or spa area, some stay open until 21:00\u201322:00 for a quiet evening swim.</p>`
+  }
+];
+
+// =============================================
+//  DAY 2 DATA: Mon Apr 20
+//  Breakfast -> Terme -> Lunch -> Gardens -> Dinner -> Evening
+// =============================================
+const day2Stops = [
+  {
+    id:"9", name:"Breakfast", time:"~08:30", timeLabel:"Morning",
+    tagline:"Fuel up for a full day of relaxation and beauty",
+    spend:"~45 min", dist:"",
+    lat:46.6700, lng:11.1540, group:"d2",
+    desc:`<p>If your hotel includes breakfast, enjoy it. Otherwise, Caf\u00e9 Villa Bux is a local favourite with great coffee and a proper breakfast spread.</p>`,
+    alternatives:[
+      {name:"Hotel breakfast", lat:46.6650, lng:11.1500, tagline:"Included with most hotels. Easy start.", desc:"No rush, enjoy the hotel spread."},
+      {name:"Caf\u00e9 Villa Bux", lat:46.6700, lng:11.1540, tagline:"Local favourite, relaxed vibe, great coffee.", desc:"Relaxed vibe, excellent breakfast."},
+      {name:"Caf\u00e9 Ploner", lat:46.6710, lng:11.1585, tagline:"Excellent pastries, cozy atmosphere.", desc:"Famous pastries and coffee."}
+    ]
+  },
+  {
+    id:"10", name:"Terme Merano", time:"~10:00\u201313:00", timeLabel:"Spa morning",
+    tagline:"25 pools, saunas, and pure relaxation \u2014 designed by Matteo Thun",
+    spend:"~2.5\u20133 hrs", dist:"10 min walk from center",
+    lat:46.6693, lng:11.1604, group:"d2",
+    desc:`<p>The Terme Merano complex designed by the famous South Tyrolean architect Matteo Thun \u2014 a huge glass cube with indoor/outdoor pools, whirlpools, and a full sauna world.</p>
+    <p><b>Prices:</b> ~\u20ac28/person for pools, ~\u20ac41/person for pools + sauna. Book online at termemerano.it.</p>
+    <p>Monday in April: check website for exact opening hours (may be holiday schedule).</p>
+    <p class="tip">Go early to beat the crowds. The outdoor pools with mountain views are magical.</p>`,
+    contact:{
+      "Terme Merano":{phone:"+39 0473 252000",web:"https://www.termemerano.it"}
+    }
+  },
+  {
+    id:"11", name:"Lunch", time:"~13:30", timeLabel:"Midday meal",
+    tagline:"Proper South Tyrolean lunch after the spa",
+    spend:"~1 hr", dist:"5 min walk from Terme",
     lat:46.6725, lng:11.1610, group:"d2",
-    desc:`<p><b>Gasthaus Forsterbr\u00e4u</b> \u2014 Historic brewery-restaurant, hearty Tyrolean food and local beer on tap. Known for Schnitzel and K\u00e4sesp\u00e4tzle.</p>
-    <p><b>Pizzeria Bistro Sausalitos</b> \u2014 Relaxed spot for excellent wood-fired pizza.</p>
+    desc:`<p><b>Gasthaus Forsterbr\u00e4u</b> \u2014 Historic brewery-restaurant on Corso Libert\u00e0. Hearty Tyrolean food and local Forst beer on tap. Known for Schnitzel and K\u00e4sesp\u00e4tzle.</p>
+    <p><b>Pizzeria Sausalitos</b> \u2014 Excellent wood-fired pizza, relaxed spot.</p>
     <p><b>Bistro-Bar Flora</b> \u2014 Lighter fare, beautiful outdoor terrace.</p>`,
     alternatives:[
-      {name:"Gasthaus Forsterbr\u00e4u", lat:46.6725, lng:11.1610, desc:"Historic brewery, hearty Tyrolean food."},
-      {name:"Pizzeria Sausalitos", lat:46.6715, lng:11.1595, desc:"Excellent wood-fired pizza."},
-      {name:"Bistro-Bar Flora", lat:46.6690, lng:11.1575, desc:"Light fare, beautiful terrace."},
-      {name:"Deli sandwich (Laubengasse)", lat:46.6713, lng:11.1597, desc:"Quick grab & go option."}
+      {name:"Gasthaus Forsterbr\u00e4u", lat:46.6718, lng:11.1590, tagline:"Historic brewery, hearty Tyrolean food and Forst beer.", desc:"Schnitzel, K\u00e4sesp\u00e4tzle, local Forst beer on tap."},
+      {name:"Pizzeria Sausalitos", lat:46.6715, lng:11.1595, tagline:"Excellent wood-fired pizza, relaxed.", desc:"Great pizza in a casual setting."},
+      {name:"Bistro-Bar Flora", lat:46.6690, lng:11.1575, tagline:"Light fare, beautiful outdoor terrace.", desc:"Lighter dishes, lovely terrace by the river."},
+      {name:"Deli on Laubengasse", lat:46.6723, lng:11.1626, tagline:"Quick grab & go from a local deli.", desc:"Panino or local specialties to go."}
     ],
     contact:{
       "Gasthaus Forsterbr\u00e4u":{phone:"+39 0473 236535",web:"https://www.forst.it"},
@@ -594,122 +572,136 @@ const day2Stops = [
     }
   },
   {
-    id:"11", name:"Schiller Park / Passer Promenade", time:"~14:00", timeLabel:"Park stroll",
-    tagline:"A green oasis in the heart of Merano with ancient trees",
-    spend:"~45 min", dist:"5 min walk",
-    lat:46.6688, lng:11.1540, group:"d2",
-    desc:`<p>Schiller Park is a beautiful green space along the Passer river with mature trees, flower beds, and a playground. It connects seamlessly to the Passer Promenade \u2014 walk along the river under plane trees and palms.</p>
-    <p>This is a perfect low-key afternoon activity between lunch and the spa.</p>`,
+    id:"12", name:"Trauttmansdorff Gardens", time:"~15:00", timeLabel:"Gardens",
+    tagline:"80+ botanical landscapes with stunning mountain views",
+    spend:"~2\u20132.5 hrs", dist:"15 min walk or 5 min drive",
+    lat:46.6596, lng:11.1841, group:"d2",
+    desc:`<p>The Gardens of Trauttmansdorff Castle \u2014 Merano's crown jewel. 80+ garden landscapes spread across a sunny slope with two spectacular viewing platforms. Mediterranean, exotic, and Alpine zones, plus the Touriseum museum inside the castle.</p>
+    <p><b>Price:</b> ~\u20ac16/person. Open from 9:00 in April.</p>
+    <p>Walk there via Sissi's Path from town \u2014 a gentle trail dotted with plaques about Empress Elisabeth of Austria (Sissi) who spent winters here in the 1870s.</p>
+    <p class="tip">The panoramic viewing platform (Matteo Thun's binoculars structure) is the single best photo spot in all of Merano.</p>`,
     alternatives:[
-      {name:"Schiller Park", lat:46.6688, lng:11.1540, desc:"Green oasis with ancient trees, riverside."},
-      {name:"Passer Promenade", lat:46.6680, lng:11.1555, desc:"Elegant riverside walkway with palms."},
-      {name:"Shopping in Old Town", lat:46.6713, lng:11.1597, desc:"Boutiques and local shops in the arcades."}
-    ]
-  },
-  {
-    id:"12", name:"Terme Merano", time:"~15:00\u201318:00", timeLabel:"Spa afternoon",
-    tagline:"25 pools, saunas, and pure relaxation",
-    spend:"~2.5\u20133 hrs", dist:"10 min walk from center",
-    lat:46.6672, lng:11.1625, group:"d2",
-    desc:`<p>The Terme Merano complex designed by Matteo Thun \u2014 a huge glass cube with indoor/outdoor pools, whirlpools, and a sauna world. Perfect way to relax before dinner.</p>
-    <p><b>Prices:</b> ~\u20ac28/person for pools, ~\u20ac41/person with sauna. Book online.</p>`,
-    alternatives:[
-      {name:"Terme Merano", lat:46.6672, lng:11.1625, desc:"25 pools & saunas. Book online."},
-      {name:"Hotel spa (if available)", lat:46.6650, lng:11.1480, desc:"Use your hotel's pool/spa instead."}
+      {name:"Trauttmansdorff Gardens", lat:46.6596, lng:11.1841, tagline:"80+ gardens, viewing platforms \u2014 the must-do.", desc:"Crown jewel of Merano. Botanical gardens + castle museum."},
+      {name:"Sissi's Path + Gardens", lat:46.6650, lng:11.1700, tagline:"Walk to the gardens via Empress Elisabeth's trail.", desc:"Free trail from town to the gardens through greenery."},
+      {name:"Schloss Tirol (Castle Tyrol)", lat:46.6920, lng:11.1380, tagline:"The castle that gave Tyrol its name.", desc:"Historical museum, great views. ~15 min drive."}
     ],
     contact:{
-      "Terme Merano":{phone:"+39 0473 252000",web:"https://www.termemerano.it"}
+      "Trauttmansdorff Gardens":{phone:"+39 0473 235730",web:"https://www.trauttmansdorff.it"},
+      "Schloss Tirol (Castle Tyrol)":{phone:"+39 0473 220221",web:"https://www.schlosstirol.it"}
     }
   },
   {
     id:"13", name:"Dinner", time:"~19:00", timeLabel:"Evening meal",
     tagline:"Something different for night two \u2014 Italian-meets-Tyrolean",
-    spend:"~1.5 hrs", dist:"",
-    lat:46.6700, lng:11.1580, group:"d2",
-    desc:`<p><b>Kallm\u00fcnz</b> \u2014 Wine bar/restaurant with creative Mediterranean dishes, great wine selection, beautiful courtyard.</p>
+    spend:"~1.5 hrs", dist:"Back in town center",
+    lat:46.6710, lng:11.1618, group:"d2",
+    desc:`<p><b>Kallm\u00fcnz</b> \u2014 Wine bar/restaurant on Piazza della Rena. Creative Mediterranean dishes, excellent wine selection, beautiful courtyard setting.</p>
     <p><b>Miil</b> \u2014 Fine dining in a converted mill. Tasting menu with local ingredients. Splurge option.</p>
-    <p><b>Pizzeria Piazza Steinach</b> \u2014 Casual, excellent Neapolitan-style pizza in a charming piazza.</p>
-    <p class="tip">Try different wines tonight! South Tyrol produces excellent Pinot Noir, Schiava, and Sauvignon Blanc.</p>`,
+    <p><b>Pizzeria Piazza Steinach</b> \u2014 Casual, excellent pizza in a charming piazza.</p>
+    <p class="tip">Try different wines tonight! South Tyrol does excellent Pinot Noir, Schiava, and Sauvignon Blanc.</p>`,
     alternatives:[
-      {name:"Kallm\u00fcnz", lat:46.6700, lng:11.1580, desc:"Wine bar, creative Mediterranean, courtyard."},
-      {name:"Miil", lat:46.6708, lng:11.1568, desc:"Fine dining in a converted mill. Splurge."},
-      {name:"Pizzeria Piazza Steinach", lat:46.6720, lng:11.1600, desc:"Charming piazza, great pizza."},
-      {name:"Trautmannsdorff Restaurant", lat:46.6598, lng:11.1833, desc:"Upscale dining in garden setting."}
+      {name:"Kallm\u00fcnz", lat:46.6710, lng:11.1618, tagline:"Wine bar, creative Mediterranean, courtyard.", desc:"Great wines, creative dishes, beautiful courtyard."},
+      {name:"Miil", lat:46.6708, lng:11.1568, tagline:"Fine dining in a converted mill. Splurge.", desc:"Tasting menu with local seasonal ingredients."},
+      {name:"Pizzeria Steinach", lat:46.6720, lng:11.1600, tagline:"Charming piazza, great Neapolitan pizza.", desc:"Casual, excellent pizza in a lovely square."},
+      {name:"Stube Verdinser Hof", lat:46.6870, lng:11.1890, tagline:"Schenna \u2014 if you missed it on Day 1.", desc:"Wood-panelled Stube, candlelight, authentic."}
     ],
     contact:{
       "Kallm\u00fcnz":{phone:"+39 0473 212438",web:"https://www.kallmuenz.it"},
       "Miil":{phone:"+39 0473 211062"},
-      "Pizzeria Piazza Steinach":{phone:"+39 0473 237292"}
+      "Pizzeria Steinach":{phone:"+39 0473 237292"},
+      "Stube Verdinser Hof":{phone:"+39 0473 945716"}
     }
+  },
+  {
+    id:"14", name:"Evening", time:"~21:00", timeLabel:"Night",
+    tagline:"Night walk along the lit-up Kurpromenade, or relax at the hotel",
+    spend:"Rest of evening", dist:"",
+    lat:46.6685, lng:11.1560, group:"d2",
+    desc:`<p>If the weather is nice, the Kurpromenade is beautifully lit at night \u2014 the Kurhaus glows and the river is calm. A lovely end to the day.</p>
+    <p>Otherwise, head back to the hotel and enjoy the quiet. Tomorrow is your last morning.</p>`,
+    alternatives:[
+      {name:"Night walk (Kurpromenade)", lat:46.6685, lng:11.1560, tagline:"Beautifully lit riverside walk at night.", desc:"The Kurhaus glows, the river is calm. Romantic."},
+      {name:"Wine bar in town", lat:46.6715, lng:11.1610, tagline:"One more glass of local wine before bed.", desc:"Plenty of cozy wine bars in the old town."},
+      {name:"Hotel & relax", lat:46.6650, lng:11.1500, tagline:"Early night before the drive home tomorrow.", desc:"Rest up for the last morning and drive."}
+    ]
   }
 ];
 
+// =============================================
+//  DAY 3 DATA: Tue Apr 21
+//  Breakfast -> Stroll/shop -> Lunch -> Drive home (arrive ~19:00)
+// =============================================
 const day3Stops = [
   {
-    id:"14", name:"Breakfast & last coffee", time:"~09:00", timeLabel:"Morning",
-    tagline:"One more South Tyrolean breakfast before you go",
-    spend:"~1 hr", dist:"",
-    lat:46.6710, lng:11.1585, group:"d3",
-    desc:`<p>Take your time with a final breakfast. If you want something special, try Caf\u00e9 Wandelhalle \u2014 inside the beautiful Kurhaus on the promenade. Or head back to your favourite spot from yesterday.</p>`,
+    id:"15", name:"Breakfast", time:"~09:00", timeLabel:"Last morning",
+    tagline:"One more South Tyrolean breakfast",
+    spend:"~45 min", dist:"",
+    lat:46.6695, lng:11.1657, group:"d3",
+    desc:`<p>Savour it \u2014 last morning in Merano. Try Caf\u00e9 Wandelhalle inside the Kurhaus for something special, or head back to your favourite spot.</p>`,
     alternatives:[
-      {name:"Caf\u00e9 Wandelhalle", lat:46.6685, lng:11.1560, desc:"Inside the Kurhaus, elegant setting."},
-      {name:"Caf\u00e9 Villa Bux", lat:46.6700, lng:11.1540, desc:"Back to your Day 2 favourite."},
-      {name:"Hotel breakfast", lat:46.6650, lng:11.1480, desc:"Easy start, no rush."}
+      {name:"Caf\u00e9 Wandelhalle", lat:46.6695, lng:11.1657, tagline:"Inside the Kurhaus \u2014 elegant Art Nouveau setting.", desc:"Elegant breakfast inside the Art Nouveau Kurhaus."},
+      {name:"Caf\u00e9 Villa Bux", lat:46.6700, lng:11.1540, tagline:"Back to your Day 2 favourite.", desc:"Relaxed, great coffee and breakfast."},
+      {name:"Hotel breakfast", lat:46.6650, lng:11.1500, tagline:"Easy start, no rush.", desc:"Enjoy the hotel spread one last time."}
     ]
   },
   {
-    id:"15", name:"Morning stroll \u2014 Passeiertor & river", time:"~10:00", timeLabel:"Last walk",
-    tagline:"Soak in Merano one last time along the river",
-    spend:"~1 hr", dist:"5 min walk from center",
-    lat:46.6730, lng:11.1610, group:"d3",
-    desc:`<p>Walk past the Passeiertor and along the Winterpromenade one more time. Pick up any souvenirs \u2014 Speck, local chocolate, or a bottle of Gew\u00fcrztraminer from one of the delis on Laubengasse.</p>
-    <p class="tip">Tip: The Obstmarkt (fruit market) near Sparkassenstra\u00dfe is great for local produce to take home.</p>`,
+    id:"16", name:"Schiller Park & last stroll", time:"~10:00", timeLabel:"Park & souvenirs",
+    tagline:"Green oasis along the river, then souvenir shopping",
+    spend:"~1.5 hrs", dist:"5 min walk",
+    lat:46.6688, lng:11.1545, group:"d3",
+    desc:`<p>Schiller Park is a beautiful green space along the Passer with mature trees and flower beds. Walk through to the Passer Promenade under plane trees and palms.</p>
+    <p>Then pick up souvenirs on Laubengasse \u2014 Speck, local chocolate, a bottle of Gew\u00fcrztraminer, or South Tyrolean honey.</p>
+    <p class="tip">The Obstmarkt (fruit market) near Sparkassenstra\u00dfe is great for local produce.</p>`,
     alternatives:[
-      {name:"Winterpromenade stroll", lat:46.6730, lng:11.1610, desc:"Sunny riverside walk, palm trees."},
-      {name:"Merano Christmas Museum", lat:46.6720, lng:11.1560, desc:"Quirky, fun even outside of Christmas."},
-      {name:"Shopping on Laubengasse", lat:46.6713, lng:11.1597, desc:"Last chance for souvenirs."}
+      {name:"Schiller Park & Promenade", lat:46.6688, lng:11.1545, tagline:"Green park, river walk, and souvenir shopping.", desc:"Park along the Passer, then shopping on Laubengasse."},
+      {name:"Winterpromenade walk", lat:46.6685, lng:11.1560, tagline:"Sunny riverside walk under palm trees.", desc:"The sheltered south-bank promenade. Sunny and calm."},
+      {name:"Shopping on Laubengasse", lat:46.6723, lng:11.1626, tagline:"Last chance for local Speck, wine, chocolate.", desc:"Pick up South Tyrolean specialities to bring home."}
     ]
   },
   {
-    id:"16", name:"Light lunch / gelato", time:"~11:30", timeLabel:"Quick bite",
+    id:"17", name:"Light lunch / gelato", time:"~12:00", timeLabel:"Quick bite",
     tagline:"One more taste of Italy before heading north",
-    spend:"~30\u201345 min", dist:"In town center",
-    lat:46.6713, lng:11.1597, group:"d3",
-    desc:`<p>Grab a quick panino, slice of pizza, or (the real move) gelato from one of the spots near Laubengasse. Keep it light for the drive.</p>`
+    spend:"~45 min", dist:"In town center",
+    lat:46.6723, lng:11.1626, group:"d3",
+    desc:`<p>Grab a panino, pizza al taglio, or gelato from one of the spots near Laubengasse. Keep it light for the drive home.</p>`,
+    alternatives:[
+      {name:"Pizza al taglio on Laubengasse", lat:46.6723, lng:11.1626, tagline:"Quick slice of pizza before heading out.", desc:"By-the-slice pizza, easy and fast."},
+      {name:"Gelato in the old town", lat:46.6720, lng:11.1615, tagline:"Italian gelato \u2014 the perfect goodbye.", desc:"End on a sweet note."},
+      {name:"Forsterbr\u00e4u (sit-down)", lat:46.6718, lng:11.1590, tagline:"One more proper meal if you're not in a rush.", desc:"Hearty lunch with Forst beer on tap."}
+    ]
   },
   {
-    id:"17", name:"Drive back to Samnaun", time:"~14:00", timeLabel:"Depart",
-    tagline:"Same scenic Reschenpass route in reverse \u2014 arrive by ~16:00",
+    id:"18", name:"Drive back to Samnaun", time:"~17:00", timeLabel:"Depart",
+    tagline:"Same scenic Reschenpass route \u2014 arrive home by ~19:00",
     spend:"~2 hrs drive", dist:"130 km",
-    lat:46.9653, lng:10.3600, group:"d3",
-    desc:`<p>Retrace the Reschenpass route. The afternoon light through the Vinschgau valley is beautiful \u2014 golden hour through orchards and mountains.</p>
-    <p>If you didn't stop at Glurns (Glorenza) on the way down, this is your chance \u2014 smallest city in South Tyrol with perfectly preserved medieval walls.</p>
-    <p class="tip">You'll be back in Samnaun by ~16:00, in time for a relaxed evening at home.</p>`
+    lat:46.9498, lng:10.3687, group:"d3",
+    desc:`<p>Retrace the Reschenpass route. The late-afternoon light through the Vinschgau valley is beautiful \u2014 golden hour through orchards and mountains.</p>
+    <p>If you didn't stop at Glurns (Glorenza) on the way down, this is your chance \u2014 smallest city in South Tyrol with perfectly preserved medieval walls. Quick 20-min detour.</p>
+    <p class="tip">You'll be home in Samnaun by ~19:00, well before your 20:00\u201321:00 deadline.</p>`
   }
 ];
 
 const allStopsFlat = [...day1Stops, ...day2Stops, ...day3Stops];
 
 // =============================================
-//  ROUTE LINES
+//  ROUTE LINES (coordinates)
 // =============================================
 const driveRoute = [
-  [46.9653,10.3594],[46.9520,10.4200],[46.9070,10.4700],
+  [46.9498,10.3687],[46.9520,10.4200],[46.9070,10.4700],
   [46.8867,10.5035],[46.8500,10.5100],[46.8097,10.5381],
   [46.7700,10.5600],[46.6870,10.5490],[46.6715,10.5567],
   [46.6168,10.6989],[46.6270,10.9010],[46.6900,10.9500],
-  [46.6750,11.1000],[46.6713,11.1597]
+  [46.6750,11.1000],[46.6723,11.1626]
 ];
 
 const day1WalkRoute = [
-  [46.6713,11.1597],[46.6695,11.1625],[46.6755,11.1500],
-  [46.6680,11.1555],[46.6718,11.1570],[46.6650,11.1480]
+  [46.6650,11.1500],[46.6723,11.1626],[46.6695,11.1657],
+  [46.6755,11.1520],[46.6685,11.1560],[46.6717,11.1627],[46.6650,11.1500]
 ];
 
 const day2WalkRoute = [
-  [46.6650,11.1480],[46.6700,11.1540],[46.6598,11.1833],
-  [46.6725,11.1610],[46.6688,11.1540],[46.6672,11.1625],
-  [46.6700,11.1580],[46.6650,11.1480]
+  [46.6650,11.1500],[46.6693,11.1604],[46.6725,11.1610],
+  [46.6596,11.1841],[46.6710,11.1618],[46.6685,11.1560],[46.6650,11.1500]
 ];
 
 const day3Route = [...driveRoute].reverse();
@@ -730,9 +722,6 @@ let isFullscreen = false;
 let currentStopIndex = 0;
 let currentNavStopId = null;
 
-// =============================================
-//  CHECKLIST DATA
-// =============================================
 const checklistData = [
   "Passport / ID cards",
   "Phone charger & power bank",
@@ -745,40 +734,25 @@ const checklistData = [
   "Hotel booking confirmation",
   "Reusable water bottle",
   "Snacks for the drive",
+  "Nice outfit for dinner",
   "This trip guide (bookmark it!)"
 ];
 
 // =============================================
-//  MAP INITIALIZATION
+//  MAP INIT
 // =============================================
 const map = L.map('map', {zoomControl:true}).setView([46.82,10.75],10);
-
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-  attribution:'&copy; OpenStreetMap &copy; CARTO',
-  subdomains:'abcd',
-  maxZoom:19
+  attribution:'&copy; OpenStreetMap &copy; CARTO', subdomains:'abcd', maxZoom:19
 }).addTo(map);
 
-// Route lines
 const routeLines = {};
+routeLines.drive = L.polyline(driveRoute, {color:'#ec4899',weight:4,opacity:.7,dashArray:'10,6',lineCap:'round',lineJoin:'round'}).addTo(map);
+routeLines.walk1 = L.polyline(day1WalkRoute, {color:'#f59e0b',weight:3.5,opacity:.8,lineCap:'round',lineJoin:'round'}).addTo(map);
+routeLines.walk2 = L.polyline(day2WalkRoute, {color:'#a78bfa',weight:3.5,opacity:.8,lineCap:'round',lineJoin:'round'}).addTo(map);
+routeLines.day3 = L.polyline(day3Route, {color:'#22d3ee',weight:4,opacity:.7,dashArray:'10,6',lineCap:'round',lineJoin:'round'}).addTo(map);
 
-routeLines.drive = L.polyline(driveRoute, {
-  color:'#ec4899', weight:4, opacity:.7, dashArray:'10,6', lineCap:'round', lineJoin:'round'
-}).addTo(map);
-
-routeLines.walk1 = L.polyline(day1WalkRoute, {
-  color:'#f59e0b', weight:3.5, opacity:.8, lineCap:'round', lineJoin:'round'
-}).addTo(map);
-
-routeLines.walk2 = L.polyline(day2WalkRoute, {
-  color:'#a78bfa', weight:3.5, opacity:.8, lineCap:'round', lineJoin:'round'
-}).addTo(map);
-
-routeLines.day3 = L.polyline(day3Route, {
-  color:'#22d3ee', weight:4, opacity:.7, dashArray:'10,6', lineCap:'round', lineJoin:'round'
-}).addTo(map);
-
-const allPoints = [...driveRoute, ...day1WalkRoute, ...day2WalkRoute];
+const allPoints = [...driveRoute,...day1WalkRoute,...day2WalkRoute];
 map.fitBounds(L.latLngBounds(allPoints).pad(0.05));
 
 // =============================================
@@ -787,79 +761,85 @@ map.fitBounds(L.latLngBounds(allPoints).pad(0.05));
 const markerMap = {};
 const cardMap = {};
 
-function getGroupColor(group) {
-  return {d1:'#ec4899', d2:'#a78bfa', d3:'#22d3ee'}[group] || '#ec4899';
-}
+function getGroupColor(g) { return {d1:'#ec4899',d2:'#a78bfa',d3:'#22d3ee'}[g]||'#ec4899'; }
 
 function createMarker(stop) {
-  const color = getGroupColor(stop.group);
-  const svgIcon = L.divIcon({
-    html:`<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="${color}" opacity=".15" stroke="${color}" stroke-width="1.5"/><circle cx="16" cy="16" r="10" fill="${color}"/><circle cx="16" cy="16" r="5" fill="white"/></svg>`,
-    iconSize:[32,32], iconAnchor:[16,16], popupAnchor:[0,-16], className:'custom-marker'
+  const c = getGroupColor(stop.group);
+  const marker = L.marker([stop.lat,stop.lng], {
+    icon: L.divIcon({
+      html:`<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="${c}" opacity=".15" stroke="${c}" stroke-width="1.5"/><circle cx="16" cy="16" r="10" fill="${c}"/><circle cx="16" cy="16" r="5" fill="white"/></svg>`,
+      iconSize:[32,32], iconAnchor:[16,16], className:'custom-marker'
+    })
+  }).addTo(map).on('click', function() {
+    map.flyTo([stop.lat,stop.lng], 17, {duration:0.8});
+    if (isFullscreen) showBottomSheet(stop);
+    else {
+      const card = document.getElementById(`card-${stop.id}`);
+      if (card) { card.scrollIntoView({behavior:'smooth',block:'start'}); card.classList.add('highlight'); setTimeout(()=>card.classList.remove('highlight'),1200); }
+    }
   });
-
-  const marker = L.marker([stop.lat, stop.lng], {icon:svgIcon})
-    .addTo(map)
-    .on('click', function() {
-      map.flyTo([stop.lat, stop.lng], 17, {duration:0.8});
-      if (isFullscreen) {
-        showBottomSheet(stop);
-      } else {
-        const card = document.getElementById(`card-${stop.id}`);
-        if (card) {
-          card.scrollIntoView({behavior:'smooth', block:'start'});
-          card.classList.add('highlight');
-          setTimeout(() => card.classList.remove('highlight'), 1200);
-        }
-      }
-    });
-
   markerMap[stop.id] = marker;
-  return marker;
 }
 
-function createCard(stop, prevStop) {
+function createCard(stop) {
   const container = document.getElementById(`${stop.group}-list`);
   if (!container) return;
 
+  const wrapper = document.createElement('div');
+  wrapper.className = 'timeline-item';
+
   const card = document.createElement('div');
-  card.className = 'timeline-item';
+  card.id = `card-${stop.id}`;
+  card.className = `card ${stop.group}`;
+  card.dataset.group = stop.group;
+  card.dataset.stopId = stop.id;
 
-  const cardInner = document.createElement('div');
-  cardInner.id = `card-${stop.id}`;
-  cardInner.className = `card ${stop.group}`;
-  cardInner.dataset.group = stop.group;
-  cardInner.dataset.stopId = stop.id;
-
-  cardInner.addEventListener('click', function(e) {
+  card.addEventListener('click', function(e) {
     if (e.target.closest('button, a, .card-actions, .alt-controls, .contact-btn')) return;
-    map.flyTo([stop.lat, stop.lng], 17, {duration:0.8});
+    map.flyTo([stop.lat,stop.lng], 17, {duration:0.8});
   });
+
+  renderCardContent(card, stop, 0);
+
+  const dot = document.createElement('div');
+  dot.className = `timeline-dot ${stop.group}`;
+  wrapper.appendChild(dot);
+  wrapper.appendChild(card);
+  container.appendChild(wrapper);
+  cardMap[stop.id] = {element:card, stop};
+}
+
+function renderCardContent(card, stop, altIdx) {
+  const alt = (stop.alternatives && stop.alternatives[altIdx]) ? stop.alternatives[altIdx] : null;
+  const displayName = alt ? alt.name : stop.name;
+  const displayTagline = (alt && alt.tagline) ? alt.tagline : stop.tagline;
+  const currentLat = alt ? alt.lat : stop.lat;
+  const currentLng = alt ? alt.lng : stop.lng;
+  const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${currentLat},${currentLng}`;
 
   let alternativesHtml = '';
   if (stop.alternatives && stop.alternatives.length > 0) {
-    alternativesHtml = `<div class="alt-controls" role="group" aria-label="Choose alternative">${stop.alternatives.map((alt, idx) => `<button class="alt-btn ${idx===0?'active':''}" onclick="selectAlternative('${stop.id}',${idx})" aria-pressed="${idx===0}">${alt.name}</button>`).join('')}</div>`;
+    alternativesHtml = `<div class="alt-controls" role="group">${stop.alternatives.map((a,i) =>
+      `<button class="alt-btn ${i===altIdx?'active':''}" onclick="selectAlternative('${stop.id}',${i})" aria-pressed="${i===altIdx}">${a.name}</button>`
+    ).join('')}</div>`;
   }
 
   let contactHtml = '';
   if (stop.contact) {
-    const altName = stop.alternatives && stop.alternatives.length > 0 ? stop.alternatives[0].name : stop.name;
-    const contactInfo = stop.contact[altName];
-    if (contactInfo) {
-      if (contactInfo.phone) contactHtml += `<a href="tel:${contactInfo.phone}" class="contact-btn call" onclick="event.stopPropagation()">&#x260E; Call</a>`;
-      if (contactInfo.web) contactHtml += `<a href="${contactInfo.web}" target="_blank" rel="noopener" class="contact-btn web" onclick="event.stopPropagation()">&#x1F310; Web</a>`;
+    const ci = stop.contact[displayName];
+    if (ci) {
+      if (ci.phone) contactHtml += `<a href="tel:${ci.phone}" class="contact-btn call" onclick="event.stopPropagation()">&#x260E; Call</a>`;
+      if (ci.web) contactHtml += `<a href="${ci.web}" target="_blank" rel="noopener" class="contact-btn web" onclick="event.stopPropagation()">&#x1F310; Web</a>`;
     }
   }
 
-  const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${stop.lat},${stop.lng}`;
-
-  cardInner.innerHTML = `
+  card.innerHTML = `
     <div class="card-header">
-      <div class="card-title">${stop.name}</div>
+      <div class="card-title">${displayName}</div>
       <div class="card-time">${stop.time} ${stop.timeLabel||''}</div>
     </div>
-    <div class="card-tagline">${stop.tagline}</div>
-    ${stop.spend ? `<span class="card-spend">&#x23F1; Spend ${stop.spend}</span> ` : ''}
+    <div class="card-tagline">${displayTagline}</div>
+    ${stop.spend ? `<span class="card-spend">&#x23F1; ${stop.spend}</span> ` : ''}
     ${stop.dist ? `<span class="card-distance">&#x1F4CD; ${stop.dist}</span>` : ''}
     <div class="card-description" id="desc-${stop.id}">${stop.desc}</div>
     ${alternativesHtml}
@@ -868,27 +848,18 @@ function createCard(stop, prevStop) {
       <button class="action-btn" onclick="navigateToStop('${stop.id}')">&#x279C; Navigate</button>
       <a href="${gmapsUrl}" target="_blank" rel="noopener" class="contact-btn gmaps" onclick="event.stopPropagation()">&#x1F5FA; Maps</a>
     </div>
-    <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">${contactHtml}</div>
+    <div class="card-contact-row" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">${contactHtml}</div>
   `;
-
-  const dot = document.createElement('div');
-  dot.className = `timeline-dot ${stop.group}`;
-
-  card.appendChild(dot);
-  card.appendChild(cardInner);
-  container.appendChild(card);
-  cardMap[stop.id] = {element:cardInner, stop};
 }
 
 // =============================================
-//  BOTTOM SHEET (fullscreen map mode)
+//  BOTTOM SHEET
 // =============================================
-let sheetState = 'hidden'; // hidden, collapsed, half, full
+let sheetState = 'hidden';
 
 function showBottomSheet(stop) {
   const sheet = document.getElementById('bottomSheet');
   const content = document.getElementById('sheetContent');
-
   const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${stop.lat},${stop.lng}`;
 
   let contactHtml = '';
@@ -924,35 +895,26 @@ function hideBottomSheet() {
   sheetState = 'hidden';
 }
 
-// Sheet handle drag
 (function() {
   const handle = document.getElementById('sheetHandle');
   const sheet = document.getElementById('bottomSheet');
   let startY = 0;
-
-  handle.addEventListener('touchstart', e => {
-    startY = e.touches[0].clientY;
-  }, {passive:true});
-
+  handle.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, {passive:true});
   handle.addEventListener('touchend', e => {
-    const endY = e.changedTouches[0].clientY;
-    const diff = startY - endY;
+    const diff = startY - e.changedTouches[0].clientY;
     if (diff > 40) {
-      // Swipe up
-      if (sheetState === 'collapsed') { sheet.classList.remove('collapsed'); sheet.classList.add('half'); sheetState = 'half'; }
-      else if (sheetState === 'half') { sheet.classList.remove('half'); sheet.classList.add('full'); sheetState = 'full'; }
+      if (sheetState==='collapsed'){sheet.classList.remove('collapsed');sheet.classList.add('half');sheetState='half';}
+      else if (sheetState==='half'){sheet.classList.remove('half');sheet.classList.add('full');sheetState='full';}
     } else if (diff < -40) {
-      // Swipe down
-      if (sheetState === 'full') { sheet.classList.remove('full'); sheet.classList.add('half'); sheetState = 'half'; }
-      else if (sheetState === 'half') { sheet.classList.remove('half'); sheet.classList.add('collapsed'); sheetState = 'collapsed'; }
-      else if (sheetState === 'collapsed') { hideBottomSheet(); }
+      if (sheetState==='full'){sheet.classList.remove('full');sheet.classList.add('half');sheetState='half';}
+      else if (sheetState==='half'){sheet.classList.remove('half');sheet.classList.add('collapsed');sheetState='collapsed';}
+      else if (sheetState==='collapsed'){hideBottomSheet();}
     }
   }, {passive:true});
-
   handle.addEventListener('click', () => {
-    if (sheetState === 'collapsed') { sheet.classList.remove('collapsed'); sheet.classList.add('half'); sheetState = 'half'; }
-    else if (sheetState === 'half') { sheet.classList.remove('half'); sheet.classList.add('full'); sheetState = 'full'; }
-    else if (sheetState === 'full') { sheet.classList.remove('full'); sheet.classList.add('half'); sheetState = 'half'; }
+    if (sheetState==='collapsed'){sheet.classList.remove('collapsed');sheet.classList.add('half');sheetState='half';}
+    else if (sheetState==='half'){sheet.classList.remove('half');sheet.classList.add('full');sheetState='full';}
+    else if (sheetState==='full'){sheet.classList.remove('full');sheet.classList.add('half');sheetState='half';}
   });
 })();
 
@@ -964,19 +926,14 @@ function toggleFullscreen() {
   const mc = document.getElementById('mapContainer');
   const cp = document.getElementById('contentPane');
   const btn = document.getElementById('fullscreenBtn');
-
   if (isFullscreen) {
-    mc.classList.add('fullscreen');
-    cp.classList.add('hidden');
-    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>';
+    mc.classList.add('fullscreen');cp.classList.add('hidden');
+    btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>';
   } else {
-    mc.classList.remove('fullscreen');
-    cp.classList.remove('hidden');
-    hideBottomSheet();
-    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>';
+    mc.classList.remove('fullscreen');cp.classList.remove('hidden');hideBottomSheet();
+    btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>';
   }
-
-  setTimeout(() => map.invalidateSize(), 400);
+  setTimeout(()=>map.invalidateSize(),400);
 }
 
 // =============================================
@@ -984,41 +941,26 @@ function toggleFullscreen() {
 // =============================================
 function setMapDay(day) {
   currentMapDay = day;
-  document.querySelectorAll('.map-day-pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.map-day-pill').forEach(p=>p.classList.remove('active'));
   document.querySelector(`.map-day-pill[onclick="setMapDay('${day}')"]`).classList.add('active');
 
-  // Show/hide route lines
-  const lineGroups = {
-    d1: ['drive','walk1'],
-    d2: ['walk2'],
-    d3: ['day3']
-  };
-
-  Object.entries(routeLines).forEach(([key, line]) => {
-    if (day === 'all') { line.addTo(map); }
-    else {
-      const belongs = Object.entries(lineGroups).find(([d, keys]) => d === day && keys.includes(key));
-      if (belongs) line.addTo(map); else map.removeLayer(line);
-    }
+  const lineGroups = {d1:['drive','walk1'],d2:['walk2'],d3:['day3']};
+  Object.entries(routeLines).forEach(([key,line])=>{
+    if(day==='all'){line.addTo(map);}
+    else{const b=Object.entries(lineGroups).find(([d,keys])=>d===day&&keys.includes(key));if(b)line.addTo(map);else map.removeLayer(line);}
   });
 
-  // Show/hide markers
-  Object.entries(markerMap).forEach(([stopId, marker]) => {
-    const stop = allStopsFlat.find(s => s.id === stopId);
-    if (stop) {
-      if (day === 'all' || stop.group === day) marker.addTo(map);
-      else map.removeLayer(marker);
-    }
+  Object.entries(markerMap).forEach(([stopId,marker])=>{
+    const stop=allStopsFlat.find(s=>s.id===stopId);
+    if(stop){if(day==='all'||stop.group===day)marker.addTo(map);else map.removeLayer(marker);}
   });
 
-  // Fit bounds for selected day
-  if (day === 'd1') map.fitBounds(L.latLngBounds([...driveRoute,...day1WalkRoute]).pad(0.05));
-  else if (day === 'd2') map.fitBounds(L.latLngBounds(day2WalkRoute).pad(0.1));
-  else if (day === 'd3') map.fitBounds(L.latLngBounds(day3Route).pad(0.05));
+  if(day==='d1')map.fitBounds(L.latLngBounds([...driveRoute,...day1WalkRoute]).pad(0.05));
+  else if(day==='d2')map.fitBounds(L.latLngBounds(day2WalkRoute).pad(0.1));
+  else if(day==='d3')map.fitBounds(L.latLngBounds(day3Route).pad(0.05));
   else map.fitBounds(L.latLngBounds(allPoints).pad(0.05));
 
-  // Also filter content pane
-  setFilter(day === 'all' ? 'all' : day);
+  setFilter(day==='all'?'all':day);
 }
 
 // =============================================
@@ -1026,27 +968,14 @@ function setMapDay(day) {
 // =============================================
 function setFilter(group) {
   currentFilter = group;
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.classList.remove('active');
-    btn.setAttribute('aria-pressed','false');
+  document.querySelectorAll('.filter-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
+  const ab=document.querySelector(`.filter-btn.${group}`);
+  if(ab){ab.classList.add('active');ab.setAttribute('aria-pressed','true');}
+  document.querySelectorAll('.day-block').forEach(el=>{
+    if(group==='all'||el.dataset.group===group)el.classList.remove('hidden');else el.classList.add('hidden');
   });
-
-  const activeBtn = document.querySelector(`.filter-btn.${group}`);
-  if (activeBtn) {
-    activeBtn.classList.add('active');
-    activeBtn.setAttribute('aria-pressed','true');
-  }
-
-  document.querySelectorAll('.day-block').forEach(el => {
-    if (group === 'all' || el.dataset.group === group) el.classList.remove('hidden');
-    else el.classList.add('hidden');
-  });
-
-  // Show/hide info sections based on filter
-  const infoSections = ['parkingSection','emergencySection','weatherSection','budgetSection','checklistSection'];
-  infoSections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = (group === 'all') ? '' : 'none';
+  ['parkingSection','emergencySection','weatherSection','budgetSection','checklistSection'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.style.display=(group==='all')?'':'none';
   });
 }
 
@@ -1054,375 +983,237 @@ function setFilter(group) {
 //  NEXT STOP
 // =============================================
 function goToNextStop() {
-  if (currentStopIndex >= allStopsFlat.length) currentStopIndex = 0;
-  const stop = allStopsFlat[currentStopIndex];
-  map.flyTo([stop.lat, stop.lng], 17, {duration:0.8});
-
-  if (isFullscreen) {
-    showBottomSheet(stop);
-  } else {
-    const card = document.getElementById(`card-${stop.id}`);
-    if (card) {
-      card.scrollIntoView({behavior:'smooth', block:'start'});
-      card.classList.add('highlight');
-      setTimeout(() => card.classList.remove('highlight'), 1200);
-    }
-  }
-
+  if(currentStopIndex>=allStopsFlat.length)currentStopIndex=0;
+  const stop=allStopsFlat[currentStopIndex];
+  map.flyTo([stop.lat,stop.lng],17,{duration:0.8});
+  if(isFullscreen){showBottomSheet(stop);}
+  else{const card=document.getElementById(`card-${stop.id}`);if(card){card.scrollIntoView({behavior:'smooth',block:'start'});card.classList.add('highlight');setTimeout(()=>card.classList.remove('highlight'),1200);}}
   currentStopIndex++;
-  if (currentStopIndex < allStopsFlat.length) {
-    document.getElementById('nextStopLabel').textContent = allStopsFlat[currentStopIndex].name.substring(0,20);
-  } else {
-    document.getElementById('nextStopLabel').textContent = 'Start over';
-    currentStopIndex = 0;
-  }
+  if(currentStopIndex<allStopsFlat.length){document.getElementById('nextStopLabel').textContent=allStopsFlat[currentStopIndex].name.substring(0,22);}
+  else{document.getElementById('nextStopLabel').textContent='Start over';currentStopIndex=0;}
 }
 
 // =============================================
 //  INTERACTION HANDLERS
 // =============================================
 function toggleDescription(stopId) {
-  const descEl = document.getElementById(`desc-${stopId}`);
-  const expandBtn = document.querySelector(`[onclick="toggleDescription('${stopId}')"]`);
-  const expandText = document.getElementById(`expand-text-${stopId}`);
-  descEl.classList.toggle('expanded');
-  expandBtn.classList.toggle('expanded');
-  expandBtn.setAttribute('aria-expanded', descEl.classList.contains('expanded'));
-  expandText.textContent = descEl.classList.contains('expanded') ? 'Hide' : 'Details';
+  const d=document.getElementById(`desc-${stopId}`);
+  const b=document.querySelector(`[onclick="toggleDescription('${stopId}')"]`);
+  const t=document.getElementById(`expand-text-${stopId}`);
+  d.classList.toggle('expanded');b.classList.toggle('expanded');
+  b.setAttribute('aria-expanded',d.classList.contains('expanded'));
+  t.textContent=d.classList.contains('expanded')?'Hide':'Details';
 }
 
+// *** FIXED: selectAlternative now updates title, tagline, contact, Google Maps link ***
 function selectAlternative(stopId, altIndex) {
-  const stop = allStopsFlat.find(s => s.id === stopId);
-  if (!stop || !stop.alternatives) return;
+  const stop = allStopsFlat.find(s=>s.id===stopId);
+  if(!stop||!stop.alternatives) return;
 
   const alt = stop.alternatives[altIndex];
-  const buttons = document.querySelectorAll(`[data-stop-id="${stopId}"] .alt-btn`);
-  buttons.forEach((btn, idx) => {
-    btn.classList.toggle('active', idx === altIndex);
-    btn.setAttribute('aria-pressed', idx === altIndex);
-  });
+  const card = document.getElementById(`card-${stopId}`);
+  if(!card) return;
 
+  // Re-render entire card content with new alternative selected
+  renderCardContent(card, stop, altIndex);
+
+  // Fly map to selected alternative
   map.flyTo([alt.lat, alt.lng], 17, {duration:0.8});
 
   // Update marker position
-  if (markerMap[stopId]) {
-    markerMap[stopId].setLatLng([alt.lat, alt.lng]);
-  }
+  if(markerMap[stopId]) markerMap[stopId].setLatLng([alt.lat, alt.lng]);
 
-  // Update contact info
-  if (stop.contact && stop.contact[alt.name]) {
-    const card = document.getElementById(`card-${stopId}`);
-    const ci = stop.contact[alt.name];
-    let html = '';
-    if (ci.phone) html += `<a href="tel:${ci.phone}" class="contact-btn call" onclick="event.stopPropagation()">&#x260E; Call</a>`;
-    if (ci.web) html += `<a href="${ci.web}" target="_blank" rel="noopener" class="contact-btn web" onclick="event.stopPropagation()">&#x1F310; Web</a>`;
-    const contactDiv = card.querySelector('div:last-child');
-    if (contactDiv) contactDiv.innerHTML = html;
-  }
-
-  // Update walking route for selected day
+  // Update walking route polyline
   updateWalkRouteForDay(stop.group);
 }
 
 function updateWalkRouteForDay(group) {
-  // Rebuild walk route from currently selected alternatives
-  if (group === 'd1') {
-    const stops = day1Stops.map(s => {
-      if (s.alternatives) {
-        const activeIdx = getActiveAltIndex(s.id);
-        return s.alternatives[activeIdx];
-      }
-      return s;
+  if(group==='d1'){
+    const coords=day1Stops.map(s=>{
+      if(s.alternatives){const i=getActiveAltIndex(s.id);return[s.alternatives[i].lat,s.alternatives[i].lng];}
+      return[s.lat,s.lng];
     });
-    const coords = stops.map(s => [s.lat, s.lng]);
     routeLines.walk1.setLatLngs(coords);
-  } else if (group === 'd2') {
-    const stops = day2Stops.map(s => {
-      if (s.alternatives) {
-        const activeIdx = getActiveAltIndex(s.id);
-        return s.alternatives[activeIdx];
-      }
-      return s;
+  } else if(group==='d2'){
+    const coords=day2Stops.map(s=>{
+      if(s.alternatives){const i=getActiveAltIndex(s.id);return[s.alternatives[i].lat,s.alternatives[i].lng];}
+      return[s.lat,s.lng];
     });
-    const coords = stops.map(s => [s.lat, s.lng]);
     routeLines.walk2.setLatLngs(coords);
   }
 }
 
 function getActiveAltIndex(stopId) {
-  const btns = document.querySelectorAll(`[data-stop-id="${stopId}"] .alt-btn`);
-  let idx = 0;
-  btns.forEach((btn, i) => { if (btn.classList.contains('active')) idx = i; });
-  return idx;
+  const btns=document.querySelectorAll(`[data-stop-id="${stopId}"] .alt-btn`);
+  let idx=0;btns.forEach((b,i)=>{if(b.classList.contains('active'))idx=i;});return idx;
 }
 
-function scrollToTop() {
-  document.querySelector('.content-pane').scrollTo({top:0, behavior:'smooth'});
-}
+function scrollToTop() { document.querySelector('.content-pane').scrollTo({top:0,behavior:'smooth'}); }
 
-document.querySelector('.content-pane').addEventListener('scroll', function() {
-  const btn = document.getElementById('backToTop');
-  btn.classList.toggle('visible', this.scrollTop > 300);
+document.querySelector('.content-pane').addEventListener('scroll',function(){
+  document.getElementById('backToTop').classList.toggle('visible',this.scrollTop>300);
 });
 
 // =============================================
 //  GPS
 // =============================================
-function toggleGPS() { gpsActive ? stopGPS() : startGPS(); }
-
-function startGPS() {
-  const gpsBtn = document.getElementById('gpsBtn');
-  const gpsStatus = document.getElementById('gpsStatus');
-  gpsBtn.disabled = true;
-  gpsStatus.textContent = 'Acquiring...';
-  gpsStatus.classList.add('active');
-
-  if ('geolocation' in navigator) {
-    gpsWatchId = navigator.geolocation.watchPosition(
-      function(pos) {
-        currentPosition = {lat:pos.coords.latitude, lng:pos.coords.longitude};
-        gpsActive = true;
-        gpsBtn.disabled = false;
-        gpsStatus.textContent = 'Live';
-        if (window.gpsMarker) map.removeLayer(window.gpsMarker);
-        window.gpsMarker = L.marker([currentPosition.lat, currentPosition.lng], {
-          icon: L.divIcon({html:'<div class="gps-dot"></div>', iconSize:[20,20], iconAnchor:[10,10], className:'gps-marker'})
-        }).addTo(map);
-        map.setView([currentPosition.lat, currentPosition.lng], map.getZoom());
-        if (navigationActive && navigationRoute) updateNavigation();
-      },
-      function(err) { gpsBtn.disabled = false; gpsStatus.textContent = 'Error'; },
-      {enableHighAccuracy:true, timeout:10000, maximumAge:0}
-    );
-  } else { gpsBtn.disabled = false; gpsStatus.textContent = 'Not supported'; }
+function toggleGPS(){gpsActive?stopGPS():startGPS();}
+function startGPS(){
+  const b=document.getElementById('gpsBtn'),s=document.getElementById('gpsStatus');
+  b.disabled=true;s.textContent='Acquiring...';s.classList.add('active');
+  if('geolocation' in navigator){
+    gpsWatchId=navigator.geolocation.watchPosition(p=>{
+      currentPosition={lat:p.coords.latitude,lng:p.coords.longitude};
+      gpsActive=true;b.disabled=false;s.textContent='Live';
+      if(window.gpsMarker)map.removeLayer(window.gpsMarker);
+      window.gpsMarker=L.marker([currentPosition.lat,currentPosition.lng],{icon:L.divIcon({html:'<div class="gps-dot"></div>',iconSize:[20,20],iconAnchor:[10,10],className:'gps-marker'})}).addTo(map);
+      map.setView([currentPosition.lat,currentPosition.lng],map.getZoom());
+      if(navigationActive&&navigationRoute)updateNavigation();
+    },e=>{b.disabled=false;s.textContent='Error';},{enableHighAccuracy:true,timeout:10000,maximumAge:0});
+  }else{b.disabled=false;s.textContent='Not supported';}
 }
-
-function stopGPS() {
-  if (gpsWatchId !== null) { navigator.geolocation.clearWatch(gpsWatchId); gpsWatchId = null; }
-  if (window.gpsMarker) { map.removeLayer(window.gpsMarker); window.gpsMarker = null; }
-  gpsActive = false;
-  document.getElementById('gpsBtn').disabled = false;
-  const gs = document.getElementById('gpsStatus');
-  gs.classList.remove('active');
-  gs.textContent = '';
+function stopGPS(){
+  if(gpsWatchId!==null){navigator.geolocation.clearWatch(gpsWatchId);gpsWatchId=null;}
+  if(window.gpsMarker){map.removeLayer(window.gpsMarker);window.gpsMarker=null;}
+  gpsActive=false;document.getElementById('gpsBtn').disabled=false;
+  const s=document.getElementById('gpsStatus');s.classList.remove('active');s.textContent='';
 }
 
 // =============================================
 //  NAVIGATION (OSRM)
 // =============================================
-function formatStep(step) {
-  const m = step.maneuver;
-  let i = '';
-  switch(m.type) {
-    case 'depart': i='Start driving'; break;
-    case 'arrive': i='You have arrived'; break;
-    case 'turn': i=`Turn ${m.modifier||''}`; break;
-    case 'new name': case 'continue': i=`Continue ${m.modifier||'straight'}`; break;
-    case 'merge': i=`Merge ${m.modifier||''}`; break;
-    case 'fork': i=`Take ${m.modifier||''} fork`; break;
-    case 'roundabout': case 'rotary': i=`Roundabout exit ${m.exit||''}`; break;
-    case 'end of road': i=`Turn ${m.modifier||''}`; break;
-    default: i=m.type+(m.modifier?` ${m.modifier}`:'');
+function formatStep(step){const m=step.maneuver;let i='';switch(m.type){case'depart':i='Start driving';break;case'arrive':i='You have arrived';break;case'turn':i=`Turn ${m.modifier||''}`;break;case'new name':case'continue':i=`Continue ${m.modifier||'straight'}`;break;case'merge':i=`Merge ${m.modifier||''}`;break;case'fork':i=`Take ${m.modifier||''} fork`;break;case'roundabout':case'rotary':i=`Roundabout exit ${m.exit||''}`;break;case'end of road':i=`Turn ${m.modifier||''}`;break;default:i=m.type+(m.modifier?` ${m.modifier}`:'');}if(step.name)i+=` onto ${step.name}`;return i;}
+function formatDist(m){return m<1000?`${Math.round(m)} m`:`${(m/1000).toFixed(1)} km`;}
+
+async function navigateToStop(stopId){
+  const stop=allStopsFlat.find(s=>s.id===stopId);if(!stop)return;
+  // Use the currently selected alternative's coordinates
+  const card=document.getElementById(`card-${stopId}`);
+  let lat=stop.lat,lng=stop.lng;
+  if(stop.alternatives){
+    const idx=getActiveAltIndex(stopId);
+    lat=stop.alternatives[idx].lat;lng=stop.alternatives[idx].lng;
   }
-  if (step.name) i += ` onto ${step.name}`;
-  return i;
-}
 
-function formatDist(m) { return m<1000 ? `${Math.round(m)} m` : `${(m/1000).toFixed(1)} km`; }
-
-async function navigateToStop(stopId) {
-  const stop = allStopsFlat.find(s => s.id === stopId);
-  if (!stop) return;
-
-  if (!currentPosition) {
-    startGPS();
-    map.flyTo([stop.lat, stop.lng], 14, {duration:.8});
-    const navPanel = document.getElementById('navPanel');
-    document.getElementById('navDestination').textContent = stop.name;
-    document.getElementById('navInfo').style.display = 'none';
-    const nl = document.getElementById('navLoading');
-    nl.style.display = 'block';
-    nl.textContent = 'Waiting for GPS...';
-    navPanel.classList.add('active');
-    currentNavStopId = stopId;
-
-    const wait = setInterval(() => {
-      if (currentPosition) { clearInterval(wait); fetchAndShowRoute(stop); }
-    }, 500);
-    setTimeout(() => { clearInterval(wait); if (!currentPosition) { nl.textContent='Could not get GPS.'; setTimeout(()=>{if(!currentPosition)cancelNavigation()},2000); } }, 15000);
+  if(!currentPosition){
+    startGPS();map.flyTo([lat,lng],14,{duration:.8});
+    const np=document.getElementById('navPanel');
+    document.getElementById('navDestination').textContent=stop.name;
+    document.getElementById('navInfo').style.display='none';
+    const nl=document.getElementById('navLoading');nl.style.display='block';nl.textContent='Waiting for GPS...';
+    np.classList.add('active');currentNavStopId=stopId;
+    const w=setInterval(()=>{if(currentPosition){clearInterval(w);fetchAndShowRoute(lat,lng,stop.name);}},500);
+    setTimeout(()=>{clearInterval(w);if(!currentPosition){nl.textContent='Could not get GPS.';setTimeout(()=>{if(!currentPosition)cancelNavigation();},2000);}},15000);
     return;
   }
-
-  currentNavStopId = stopId;
-  if (navigationMarker) { map.removeLayer(navigationMarker); navigationMarker = null; }
-  const navPanel = document.getElementById('navPanel');
-  document.getElementById('navDestination').textContent = stop.name;
-  document.getElementById('navInfo').style.display = 'none';
-  document.getElementById('navSteps').style.display = 'none';
-  const nl = document.getElementById('navLoading');
-  nl.style.display = 'block';
-  nl.textContent = 'Fetching route\u2026';
-  navPanel.classList.add('active');
-  await fetchAndShowRoute(stop);
+  currentNavStopId=stopId;
+  if(navigationMarker){map.removeLayer(navigationMarker);navigationMarker=null;}
+  const np=document.getElementById('navPanel');
+  document.getElementById('navDestination').textContent=stop.name;
+  document.getElementById('navInfo').style.display='none';
+  document.getElementById('navSteps').style.display='none';
+  const nl=document.getElementById('navLoading');nl.style.display='block';nl.textContent='Fetching route\u2026';
+  np.classList.add('active');
+  await fetchAndShowRoute(lat,lng,stop.name);
 }
 
-async function fetchAndShowRoute(stop) {
-  const ni = document.getElementById('navInfo');
-  const nl = document.getElementById('navLoading');
-  const ns = document.getElementById('navSteps');
-
-  try {
-    const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${currentPosition.lng},${currentPosition.lat};${stop.lng},${stop.lat}?overview=full&geometries=geojson&steps=true`);
-    const data = await res.json();
-
-    if (data.code === 'Ok' && data.routes.length > 0) {
-      navigationRoute = data;
-      navigationActive = true;
-      const coords = data.routes[0].geometry.coordinates.map(c => [c[1],c[0]]);
-      if (navigationMarker) map.removeLayer(navigationMarker);
-      navigationMarker = L.polyline(coords, {color:'#db2777', weight:5, opacity:.85, lineCap:'round', lineJoin:'round'}).addTo(map);
-
-      document.getElementById('navDistance').textContent = `${(data.routes[0].distance/1000).toFixed(1)} km`;
-      document.getElementById('navTime').textContent = `~${Math.round(data.routes[0].duration/60)} min`;
-
-      let html = '';
-      data.routes[0].legs[0].steps.forEach((step,i) => {
-        if (step.maneuver.type==='depart'||step.maneuver.type==='arrive'||step.distance>50) {
-          html += `<div class="nav-step"><div class="nav-step-icon">${i+1}</div><div class="nav-step-text">${formatStep(step)}</div><div class="nav-step-dist">${formatDist(step.distance)}</div></div>`;
-        }
-      });
-      ns.innerHTML = html;
-      ns.style.display = 'block';
-      nl.style.display = 'none';
-      ni.style.display = 'flex';
+async function fetchAndShowRoute(destLat,destLng,name){
+  const ni=document.getElementById('navInfo'),nl=document.getElementById('navLoading'),ns=document.getElementById('navSteps');
+  try{
+    const res=await fetch(`https://router.project-osrm.org/route/v1/driving/${currentPosition.lng},${currentPosition.lat};${destLng},${destLat}?overview=full&geometries=geojson&steps=true`);
+    const data=await res.json();
+    if(data.code==='Ok'&&data.routes.length>0){
+      navigationRoute=data;navigationActive=true;
+      const coords=data.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
+      if(navigationMarker)map.removeLayer(navigationMarker);
+      navigationMarker=L.polyline(coords,{color:'#db2777',weight:5,opacity:.85,lineCap:'round',lineJoin:'round'}).addTo(map);
+      document.getElementById('navDistance').textContent=`${(data.routes[0].distance/1000).toFixed(1)} km`;
+      document.getElementById('navTime').textContent=`~${Math.round(data.routes[0].duration/60)} min`;
+      let html='';data.routes[0].legs[0].steps.forEach((step,i)=>{if(step.maneuver.type==='depart'||step.maneuver.type==='arrive'||step.distance>50){html+=`<div class="nav-step"><div class="nav-step-icon">${i+1}</div><div class="nav-step-text">${formatStep(step)}</div><div class="nav-step-dist">${formatDist(step.distance)}</div></div>`;}});
+      ns.innerHTML=html;ns.style.display='block';nl.style.display='none';ni.style.display='flex';
       map.fitBounds(L.latLngBounds(coords).pad(0.08));
-    } else {
-      nl.textContent = 'No route found.';
-      setTimeout(cancelNavigation, 2500);
-    }
-  } catch(e) {
-    nl.textContent = 'Route unavailable.';
-    setTimeout(cancelNavigation, 2500);
-  }
+    }else{nl.textContent='No route found.';setTimeout(cancelNavigation,2500);}
+  }catch(e){nl.textContent='Route unavailable.';setTimeout(cancelNavigation,2500);}
 }
 
-async function updateNavigation() {
-  if (!navigationActive || !currentNavStopId || !currentPosition) return;
-  const stop = allStopsFlat.find(s => s.id === currentNavStopId);
-  if (stop) await fetchAndShowRoute(stop);
+async function updateNavigation(){
+  if(!navigationActive||!currentNavStopId||!currentPosition)return;
+  const stop=allStopsFlat.find(s=>s.id===currentNavStopId);if(!stop)return;
+  let lat=stop.lat,lng=stop.lng;
+  if(stop.alternatives){const idx=getActiveAltIndex(stop.id);lat=stop.alternatives[idx].lat;lng=stop.alternatives[idx].lng;}
+  await fetchAndShowRoute(lat,lng,stop.name);
 }
 
-function cancelNavigation() {
-  navigationActive = false;
-  currentNavStopId = null;
-  if (navigationMarker) { map.removeLayer(navigationMarker); navigationMarker = null; }
-  navigationRoute = null;
-  if (navUpdateInterval) { clearInterval(navUpdateInterval); navUpdateInterval = null; }
-  const np = document.getElementById('navPanel');
-  np.classList.remove('active');
-  document.getElementById('navLoading').style.display = 'none';
-  document.getElementById('navSteps').style.display = 'none';
-  document.getElementById('navSteps').innerHTML = '';
-  document.getElementById('navInfo').style.display = 'flex';
+function cancelNavigation(){
+  navigationActive=false;currentNavStopId=null;
+  if(navigationMarker){map.removeLayer(navigationMarker);navigationMarker=null;}
+  navigationRoute=null;if(navUpdateInterval){clearInterval(navUpdateInterval);navUpdateInterval=null;}
+  document.getElementById('navPanel').classList.remove('active');
+  document.getElementById('navLoading').style.display='none';
+  document.getElementById('navSteps').style.display='none';
+  document.getElementById('navSteps').innerHTML='';
+  document.getElementById('navInfo').style.display='flex';
   map.fitBounds(L.latLngBounds(allPoints).pad(0.05));
 }
 
 // =============================================
-//  WEATHER (Open-Meteo)
+//  WEATHER
 // =============================================
-async function loadWeather() {
-  try {
-    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=46.67&longitude=11.16&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode&timezone=Europe/Rome&start_date=2026-04-19&end_date=2026-04-21');
-    const data = await res.json();
-    if (data.daily) {
-      const dayNames = ['Sun Apr 19','Mon Apr 20','Tue Apr 21'];
-      const icons = {0:'\u2600\uFE0F',1:'\u26C5',2:'\u26C5',3:'\u2601\uFE0F',45:'\uD83C\uDF2B\uFE0F',48:'\uD83C\uDF2B\uFE0F',51:'\uD83C\uDF26\uFE0F',53:'\uD83C\uDF27\uFE0F',55:'\uD83C\uDF27\uFE0F',61:'\uD83C\uDF27\uFE0F',63:'\uD83C\uDF27\uFE0F',65:'\uD83C\uDF27\uFE0F',71:'\u2744\uFE0F',73:'\u2744\uFE0F',75:'\u2744\uFE0F',80:'\uD83C\uDF26\uFE0F',81:'\uD83C\uDF27\uFE0F',82:'\u26C8\uFE0F',95:'\u26C8\uFE0F'};
-      const descMap = {0:'Clear sky',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Moderate rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Light showers',81:'Showers',82:'Heavy showers',95:'Thunderstorm'};
-
-      let html = '';
-      for (let i = 0; i < 3; i++) {
-        const wc = data.daily.weathercode[i];
-        html += `<div class="weather-day">
-          <div class="weather-day-name">${dayNames[i]}</div>
-          <div class="weather-icon">${icons[wc]||'\u26C5'}</div>
-          <div class="weather-temp">${Math.round(data.daily.temperature_2m_min[i])}\u00b0 / ${Math.round(data.daily.temperature_2m_max[i])}\u00b0</div>
-          <div class="weather-desc">${descMap[wc]||'Variable'}</div>
-          ${data.daily.precipitation_sum[i] > 0 ? `<div class="weather-desc">\uD83D\uDCA7 ${data.daily.precipitation_sum[i]}mm</div>` : ''}
-        </div>`;
-      }
-      document.getElementById('weatherRow').innerHTML = html;
+async function loadWeather(){
+  try{
+    const res=await fetch('https://api.open-meteo.com/v1/forecast?latitude=46.67&longitude=11.16&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode&timezone=Europe/Rome&start_date=2026-04-19&end_date=2026-04-21');
+    const data=await res.json();
+    if(data.daily){
+      const dn=['Sun Apr 19','Mon Apr 20','Tue Apr 21'];
+      const ic={0:'\u2600\uFE0F',1:'\u26C5',2:'\u26C5',3:'\u2601\uFE0F',45:'\uD83C\uDF2B\uFE0F',48:'\uD83C\uDF2B\uFE0F',51:'\uD83C\uDF26\uFE0F',53:'\uD83C\uDF27\uFE0F',55:'\uD83C\uDF27\uFE0F',61:'\uD83C\uDF27\uFE0F',63:'\uD83C\uDF27\uFE0F',65:'\uD83C\uDF27\uFE0F',80:'\uD83C\uDF26\uFE0F',81:'\uD83C\uDF27\uFE0F',82:'\u26C8\uFE0F',95:'\u26C8\uFE0F'};
+      const dc={0:'Clear sky',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',51:'Light drizzle',53:'Drizzle',61:'Light rain',63:'Moderate rain',65:'Heavy rain',80:'Light showers',81:'Showers',82:'Heavy showers',95:'Thunderstorm'};
+      let h='';for(let i=0;i<3;i++){const wc=data.daily.weathercode[i];h+=`<div class="weather-day"><div class="weather-day-name">${dn[i]}</div><div class="weather-icon">${ic[wc]||'\u26C5'}</div><div class="weather-temp">${Math.round(data.daily.temperature_2m_min[i])}\u00b0/${Math.round(data.daily.temperature_2m_max[i])}\u00b0</div><div class="weather-desc">${dc[wc]||'Variable'}</div>${data.daily.precipitation_sum[i]>0?`<div class="weather-desc">\uD83D\uDCA7 ${data.daily.precipitation_sum[i]}mm</div>`:''}</div>`;}
+      document.getElementById('weatherRow').innerHTML=h;
     }
-  } catch(e) {
-    document.getElementById('weatherRow').innerHTML = '<div style="color:#9d174d;font-size:.85rem;padding:8px">Weather data unavailable \u2014 check closer to your trip date.</div>';
-  }
+  }catch(e){document.getElementById('weatherRow').innerHTML='<div style="color:#9d174d;font-size:.85rem;padding:8px">Weather data unavailable \u2014 check closer to trip.</div>';}
 }
 
 // =============================================
 //  CHECKLIST
 // =============================================
-function renderChecklist() {
-  const saved = JSON.parse(localStorage.getItem('merano-checklist') || '{}');
-  const ul = document.getElementById('checklistItems');
-  ul.innerHTML = '';
-  checklistData.forEach((item, i) => {
-    const li = document.createElement('li');
-    if (saved[i]) li.classList.add('done');
-    li.innerHTML = `<div class="check-box ${saved[i]?'checked':''}" onclick="toggleCheck(${i},this)"></div><span>${item}</span>`;
+function renderChecklist(){
+  const saved=JSON.parse(localStorage.getItem('merano-checklist')||'{}');
+  const ul=document.getElementById('checklistItems');ul.innerHTML='';
+  checklistData.forEach((item,i)=>{
+    const li=document.createElement('li');if(saved[i])li.classList.add('done');
+    li.innerHTML=`<div class="check-box ${saved[i]?'checked':''}" onclick="toggleCheck(${i},this)"></div><span>${item}</span>`;
     ul.appendChild(li);
   });
 }
-
-function toggleCheck(idx, el) {
-  const saved = JSON.parse(localStorage.getItem('merano-checklist') || '{}');
-  saved[idx] = !saved[idx];
-  localStorage.setItem('merano-checklist', JSON.stringify(saved));
-  el.classList.toggle('checked');
-  el.parentElement.classList.toggle('done');
+function toggleCheck(idx,el){
+  const saved=JSON.parse(localStorage.getItem('merano-checklist')||'{}');
+  saved[idx]=!saved[idx];localStorage.setItem('merano-checklist',JSON.stringify(saved));
+  el.classList.toggle('checked');el.parentElement.classList.toggle('done');
 }
 
 // =============================================
 //  CONTEXTUAL HEADER
 // =============================================
-function updateContextualHeader() {
-  const h = document.getElementById('contextualHeader');
-  const now = new Date();
-  const hour = now.getHours();
-  const month = now.getMonth() + 1;
-  const day = now.getDate();
-  const year = now.getFullYear();
-
-  let greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-
-  if (year === 2026 && month === 4) {
-    if (day === 19) { h.textContent = `${greeting} \u2014 Day 1`; return; }
-    if (day === 20) { h.textContent = `${greeting} \u2014 Day 2`; return; }
-    if (day === 21) { h.textContent = `${greeting} \u2014 Day 3`; return; }
-  }
-
-  h.textContent = 'Merano Getaway';
+function updateContextualHeader(){
+  const h=document.getElementById('contextualHeader');
+  const now=new Date();const hr=now.getHours(),mo=now.getMonth()+1,d=now.getDate(),y=now.getFullYear();
+  let g=hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
+  if(y===2026&&mo===4){if(d===19){h.textContent=`${g} \u2014 Day 1`;return;}if(d===20){h.textContent=`${g} \u2014 Day 2`;return;}if(d===21){h.textContent=`${g} \u2014 Day 3`;return;}}
+  h.textContent='Merano Getaway';
 }
 
 // =============================================
 //  RENDER ALL
 // =============================================
-day1Stops.forEach((stop, i) => { createMarker(stop); createCard(stop, i > 0 ? day1Stops[i-1] : null); });
-day2Stops.forEach((stop, i) => { createMarker(stop); createCard(stop, i > 0 ? day2Stops[i-1] : null); });
-day3Stops.forEach((stop, i) => { createMarker(stop); createCard(stop, i > 0 ? day3Stops[i-1] : null); });
+day1Stops.forEach(s=>{createMarker(s);createCard(s);});
+day2Stops.forEach(s=>{createMarker(s);createCard(s);});
+day3Stops.forEach(s=>{createMarker(s);createCard(s);});
 
-// Set initial next stop label
-if (allStopsFlat.length > 0) {
-  document.getElementById('nextStopLabel').textContent = allStopsFlat[0].name.substring(0,20);
-}
+if(allStopsFlat.length>0)document.getElementById('nextStopLabel').textContent=allStopsFlat[0].name.substring(0,22);
 
-// Init
-loadWeather();
-renderChecklist();
-updateContextualHeader();
+loadWeather();renderChecklist();updateContextualHeader();
 
-// Service worker for offline
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('data:text/javascript,console.log("PWA ready")').catch(()=>{});
-}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('data:text/javascript,console.log("PWA ready")').catch(()=>{});}
 </script>
 </body>
 </html>
