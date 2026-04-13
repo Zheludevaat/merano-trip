@@ -771,7 +771,8 @@ function createMarker(stop) {
       iconSize:[32,32], iconAnchor:[16,16], className:'custom-marker'
     })
   }).addTo(map).on('click', function() {
-    map.flyTo([stop.lat,stop.lng], 17, {duration:0.8});
+    const ll = this.getLatLng();
+    map.flyTo([ll.lat,ll.lng], 17, {duration:0.8});
     if (isFullscreen) showBottomSheet(stop);
     else {
       const card = document.getElementById(`card-${stop.id}`);
@@ -862,12 +863,21 @@ let sheetState = 'hidden';
 function showBottomSheet(stop) {
   const sheet = document.getElementById('bottomSheet');
   const content = document.getElementById('sheetContent');
-  const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${stop.lat},${stop.lng}`;
+
+  // Use the currently selected alternative's data
+  const altIdx = getActiveAltIndex(stop.id);
+  const alt = (stop.alternatives && stop.alternatives[altIdx]) ? stop.alternatives[altIdx] : null;
+  const displayName = alt ? alt.name : stop.name;
+  const displayTagline = (alt && alt.tagline) ? alt.tagline : stop.tagline;
+  const displayDesc = (alt && alt.desc) ? alt.desc : stop.desc;
+  const displaySpend = (alt && alt.spend) ? alt.spend : stop.spend;
+  const currentLat = alt ? alt.lat : stop.lat;
+  const currentLng = alt ? alt.lng : stop.lng;
+  const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${currentLat},${currentLng}`;
 
   let contactHtml = '';
   if (stop.contact) {
-    const altName = stop.alternatives && stop.alternatives.length > 0 ? stop.alternatives[0].name : stop.name;
-    const ci = stop.contact[altName];
+    const ci = stop.contact[displayName];
     if (ci) {
       if (ci.phone) contactHtml += `<a href="tel:${ci.phone}" class="sheet-action-btn green">&#x260E; Call</a>`;
       if (ci.web) contactHtml += `<a href="${ci.web}" target="_blank" rel="noopener" class="sheet-action-btn amber">&#x1F310; Website</a>`;
@@ -875,15 +885,15 @@ function showBottomSheet(stop) {
   }
 
   content.innerHTML = `
-    <div class="sheet-card-title">${stop.name}</div>
-    <div class="sheet-card-tagline">${stop.tagline}</div>
-    ${stop.spend ? `<span class="card-spend">&#x23F1; ${stop.spend}</span> ` : ''}
+    <div class="sheet-card-title">${displayName}</div>
+    <div class="sheet-card-tagline">${displayTagline}</div>
+    ${displaySpend ? `<span class="card-spend">&#x23F1; ${displaySpend}</span> ` : ''}
     <div class="sheet-quick-actions">
       <button class="sheet-action-btn" onclick="navigateToStop('${stop.id}')">&#x279C; Navigate</button>
       <a href="${gmapsUrl}" target="_blank" rel="noopener" class="sheet-action-btn">&#x1F5FA; Google Maps</a>
       ${contactHtml}
     </div>
-    <div class="sheet-card-desc">${stop.desc}</div>
+    <div class="sheet-card-desc">${displayDesc}</div>
   `;
 
   sheet.classList.add('visible','half');
@@ -1089,29 +1099,29 @@ function formatDist(m){return m<1000?`${Math.round(m)} m`:`${(m/1000).toFixed(1)
 
 async function navigateToStop(stopId){
   const stop=allStopsFlat.find(s=>s.id===stopId);if(!stop)return;
-  // Use the currently selected alternative's coordinates
-  const card=document.getElementById(`card-${stopId}`);
-  let lat=stop.lat,lng=stop.lng;
+  // Use the currently selected alternative's coordinates and name
+  let lat=stop.lat,lng=stop.lng,navName=stop.name;
   if(stop.alternatives){
     const idx=getActiveAltIndex(stopId);
-    lat=stop.alternatives[idx].lat;lng=stop.alternatives[idx].lng;
+    const alt=stop.alternatives[idx];
+    lat=alt.lat;lng=alt.lng;navName=alt.name;
   }
 
   if(!currentPosition){
     startGPS();map.flyTo([lat,lng],14,{duration:.8});
     const np=document.getElementById('navPanel');
-    document.getElementById('navDestination').textContent=stop.name;
+    document.getElementById('navDestination').textContent=navName;
     document.getElementById('navInfo').style.display='none';
     const nl=document.getElementById('navLoading');nl.style.display='block';nl.textContent='Waiting for GPS...';
     np.classList.add('active');currentNavStopId=stopId;
-    const w=setInterval(()=>{if(currentPosition){clearInterval(w);fetchAndShowRoute(lat,lng,stop.name);}},500);
+    const w=setInterval(()=>{if(currentPosition){clearInterval(w);fetchAndShowRoute(lat,lng,navName);}},500);
     setTimeout(()=>{clearInterval(w);if(!currentPosition){nl.textContent='Could not get GPS.';setTimeout(()=>{if(!currentPosition)cancelNavigation();},2000);}},15000);
     return;
   }
   currentNavStopId=stopId;
   if(navigationMarker){map.removeLayer(navigationMarker);navigationMarker=null;}
   const np=document.getElementById('navPanel');
-  document.getElementById('navDestination').textContent=stop.name;
+  document.getElementById('navDestination').textContent=navName;
   document.getElementById('navInfo').style.display='none';
   document.getElementById('navSteps').style.display='none';
   const nl=document.getElementById('navLoading');nl.style.display='block';nl.textContent='Fetching route\u2026';
