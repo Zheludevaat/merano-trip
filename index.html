@@ -430,10 +430,10 @@ const day1Stops = [
     <p><b>Hotel Sittnerhof</b> (~\u20ac130\u2013170/night) \u2014 Highest rated for couples. Cosy rooms, great breakfast.</p>
     <p class="tip">Book directly on the hotel's website for better rates and extras like welcome drinks or spa access.</p>`,
     alternatives:[
-      {name:"Hotel Pollinger", lat:46.6650, lng:11.1500, tagline:"Best value. Pool, breakfast, great location.", desc:"Pool, solid breakfast, half-board available. Central."},
-      {name:"Hotel Villa Irma", lat:46.6670, lng:11.1530, tagline:"Quiet garden setting, romantic and peaceful.", desc:"Quiet garden, 7-min walk to center. Romantic."},
-      {name:"Villa Bavaria", lat:46.6640, lng:11.1505, tagline:"Palm trees in garden, peaceful neighbourhood.", desc:"Palm trees, peaceful neighbourhood feel."},
-      {name:"Hotel Sittnerhof", lat:46.6695, lng:11.1445, tagline:"Highest rated for couples in Merano.", desc:"Highest rated for couples. Cosy rooms."}
+      {name:"Hotel Pollinger", lat:46.6650, lng:11.1500, tagline:"Best value. Pool, breakfast, great location.", desc:"Pool, solid breakfast, half-board available. Central.", spend:"~30 min", dist:"130 km from Samnaun (~2 hrs)"},
+      {name:"Hotel Villa Irma", lat:46.6670, lng:11.1530, tagline:"Quiet garden setting, romantic and peaceful.", desc:"Quiet garden, 7-min walk to center. Romantic.", spend:"~30 min", dist:"130 km from Samnaun (~2 hrs)"},
+      {name:"Villa Bavaria", lat:46.6640, lng:11.1505, tagline:"Palm trees in garden, peaceful neighbourhood.", desc:"Palm trees, peaceful neighbourhood feel.", spend:"~30 min", dist:"130 km from Samnaun (~2 hrs)"},
+      {name:"Hotel Sittnerhof", lat:46.6695, lng:11.1445, tagline:"Highest rated for couples in Merano.", desc:"Highest rated for couples. Cosy rooms.", spend:"~30 min", dist:"130 km from Samnaun (~2 hrs)"}
     ],
     contact:{
       "Hotel Pollinger":{phone:"+39 0473 448553",web:"https://www.pollinger.it/en/hotel-pollinger.html"},
@@ -450,9 +450,9 @@ const day1Stops = [
     desc:`<p>Laubengasse is 400 metres of covered arcades built in the 13th century \u2014 lined with boutiques, delis, and caf\u00e9s. Look up at the facades ranging from Gothic to Art Nouveau with ornate bay windows.</p>
     <p>Walk through to the Passeirer Gate (Passeiertor), a perfectly preserved 13th-century city gate at the eastern end.</p>`,
     alternatives:[
-      {name:"Laubengasse (Via Portici)", lat:46.6723, lng:11.1626, tagline:"700 years of arcade shopping, Gothic to Art Nouveau.", desc:"Medieval arcade street, boutiques, delis, cafes."},
-      {name:"Castello Principesco", lat:46.6720, lng:11.1565, tagline:"15th-century prince\u2019s castle in the town center.", desc:"Quick 30-min visit. Restored medieval interiors."},
-      {name:"Duomo di Merano", lat:46.6718, lng:11.1640, tagline:"Gothic cathedral with a 83m bell tower.", desc:"14th-century Gothic church, beautiful interior."}
+      {name:"Laubengasse (Via Portici)", lat:46.6723, lng:11.1626, tagline:"700 years of arcade shopping, Gothic to Art Nouveau.", desc:"Medieval arcade street, boutiques, delis, cafes.", spend:"~1 hr", dist:"5\u201310 min walk from hotel"},
+      {name:"Castello Principesco", lat:46.6720, lng:11.1565, tagline:"15th-century prince\u2019s castle in the town center.", desc:"Quick 30-min visit. Restored medieval interiors.", spend:"~30 min", dist:"In town center"},
+      {name:"Duomo di Merano", lat:46.6718, lng:11.1640, tagline:"Gothic cathedral with a 83m bell tower.", desc:"14th-century Gothic church, beautiful interior.", spend:"~20 min", dist:"In town center"}
     ]
   },
   {
@@ -462,9 +462,9 @@ const day1Stops = [
     lat:46.6695, lng:11.1657, group:"d1",
     desc:`<p>Try a Melange (local cappuccino) and Apfelstrudel or Buchweizentorte (buckwheat cake with lingonberry jam). Stadt Caf\u00e9 is great for people-watching; Caf\u00e9 Darling has outdoor seats overlooking the Passer river.</p>`,
     alternatives:[
-      {name:"Caf\u00e9 Darling", lat:46.6690, lng:11.1650, tagline:"Outdoor terrace overlooking the Passer river.", desc:"Classic spot on the Winterpromenade, outdoor seats."},
-      {name:"Stadt Caf\u00e9 Citt\u00e0", lat:46.6715, lng:11.1620, tagline:"Right on the main drag, great people-watching.", desc:"On Rennweg, perfect for watching the world go by."},
-      {name:"Caf\u00e9 Wandelhalle", lat:46.6695, lng:11.1657, tagline:"Inside the beautiful Kurhaus, elegant setting.", desc:"Elegant cafe inside the Art Nouveau Kurhaus."}
+      {name:"Caf\u00e9 Darling", lat:46.6690, lng:11.1650, tagline:"Outdoor terrace overlooking the Passer river.", desc:"Classic spot on the Winterpromenade, outdoor seats.", spend:"~45 min", dist:"On the Winterpromenade"},
+      {name:"Stadt Caf\u00e9 Citt\u00e0", lat:46.6715, lng:11.1620, tagline:"Right on the main drag, great people-watching.", desc:"On Rennweg, perfect for watching the world go by.", spend:"~45 min", dist:"On Rennweg, main street"},
+      {name:"Caf\u00e9 Wandelhalle", lat:46.6695, lng:11.1657, tagline:"Inside the beautiful Kurhaus, elegant setting.", desc:"Elegant cafe inside the Art Nouveau Kurhaus.", spend:"~45 min", dist:"Inside the Kurhaus"}
     ]
   },
   {
@@ -476,9 +476,9 @@ const day1Stops = [
     <p>Pass the Powder Tower (Pulverturm) and climb to the top for the single best viewpoint in Merano. On a clear day you'll see the Texelgruppe mountains and the Etschtal valley stretching toward Bolzano.</p>
     <p>Flat and paved, completely manageable in regular shoes.</p>`,
     alternatives:[
-      {name:"Tappeiner Promenade", lat:46.6755, lng:11.1520, tagline:"4 km panoramic trail \u2014 the must-do walk.", desc:"Elevated trail with Mediterranean plants and mountain views."},
-      {name:"Gilf Gorge (Gilfenklamm)", lat:46.6770, lng:11.1460, tagline:"Dramatic narrow gorge at the start of Tappeiner.", desc:"Short, dramatic gorge walk. Very photogenic."},
-      {name:"Kurpromenade (riverside)", lat:46.6685, lng:11.1560, tagline:"Elegant riverside walkway with palm trees.", desc:"Flat riverside walk, Kurhaus views, palm trees and flowers."}
+      {name:"Tappeiner Promenade", lat:46.6755, lng:11.1520, tagline:"4 km panoramic trail \u2014 the must-do walk.", desc:"Elevated trail with Mediterranean plants and mountain views.", spend:"~1\u20131.5 hrs", dist:"10 min walk uphill from old town"},
+      {name:"Gilf Gorge (Gilfenklamm)", lat:46.6770, lng:11.1460, tagline:"Dramatic narrow gorge at the start of Tappeiner.", desc:"Short, dramatic gorge walk. Very photogenic.", spend:"~30\u201345 min", dist:"At the start of Tappeiner path"},
+      {name:"Kurpromenade (riverside)", lat:46.6685, lng:11.1560, tagline:"Elegant riverside walkway with palm trees.", desc:"Flat riverside walk, Kurhaus views, palm trees and flowers.", spend:"~45 min", dist:"Along the Passer river, flat"}
     ]
   },
   {
@@ -499,10 +499,10 @@ const day1Stops = [
     <p><b>Sigmund</b> \u2014 Modern South Tyrolean with creative twists, stylish ambiance.</p>
     <p class="tip">Order: Speckbrettl to start. Mains: Schlutzkrapfen or Spinatkn\u00f6del. Drink: Lagrein (red) or Gew\u00fcrztraminer (white). Dessert: Apfelstrudel with vanilla sauce.</p>`,
     alternatives:[
-      {name:"R\u00f6ssl Bianco", lat:46.6717, lng:11.1627, tagline:"Cozy inn, refined Tyrolean classics, good wine.", desc:"Daily-changing menus, refined Tyrolean classics."},
-      {name:"R\u00f6merkeller", lat:46.6713, lng:11.1632, tagline:"Atmospheric vaulted cellar, rustic charm.", desc:"Vaulted cellar, great for Speckkn\u00f6del and Schlutzkrapfen."},
-      {name:"Sigmund", lat:46.6708, lng:11.1575, tagline:"Modern South Tyrolean, creative and stylish.", desc:"Creative modern takes on Tyrolean classics."},
-      {name:"Stube Verdinser Hof", lat:46.6870, lng:11.1890, tagline:"Schenna (~10 min drive). Most authentic Stube.", desc:"Wood-panelled dining, candlelight. Worth the detour."}
+      {name:"R\u00f6ssl Bianco", lat:46.6717, lng:11.1627, tagline:"Cozy inn, refined Tyrolean classics, good wine.", desc:"Daily-changing menus, refined Tyrolean classics.", spend:"~1.5 hrs", dist:"In the old town"},
+      {name:"R\u00f6merkeller", lat:46.6713, lng:11.1632, tagline:"Atmospheric vaulted cellar, rustic charm.", desc:"Vaulted cellar, great for Speckkn\u00f6del and Schlutzkrapfen.", spend:"~1.5 hrs", dist:"In the old town"},
+      {name:"Sigmund", lat:46.6708, lng:11.1575, tagline:"Modern South Tyrolean, creative and stylish.", desc:"Creative modern takes on Tyrolean classics.", spend:"~1.5 hrs", dist:"In the old town"},
+      {name:"Stube Verdinser Hof", lat:46.6870, lng:11.1890, tagline:"Schenna (~10 min drive). Most authentic Stube.", desc:"Wood-panelled dining, candlelight. Worth the detour.", spend:"~2 hrs (incl. drive)", dist:"Schenna, ~10 min drive"}
     ],
     contact:{
       "R\u00f6ssl Bianco":{phone:"+39 0473 237440",web:"https://www.roesslbianco.it"},
@@ -533,9 +533,9 @@ const day2Stops = [
     lat:46.6700, lng:11.1540, group:"d2",
     desc:`<p>If your hotel includes breakfast, enjoy it. Otherwise, Caf\u00e9 Villa Bux is a local favourite with great coffee and a proper breakfast spread.</p>`,
     alternatives:[
-      {name:"Hotel breakfast", lat:46.6650, lng:11.1500, tagline:"Included with most hotels. Easy start.", desc:"No rush, enjoy the hotel spread."},
-      {name:"Caf\u00e9 Villa Bux", lat:46.6700, lng:11.1540, tagline:"Local favourite, relaxed vibe, great coffee.", desc:"Relaxed vibe, excellent breakfast."},
-      {name:"Caf\u00e9 Ploner", lat:46.6710, lng:11.1585, tagline:"Excellent pastries, cozy atmosphere.", desc:"Famous pastries and coffee."}
+      {name:"Hotel breakfast", lat:46.6650, lng:11.1500, tagline:"Included with most hotels. Easy start.", desc:"No rush, enjoy the hotel spread.", spend:"~45 min", dist:"At the hotel"},
+      {name:"Caf\u00e9 Villa Bux", lat:46.6700, lng:11.1540, tagline:"Local favourite, relaxed vibe, great coffee.", desc:"Relaxed vibe, excellent breakfast.", spend:"~45 min", dist:"5 min walk from center"},
+      {name:"Caf\u00e9 Ploner", lat:46.6710, lng:11.1585, tagline:"Excellent pastries, cozy atmosphere.", desc:"Famous pastries and coffee.", spend:"~45 min", dist:"In the old town"}
     ]
   },
   {
@@ -560,10 +560,10 @@ const day2Stops = [
     <p><b>Pizzeria Sausalitos</b> \u2014 Excellent wood-fired pizza, relaxed spot.</p>
     <p><b>Bistro-Bar Flora</b> \u2014 Lighter fare, beautiful outdoor terrace.</p>`,
     alternatives:[
-      {name:"Gasthaus Forsterbr\u00e4u", lat:46.6718, lng:11.1590, tagline:"Historic brewery, hearty Tyrolean food and Forst beer.", desc:"Schnitzel, K\u00e4sesp\u00e4tzle, local Forst beer on tap."},
-      {name:"Pizzeria Sausalitos", lat:46.6715, lng:11.1595, tagline:"Excellent wood-fired pizza, relaxed.", desc:"Great pizza in a casual setting."},
-      {name:"Bistro-Bar Flora", lat:46.6690, lng:11.1575, tagline:"Light fare, beautiful outdoor terrace.", desc:"Lighter dishes, lovely terrace by the river."},
-      {name:"Deli on Laubengasse", lat:46.6723, lng:11.1626, tagline:"Quick grab & go from a local deli.", desc:"Panino or local specialties to go."}
+      {name:"Gasthaus Forsterbr\u00e4u", lat:46.6718, lng:11.1590, tagline:"Historic brewery, hearty Tyrolean food and Forst beer.", desc:"Schnitzel, K\u00e4sesp\u00e4tzle, local Forst beer on tap.", spend:"~1 hr", dist:"Corso Libert\u00e0, 5 min walk"},
+      {name:"Pizzeria Sausalitos", lat:46.6715, lng:11.1595, tagline:"Excellent wood-fired pizza, relaxed.", desc:"Great pizza in a casual setting.", spend:"~45 min", dist:"Near old town"},
+      {name:"Bistro-Bar Flora", lat:46.6690, lng:11.1575, tagline:"Light fare, beautiful outdoor terrace.", desc:"Lighter dishes, lovely terrace by the river.", spend:"~45 min", dist:"By the river"},
+      {name:"Deli on Laubengasse", lat:46.6723, lng:11.1626, tagline:"Quick grab & go from a local deli.", desc:"Panino or local specialties to go.", spend:"~15 min", dist:"On Laubengasse"}
     ],
     contact:{
       "Gasthaus Forsterbr\u00e4u":{phone:"+39 0473 236535",web:"https://www.forst.it"},
@@ -581,9 +581,9 @@ const day2Stops = [
     <p>Walk there via Sissi's Path from town \u2014 a gentle trail dotted with plaques about Empress Elisabeth of Austria (Sissi) who spent winters here in the 1870s.</p>
     <p class="tip">The panoramic viewing platform (Matteo Thun's binoculars structure) is the single best photo spot in all of Merano.</p>`,
     alternatives:[
-      {name:"Trauttmansdorff Gardens", lat:46.6596, lng:11.1841, tagline:"80+ gardens, viewing platforms \u2014 the must-do.", desc:"Crown jewel of Merano. Botanical gardens + castle museum."},
-      {name:"Sissi's Path + Gardens", lat:46.6650, lng:11.1700, tagline:"Walk to the gardens via Empress Elisabeth's trail.", desc:"Free trail from town to the gardens through greenery."},
-      {name:"Schloss Tirol (Castle Tyrol)", lat:46.6920, lng:11.1380, tagline:"The castle that gave Tyrol its name.", desc:"Historical museum, great views. ~15 min drive."}
+      {name:"Trauttmansdorff Gardens", lat:46.6596, lng:11.1841, tagline:"80+ gardens, viewing platforms \u2014 the must-do.", desc:"Crown jewel of Merano. Botanical gardens + castle museum.", spend:"~2\u20132.5 hrs", dist:"15 min walk or 5 min drive"},
+      {name:"Sissi's Path + Gardens", lat:46.6650, lng:11.1700, tagline:"Walk to the gardens via Empress Elisabeth's trail.", desc:"Free trail from town to the gardens through greenery.", spend:"~3 hrs (walk + gardens)", dist:"Starts in town center"},
+      {name:"Schloss Tirol (Castle Tyrol)", lat:46.6920, lng:11.1380, tagline:"The castle that gave Tyrol its name.", desc:"Historical museum, great views. ~15 min drive.", spend:"~1.5 hrs", dist:"~15 min drive from Merano"}
     ],
     contact:{
       "Trauttmansdorff Gardens":{phone:"+39 0473 235730",web:"https://www.trauttmansdorff.it"},
@@ -600,10 +600,10 @@ const day2Stops = [
     <p><b>Pizzeria Piazza Steinach</b> \u2014 Casual, excellent pizza in a charming piazza.</p>
     <p class="tip">Try different wines tonight! South Tyrol does excellent Pinot Noir, Schiava, and Sauvignon Blanc.</p>`,
     alternatives:[
-      {name:"Kallm\u00fcnz", lat:46.6710, lng:11.1618, tagline:"Wine bar, creative Mediterranean, courtyard.", desc:"Great wines, creative dishes, beautiful courtyard."},
-      {name:"Miil", lat:46.6708, lng:11.1568, tagline:"Fine dining in a converted mill. Splurge.", desc:"Tasting menu with local seasonal ingredients."},
-      {name:"Pizzeria Steinach", lat:46.6720, lng:11.1600, tagline:"Charming piazza, great Neapolitan pizza.", desc:"Casual, excellent pizza in a lovely square."},
-      {name:"Stube Verdinser Hof", lat:46.6870, lng:11.1890, tagline:"Schenna \u2014 if you missed it on Day 1.", desc:"Wood-panelled Stube, candlelight, authentic."}
+      {name:"Kallm\u00fcnz", lat:46.6710, lng:11.1618, tagline:"Wine bar, creative Mediterranean, courtyard.", desc:"Great wines, creative dishes, beautiful courtyard.", spend:"~1.5 hrs", dist:"Piazza della Rena, old town"},
+      {name:"Miil", lat:46.6708, lng:11.1568, tagline:"Fine dining in a converted mill. Splurge.", desc:"Tasting menu with local seasonal ingredients.", spend:"~2 hrs", dist:"In town center"},
+      {name:"Pizzeria Steinach", lat:46.6720, lng:11.1600, tagline:"Charming piazza, great Neapolitan pizza.", desc:"Casual, excellent pizza in a lovely square.", spend:"~1 hr", dist:"Piazza Steinach"},
+      {name:"Stube Verdinser Hof", lat:46.6870, lng:11.1890, tagline:"Schenna \u2014 if you missed it on Day 1.", desc:"Wood-panelled Stube, candlelight, authentic.", spend:"~2 hrs (incl. drive)", dist:"Schenna, ~10 min drive"}
     ],
     contact:{
       "Kallm\u00fcnz":{phone:"+39 0473 212438",web:"https://www.kallmuenz.it"},
@@ -620,9 +620,9 @@ const day2Stops = [
     desc:`<p>If the weather is nice, the Kurpromenade is beautifully lit at night \u2014 the Kurhaus glows and the river is calm. A lovely end to the day.</p>
     <p>Otherwise, head back to the hotel and enjoy the quiet. Tomorrow is your last morning.</p>`,
     alternatives:[
-      {name:"Night walk (Kurpromenade)", lat:46.6685, lng:11.1560, tagline:"Beautifully lit riverside walk at night.", desc:"The Kurhaus glows, the river is calm. Romantic."},
-      {name:"Wine bar in town", lat:46.6715, lng:11.1610, tagline:"One more glass of local wine before bed.", desc:"Plenty of cozy wine bars in the old town."},
-      {name:"Hotel & relax", lat:46.6650, lng:11.1500, tagline:"Early night before the drive home tomorrow.", desc:"Rest up for the last morning and drive."}
+      {name:"Night walk (Kurpromenade)", lat:46.6685, lng:11.1560, tagline:"Beautifully lit riverside walk at night.", desc:"The Kurhaus glows, the river is calm. Romantic.", spend:"~30\u201345 min", dist:"Along the river"},
+      {name:"Wine bar in town", lat:46.6715, lng:11.1610, tagline:"One more glass of local wine before bed.", desc:"Plenty of cozy wine bars in the old town.", spend:"~1 hr", dist:"In the old town"},
+      {name:"Hotel & relax", lat:46.6650, lng:11.1500, tagline:"Early night before the drive home tomorrow.", desc:"Rest up for the last morning and drive.", spend:"Rest of evening", dist:"At the hotel"}
     ]
   }
 ];
@@ -639,9 +639,9 @@ const day3Stops = [
     lat:46.6695, lng:11.1657, group:"d3",
     desc:`<p>Savour it \u2014 last morning in Merano. Try Caf\u00e9 Wandelhalle inside the Kurhaus for something special, or head back to your favourite spot.</p>`,
     alternatives:[
-      {name:"Caf\u00e9 Wandelhalle", lat:46.6695, lng:11.1657, tagline:"Inside the Kurhaus \u2014 elegant Art Nouveau setting.", desc:"Elegant breakfast inside the Art Nouveau Kurhaus."},
-      {name:"Caf\u00e9 Villa Bux", lat:46.6700, lng:11.1540, tagline:"Back to your Day 2 favourite.", desc:"Relaxed, great coffee and breakfast."},
-      {name:"Hotel breakfast", lat:46.6650, lng:11.1500, tagline:"Easy start, no rush.", desc:"Enjoy the hotel spread one last time."}
+      {name:"Caf\u00e9 Wandelhalle", lat:46.6695, lng:11.1657, tagline:"Inside the Kurhaus \u2014 elegant Art Nouveau setting.", desc:"Elegant breakfast inside the Art Nouveau Kurhaus.", spend:"~45 min", dist:"Inside the Kurhaus"},
+      {name:"Caf\u00e9 Villa Bux", lat:46.6700, lng:11.1540, tagline:"Back to your Day 2 favourite.", desc:"Relaxed, great coffee and breakfast.", spend:"~45 min", dist:"5 min walk"},
+      {name:"Hotel breakfast", lat:46.6650, lng:11.1500, tagline:"Easy start, no rush.", desc:"Enjoy the hotel spread one last time.", spend:"~45 min", dist:"At the hotel"}
     ]
   },
   {
@@ -653,9 +653,9 @@ const day3Stops = [
     <p>Then pick up souvenirs on Laubengasse \u2014 Speck, local chocolate, a bottle of Gew\u00fcrztraminer, or South Tyrolean honey.</p>
     <p class="tip">The Obstmarkt (fruit market) near Sparkassenstra\u00dfe is great for local produce.</p>`,
     alternatives:[
-      {name:"Schiller Park & Promenade", lat:46.6688, lng:11.1545, tagline:"Green park, river walk, and souvenir shopping.", desc:"Park along the Passer, then shopping on Laubengasse."},
-      {name:"Winterpromenade walk", lat:46.6685, lng:11.1560, tagline:"Sunny riverside walk under palm trees.", desc:"The sheltered south-bank promenade. Sunny and calm."},
-      {name:"Shopping on Laubengasse", lat:46.6723, lng:11.1626, tagline:"Last chance for local Speck, wine, chocolate.", desc:"Pick up South Tyrolean specialities to bring home."}
+      {name:"Schiller Park & Promenade", lat:46.6688, lng:11.1545, tagline:"Green park, river walk, and souvenir shopping.", desc:"Park along the Passer, then shopping on Laubengasse.", spend:"~1.5 hrs", dist:"5 min walk from center"},
+      {name:"Winterpromenade walk", lat:46.6685, lng:11.1560, tagline:"Sunny riverside walk under palm trees.", desc:"The sheltered south-bank promenade. Sunny and calm.", spend:"~45 min", dist:"Along the Passer river"},
+      {name:"Shopping on Laubengasse", lat:46.6723, lng:11.1626, tagline:"Last chance for local Speck, wine, chocolate.", desc:"Pick up South Tyrolean specialities to bring home.", spend:"~1 hr", dist:"In the old town"}
     ]
   },
   {
@@ -665,9 +665,9 @@ const day3Stops = [
     lat:46.6723, lng:11.1626, group:"d3",
     desc:`<p>Grab a panino, pizza al taglio, or gelato from one of the spots near Laubengasse. Keep it light for the drive home.</p>`,
     alternatives:[
-      {name:"Pizza al taglio on Laubengasse", lat:46.6723, lng:11.1626, tagline:"Quick slice of pizza before heading out.", desc:"By-the-slice pizza, easy and fast."},
-      {name:"Gelato in the old town", lat:46.6720, lng:11.1615, tagline:"Italian gelato \u2014 the perfect goodbye.", desc:"End on a sweet note."},
-      {name:"Forsterbr\u00e4u (sit-down)", lat:46.6718, lng:11.1590, tagline:"One more proper meal if you're not in a rush.", desc:"Hearty lunch with Forst beer on tap."}
+      {name:"Pizza al taglio on Laubengasse", lat:46.6723, lng:11.1626, tagline:"Quick slice of pizza before heading out.", desc:"By-the-slice pizza, easy and fast.", spend:"~20 min", dist:"On Laubengasse"},
+      {name:"Gelato in the old town", lat:46.6720, lng:11.1615, tagline:"Italian gelato \u2014 the perfect goodbye.", desc:"End on a sweet note.", spend:"~15 min", dist:"In the old town"},
+      {name:"Forsterbr\u00e4u (sit-down)", lat:46.6718, lng:11.1590, tagline:"One more proper meal if you're not in a rush.", desc:"Hearty lunch with Forst beer on tap.", spend:"~1 hr", dist:"Corso Libert\u00e0"}
     ]
   },
   {
@@ -813,6 +813,8 @@ function renderCardContent(card, stop, altIdx) {
   const alt = (stop.alternatives && stop.alternatives[altIdx]) ? stop.alternatives[altIdx] : null;
   const displayName = alt ? alt.name : stop.name;
   const displayTagline = (alt && alt.tagline) ? alt.tagline : stop.tagline;
+  const displaySpend = (alt && alt.spend) ? alt.spend : stop.spend;
+  const displayDist = (alt && alt.dist) ? alt.dist : stop.dist;
   const currentLat = alt ? alt.lat : stop.lat;
   const currentLng = alt ? alt.lng : stop.lng;
   const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${currentLat},${currentLng}`;
@@ -839,8 +841,8 @@ function renderCardContent(card, stop, altIdx) {
       <div class="card-time">${stop.time} ${stop.timeLabel||''}</div>
     </div>
     <div class="card-tagline">${displayTagline}</div>
-    ${stop.spend ? `<span class="card-spend">&#x23F1; ${stop.spend}</span> ` : ''}
-    ${stop.dist ? `<span class="card-distance">&#x1F4CD; ${stop.dist}</span>` : ''}
+    ${displaySpend ? `<span class="card-spend">&#x23F1; ${displaySpend}</span> ` : ''}
+    ${displayDist ? `<span class="card-distance">&#x1F4CD; ${displayDist}</span>` : ''}
     <div class="card-description" id="desc-${stop.id}">${stop.desc}</div>
     ${alternativesHtml}
     <div class="card-actions">
