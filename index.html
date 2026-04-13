@@ -135,6 +135,8 @@
     .card-title{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:600;color:#4a3728;flex:1}
     .card-time{font-size:.72rem;font-weight:600;background:linear-gradient(135deg,#fce7f3,#fdf2f8);color:#be185d;padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0;border:1px solid rgba(219,39,119,.12)}
     .card-tagline{font-size:.84rem;color:#78716c;margin-bottom:8px;font-weight:500;font-style:italic}
+    .card-time .badge-reserved{background:#dcfce7;color:#166534;border:1px solid #bbf7d0;padding:2px 8px;border-radius:8px;font-size:.68rem;font-weight:700;letter-spacing:.3px}
+    .card-time .badge-pending{background:#fef9c3;color:#854d0e;border:1px solid #fde68a;padding:2px 8px;border-radius:8px;font-size:.68rem;font-weight:700;letter-spacing:.3px}
     .card-spend{font-size:.72rem;color:#059669;font-weight:600;background:rgba(236,253,245,.7);padding:3px 9px;border-radius:10px;display:inline-block;margin-bottom:6px;border:1px solid rgba(5,150,105,.12)}
     .card-distance{display:inline-block;font-size:.78rem;color:#9d174d;background:rgba(252,231,243,.6);padding:3px 9px;border-radius:10px;margin-bottom:8px;font-weight:500}
     .card-description{font-size:.88rem;line-height:1.6;color:#57534e;margin-bottom:10px;display:none}
@@ -154,6 +156,7 @@
     .contact-btn.call{color:#059669;border-color:rgba(5,150,105,.2);background:rgba(236,253,245,.7)}
     .contact-btn.web{color:#b45309;border-color:rgba(180,83,9,.15);background:rgba(255,251,235,.7)}
     .contact-btn.gmaps{color:#4285f4;border-color:rgba(66,133,244,.2);background:rgba(232,240,254,.7)}
+    .contact-btn.email{color:#7c3aed;border-color:rgba(124,58,237,.2);background:rgba(245,243,255,.7)}
 
     /* ALTERNATIVES */
     .alt-controls{display:flex;gap:0;margin-bottom:10px;background:rgba(252,231,243,.4);padding:3px;border-radius:10px;margin-top:10px}
@@ -338,8 +341,9 @@
       <div class="info-section-title">&#x1F6D1; Emergency Info</div>
       <div class="info-grid">
         <div class="info-card"><div class="info-card-label">Emergency</div><div class="info-card-value"><a href="tel:112">112</a></div><div class="info-card-sub">All emergencies (EU-wide)</div></div>
+        <div class="info-card"><div class="info-card-label">Ambulance</div><div class="info-card-value"><a href="tel:118">118</a></div><div class="info-card-sub">Medical emergency (Italy)</div></div>
         <div class="info-card"><div class="info-card-label">Hospital</div><div class="info-card-value">Krankenhaus Meran</div><div class="info-card-sub"><a href="tel:+390473263333">+39 0473 263 333</a></div></div>
-        <div class="info-card"><div class="info-card-label">Pharmacy</div><div class="info-card-value">Farmacia Centrale</div><div class="info-card-sub">Laubengasse 58, Old Town</div></div>
+        <div class="info-card"><div class="info-card-label">Pharmacy</div><div class="info-card-value"><a href="tel:+390473236826">Central Apotheke</a></div><div class="info-card-sub">Via Fossato Molini 6 &bull; <a href="https://www.farmacistialtoadige.it/turni" target="_blank" style="color:#9d174d">Night-duty lookup</a></div></div>
         <div class="info-card"><div class="info-card-label">Police</div><div class="info-card-value"><a href="tel:113">113</a> / <a href="tel:112">112</a></div><div class="info-card-sub">Carabinieri &amp; Polizia</div></div>
       </div>
     </div>
@@ -361,10 +365,10 @@
         <div class="budget-row"><span class="budget-item">Dinner Day 1</span><span class="budget-cost">&euro;50&ndash;80</span></div>
         <div class="budget-row"><span class="budget-item">Lunch Day 2</span><span class="budget-cost">&euro;20&ndash;35</span></div>
         <div class="budget-row"><span class="budget-item">Dinner Day 2</span><span class="budget-cost">&euro;50&ndash;80</span></div>
-        <div class="budget-row"><span class="budget-item">Terme Merano (pools + sauna)</span><span class="budget-cost">&euro;56&ndash;82</span></div>
-        <div class="budget-row"><span class="budget-item">Trauttmansdorff Gardens</span><span class="budget-cost">&euro;32</span></div>
+        <div class="budget-row"><span class="budget-item">Terme Merano (2hr pools &euro;18pp / day+sauna &euro;41pp)</span><span class="budget-cost">&euro;36&ndash;82</span></div>
+        <div class="budget-row"><span class="budget-item">Trauttmansdorff Gardens (&euro;17pp + &euro;5 parking)</span><span class="budget-cost">&euro;39</span></div>
         <div class="budget-row"><span class="budget-item">Coffees, breakfasts, snacks, gelato</span><span class="budget-cost">&euro;40&ndash;60</span></div>
-        <div class="budget-row"><span class="budget-item"><b>Total (excl. Airbnb)</b></span><span class="budget-cost"><b>&euro;292&ndash;447</b></span></div>
+        <div class="budget-row"><span class="budget-item"><b>Total (excl. Airbnb)</b></span><span class="budget-cost"><b>&euro;279&ndash;454</b></span></div>
       </div>
     </div>
 
@@ -386,7 +390,7 @@
         <div class="summary-item"><span class="summary-label">Route</span><span class="summary-value">Reschenpass (toll-free)</span></div>
         <div class="summary-item"><span class="summary-label">Nights</span><span class="summary-value">2 (Sun &amp; Mon)</span></div>
         <div class="summary-item"><span class="summary-label">Terme Merano</span><span class="summary-value">&euro;28 pools / &euro;41+sauna</span></div>
-        <div class="summary-item"><span class="summary-label">Gardens</span><span class="summary-value">&euro;16/person</span></div>
+        <div class="summary-item"><span class="summary-label">Gardens</span><span class="summary-value">&euro;17/person (2026)</span></div>
         <div class="summary-item"><span class="summary-label">Depart Day 3</span><span class="summary-value">~17:00 Tue (checkout by 10:00)</span></div>
         <div class="summary-item"><span class="summary-label">Tourist Tax</span><span class="summary-value">~&euro;2.20/person/night (cash)</span></div>
         <div class="summary-item"><span class="summary-label">Currency</span><span class="summary-value">Euro (&euro;)</span></div>
@@ -487,25 +491,16 @@ const day1Stops = [
     <p>Great spot to sit on a bench and take it in before heading to dinner.</p>`
   },
   {
-    id:"7", name:"Dinner", time:"~19:00", timeLabel:"Book ahead!",
-    tagline:"Kn\u00f6del, Speck, Schlutzkrapfen \u2014 the real South Tyrolean deal",
-    spend:"~1.5 hrs", dist:"",
-    lat:46.6717, lng:11.1627, group:"d1",
-    desc:`<p><b>R\u00f6ssl Bianco</b> \u2014 Cozy old inn with daily-changing menus, refined Tyrolean classics, good wine list.</p>
-    <p><b>R\u00f6merkeller</b> \u2014 Atmospheric vaulted cellar, rustic. Great for Speckk\u00f6del and Schlutzkrapfen.</p>
-    <p><b>Sigmund</b> \u2014 Modern South Tyrolean with creative twists, stylish ambiance.</p>
-    <p class="tip">Order: Speckbrettl to start. Mains: Schlutzkrapfen or Spinatkn\u00f6del. Drink: Lagrein (red) or Gew\u00fcrztraminer (white). Dessert: Apfelstrudel with vanilla sauce.</p>`,
-    alternatives:[
-      {name:"R\u00f6ssl Bianco", lat:46.6717, lng:11.1627, tagline:"Cozy inn, refined Tyrolean classics, good wine.", desc:"<p>Cozy old inn with daily-changing menus of refined Tyrolean classics and a good wine list. Locals love it for the quality and the fair prices.</p><p class='tip'>Order: Speckbrettl to start. Mains: Schlutzkrapfen or Spinatkn\u00f6del. Drink: Lagrein (red) or Gew\u00fcrztraminer (white).</p>", spend:"~1.5 hrs", dist:"In the old town"},
-      {name:"R\u00f6merkeller", lat:46.6713, lng:11.1632, tagline:"Atmospheric vaulted cellar, rustic charm.", desc:"<p>Atmospheric restaurant in a vaulted cellar \u2014 stone walls, candlelight, rustic charm. Known for Speckk\u00f6del and Schlutzkrapfen (Tyrolean dumplings and half-moon pasta).</p><p class='tip'>Ask for the house wine \u2014 it\u2019s always local and always good.</p>", spend:"~1.5 hrs", dist:"In the old town"},
-      {name:"Sigmund", lat:46.6708, lng:11.1575, tagline:"Modern South Tyrolean, creative and stylish.", desc:"<p>Modern South Tyrolean cuisine with creative twists. Stylish interior, great cocktails, and a menu that changes with the seasons. The date-night option.</p>", spend:"~1.5 hrs", dist:"In the old town"},
-      {name:"Stube Verdinser Hof", lat:46.6870, lng:11.1890, tagline:"Schenna (~10 min drive). Most authentic Stube.", desc:"<p>A traditional wood-panelled Stube (dining room) in the village of Schenna, ~10 min drive uphill. Candlelit, deeply authentic, and absolutely worth the detour.</p><p class='tip'>This is the most romantic dinner option. Call ahead to book.</p>", spend:"~2 hrs (incl. drive)", dist:"Schenna, ~10 min drive"}
-    ],
+    id:"7", name:"Cibo by Wunderbar", time:"19:30", timeLabel:"<span class='badge-reserved'>\u2705 Reserved</span>",
+    tagline:"\u2705 RESERVED \u2014 Sun Apr 19, 19:30, party of 2 \u2022 \u2B50 4.6",
+    spend:"~1.5\u20132 hrs", dist:"5 min walk from Airbnb",
+    lat:46.6706882, lng:11.1634296, group:"d1", placeId:"ChIJRWVxSwC7gkcRDl-o3iyAYLk",
+    desc:`<p><b>Cibo by Wunderbar</b> \u2014 Mediterranean refined dining on Corso della Libert\u00e0. Oysters, creative plates, and an excellent wine-by-the-glass list. Sister venue to Wunderbar Lounge Passion next door.</p>
+    <p><b>Price:</b> ~\u20ac40\u201360/person. Vegetarian-friendly.</p>
+    <p><b>Hours Sunday:</b> 12:00\u201314:30, 19:00\u201321:30.</p>
+    <p class="tip">Your reservation is confirmed for 19:30 \u2014 enjoy!</p>`,
     contact:{
-      "R\u00f6ssl Bianco":{phone:"+39 0473 237440",web:"https://www.roesslbianco.it"},
-      "R\u00f6merkeller":{phone:"+39 0473 236349",web:"https://www.roemerkeller.it"},
-      "Sigmund":{phone:"+39 0473 210036",web:"https://www.sigmund.bz"},
-      "Stube Verdinser Hof":{phone:"+39 0473 945716"}
+      "Cibo by Wunderbar":{phone:"+39 331 741 9666",web:"https://www.facebook.com/cibobywunderbar/"}
     }
   },
   {
@@ -536,16 +531,16 @@ const day2Stops = [
     ]
   },
   {
-    id:"10", name:"Terme Merano", time:"~10:00\u201313:00", timeLabel:"Spa morning",
-    tagline:"25 pools, saunas, and pure relaxation \u2014 designed by Matteo Thun",
-    spend:"~2.5\u20133 hrs", dist:"10 min walk from center",
-    lat:46.6693, lng:11.1604, group:"d2",
-    desc:`<p>The Terme Merano complex designed by the famous South Tyrolean architect Matteo Thun \u2014 a huge glass cube with indoor/outdoor pools, whirlpools, and a full sauna world.</p>
-    <p><b>Prices:</b> ~\u20ac28/person for pools, ~\u20ac41/person for pools + sauna. Book online at termemerano.it.</p>
-    <p>Monday in April: check website for exact opening hours (may be holiday schedule).</p>
-    <p class="tip">Go early to beat the crowds. The outdoor pools with mountain views are magical.</p>`,
+    id:"10", name:"Terme Merano", time:"~10:00\u201313:00", timeLabel:"Spa morning \u2022 \u2B50 4.3",
+    tagline:"25 pools (15 indoor + 10 outdoor), 6 saunas \u2014 designed by Matteo Thun",
+    spend:"~2.5\u20133 hrs", dist:"4 min walk from Airbnb",
+    lat:46.669463, lng:11.1598389, group:"d2", placeId:"ChIJvTB4XVW5gkcRMWplWCX8uBs",
+    desc:`<p>The Terme Merano complex designed by Matteo Thun \u2014 a huge glass cube with 25 pools, whirlpools, and a full sauna world. Open 09:00\u201321:00 daily, 365 days/year.</p>
+    <p><b>Prices:</b> Pools: 2hr \u20ac18 / 3hr \u20ac20 / day \u20ac28. Pools+Sauna: day \u20ac41+. <a href="https://www.termemerano.it/en/online-shop/admission-value-cards" target="_blank" rel="noopener" style="color:#be185d">Buy tickets online</a> (up to 60 days ahead).</p>
+    <p><b>Sauna note:</b> Textile-free zone \u2014 standard South Tyrolean spa etiquette. Aufguss ceremonies are a highlight.</p>
+    <p class="tip">Bring your own towels (rentable but adds cost). Go early to beat the crowds \u2014 the outdoor pools with mountain views are magical.</p>`,
     contact:{
-      "Terme Merano":{phone:"+39 0473 252000",web:"https://www.termemerano.it"}
+      "Terme Merano":{phone:"+39 0473 252000",web:"https://www.termemerano.it/en/"}
     }
   },
   {
@@ -569,53 +564,46 @@ const day2Stops = [
     }
   },
   {
-    id:"12", name:"Trauttmansdorff Gardens", time:"~15:00", timeLabel:"Gardens",
-    tagline:"80+ botanical landscapes with stunning mountain views",
-    spend:"~2\u20132.5 hrs", dist:"15 min walk or 5 min drive",
-    lat:46.6596, lng:11.1841, group:"d2",
-    desc:`<p>The Gardens of Trauttmansdorff Castle \u2014 Merano's crown jewel. 80+ garden landscapes spread across a sunny slope with two spectacular viewing platforms. Mediterranean, exotic, and Alpine zones, plus the Touriseum museum inside the castle.</p>
-    <p><b>Price:</b> ~\u20ac16/person. Open from 9:00 in April.</p>
-    <p>Walk there via Sissi's Path from town \u2014 a gentle trail dotted with plaques about Empress Elisabeth of Austria (Sissi) who spent winters here in the 1870s.</p>
-    <p class="tip">The panoramic viewing platform (Matteo Thun's binoculars structure) is the single best photo spot in all of Merano.</p>`,
+    id:"12", name:"Trauttmansdorff Gardens", time:"~15:00", timeLabel:"Gardens \u2022 \u2B50 4.8",
+    tagline:"12 hectares, 80+ garden worlds, Touriseum, Lily Pond \u2014 Merano\u2019s crown jewel",
+    spend:"~3+ hrs", dist:"Drive ~10 min or walk Sissi Trail ~45 min",
+    lat:46.6602387, lng:11.1859112, group:"d2", placeId:"ChIJgxXha3O8gkcREcinMhJiWrQ",
+    desc:`<p>The Gardens of Trauttmansdorff Castle \u2014 Merano's crown jewel. 80+ garden landscapes across 12 hectares on a sunny slope. Mediterranean, exotic, and Alpine zones, plus the Touriseum museum, aviary, and Sissi history exhibits.</p>
+    <p><b>2026 Prices:</b> \u20ac17/adult, \u20ac15/senior (65+), \u20ac14/student (under 28). On-site parking \u20ac5/day (345 spaces). Buy tickets online to skip the queue.</p>
+    <p><b>April hours:</b> 09:00\u201319:00 daily, last entry 17:30. Season: Apr 1 \u2013 Nov 8, 2026.</p>
+    <p><b>Getting there:</b> Drive ~10 min, or walk via Sissi\u2019s Path (~45 min from centre). Also reachable by Bus 4 from Merano station.</p>
+    <p class="tip">Plan 3+ hours minimum. The panoramic viewing platform (Matteo Thun\u2019s binoculars) is the single best photo spot in Merano. Note: grotto closed for renovation through summer 2026.</p>`,
     alternatives:[
-      {name:"Trauttmansdorff Gardens", lat:46.6596, lng:11.1841, tagline:"80+ gardens, viewing platforms \u2014 the must-do.", desc:"<p>Merano\u2019s crown jewel. 80+ garden landscapes spread across a sunny slope with two spectacular viewing platforms. Mediterranean, exotic, and Alpine zones, plus the Touriseum museum inside the castle.</p><p><b>Price:</b> ~\u20ac16/person. Open from 9:00 in April.</p><p class='tip'>The panoramic viewing platform (Matteo Thun\u2019s binoculars structure) is the single best photo spot in all of Merano.</p>", spend:"~2\u20132.5 hrs", dist:"15 min walk or 5 min drive"},
-      {name:"Sissi's Path + Gardens", lat:46.6650, lng:11.1700, tagline:"Walk to the gardens via Empress Elisabeth's trail.", desc:"<p>Walk to Trauttmansdorff via Sissi\u2019s Path \u2014 a gentle trail dotted with plaques about Empress Elisabeth of Austria who spent winters here in the 1870s. Beautiful walk through greenery.</p><p>Free trail, then garden entry ~\u20ac16/person.</p>", spend:"~3 hrs (walk + gardens)", dist:"Starts in town center"},
-      {name:"Schloss Tirol (Castle Tyrol)", lat:46.6920, lng:11.1380, tagline:"The castle that gave Tyrol its name.", desc:"<p>The castle that literally gave Tyrol its name. Now a fascinating history museum with great views over the valley. A ~15-minute drive up into the hills above Merano.</p><p><b>Price:</b> ~\u20ac8/person.</p>", spend:"~1.5 hrs", dist:"~15 min drive from Merano"}
+      {name:"Trauttmansdorff Gardens", lat:46.6602387, lng:11.1859112, tagline:"80+ gardens, viewing platforms \u2014 the must-do.", desc:"<p>Merano\u2019s crown jewel. 80+ garden worlds across 12 hectares with two spectacular viewing platforms. Touriseum museum inside the castle.</p><p><b>2026:</b> \u20ac17/adult. Open 09:00\u201319:00 in April. On-site parking \u20ac5/day.</p><p class='tip'>The binoculars viewing platform is the best photo spot in Merano.</p>", spend:"~3+ hrs", dist:"Drive ~10 min or walk ~45 min"},
+      {name:"Sissi's Path + Gardens", lat:46.6650, lng:11.1700, tagline:"Walk to the gardens via Empress Elisabeth's trail.", desc:"<p>Walk to Trauttmansdorff via Sissi\u2019s Path \u2014 a gentle trail with plaques about Empress Elisabeth of Austria who spent winters here in the 1870s.</p><p>Free trail, then garden entry \u20ac17/person.</p>", spend:"~3.5 hrs (walk + gardens)", dist:"Starts in town centre"},
+      {name:"Schloss Tirol (Castle Tyrol)", lat:46.6920, lng:11.1380, tagline:"The castle that gave Tyrol its name.", desc:"<p>The castle that literally gave Tyrol its name. Fascinating history museum with great views. A ~15-minute drive up into the hills above Merano.</p><p><b>Price:</b> ~\u20ac8/person.</p>", spend:"~1.5 hrs", dist:"~15 min drive from Merano"}
     ],
     contact:{
-      "Trauttmansdorff Gardens":{phone:"+39 0473 235730",web:"https://www.trauttmansdorff.it"},
+      "Trauttmansdorff Gardens":{phone:"+39 0473 255600",web:"https://www.trauttmansdorff.it/en/"},
       "Schloss Tirol (Castle Tyrol)":{phone:"+39 0473 220221",web:"https://www.schlosstirol.it"}
     }
   },
   {
-    id:"13", name:"Dinner", time:"~19:00", timeLabel:"Evening meal",
-    tagline:"Something different for night two \u2014 Italian-meets-Tyrolean",
-    spend:"~1.5 hrs", dist:"Back in town center",
-    lat:46.6710, lng:11.1618, group:"d2",
-    desc:`<p><b>Kallm\u00fcnz</b> \u2014 Wine bar/restaurant on Piazza della Rena. Creative Mediterranean dishes, excellent wine selection, beautiful courtyard setting.</p>
-    <p><b>Miil</b> \u2014 Fine dining in a converted mill. Tasting menu with local ingredients. Splurge option.</p>
-    <p><b>Pizzeria Piazza Steinach</b> \u2014 Casual, excellent pizza in a charming piazza.</p>
-    <p class="tip">Try different wines tonight! South Tyrol does excellent Pinot Noir, Schiava, and Sauvignon Blanc.</p>`,
-    alternatives:[
-      {name:"Kallm\u00fcnz", lat:46.6710, lng:11.1618, tagline:"Wine bar, creative Mediterranean, courtyard.", desc:"<p>Wine bar/restaurant on Piazza della Rena. Creative Mediterranean dishes, excellent wine selection, and a beautiful courtyard setting. Perfect second-night dinner.</p><p class='tip'>Try different wines tonight! South Tyrol does excellent Pinot Noir, Schiava, and Sauvignon Blanc.</p>", spend:"~1.5 hrs", dist:"Piazza della Rena, old town"},
-      {name:"Miil", lat:46.6708, lng:11.1568, tagline:"Fine dining in a converted mill. Splurge.", desc:"<p>Fine dining in a beautifully converted mill. Multi-course tasting menu with local, seasonal ingredients. This is the splurge option \u2014 expect ~\u20ac70\u201390 per person.</p>", spend:"~2 hrs", dist:"In town center"},
-      {name:"Pizzeria Steinach", lat:46.6720, lng:11.1600, tagline:"Charming piazza, great Neapolitan pizza.", desc:"<p>Casual, excellent Neapolitan-style pizza in a charming piazza. Relaxed atmosphere, great for a low-key evening after a full day of spa and gardens.</p>", spend:"~1 hr", dist:"Piazza Steinach"},
-      {name:"Stube Verdinser Hof", lat:46.6870, lng:11.1890, tagline:"Schenna \u2014 if you missed it on Day 1.", desc:"<p>Traditional wood-panelled Stube in Schenna, ~10 min drive uphill. Candlelit, deeply authentic Tyrolean dining. If you missed it on Day 1, tonight is your chance.</p><p class='tip'>Call ahead to book \u2014 small place, fills up fast.</p>", spend:"~2 hrs (incl. drive)", dist:"Schenna, ~10 min drive"}
-    ],
+    id:"13", name:"PRIMUS Garden Bistrot", time:"19:30", timeLabel:"<span class='badge-pending'>\u23F3 Pending</span>",
+    tagline:"\u23F3 RESERVATION PENDING \u2014 Mon Apr 20, 19:30 \u2022 \u2B50 4.8",
+    spend:"~1.5\u20132 hrs", dist:"10 min walk from centre",
+    lat:46.6753106, lng:11.1557249, group:"d2", placeId:"ChIJy2Hqorq5gkcRkY0xv_8pfFg",
+    desc:`<p><b>PRIMUS Garden Bistrot</b> \u2014 Contemporary Mediterranean by Chef Antonio + owner Emily. Fully lactose-free menu, vegetarian-forward, with vintage American music setting the mood.</p>
+    <p><b>Price:</b> ~\u20ac25\u201335 menu + wine. Small kitchen \u2014 book ahead.</p>
+    <p><b>Hours Monday:</b> 12:00\u201314:30, 18:30\u201322:30. Closed Sundays.</p>
+    <p><b>Signature dishes:</b> Pumpkin gnocchi, beetroot risotto.</p>
+    <p class="tip">Reservation pending \u2014 confirm ASAP via phone or email (info@primusgardenbistrot.com).</p>`,
     contact:{
-      "Kallm\u00fcnz":{phone:"+39 0473 212438",web:"https://www.kallmuenz.it"},
-      "Miil":{phone:"+39 0473 211062"},
-      "Pizzeria Steinach":{phone:"+39 0473 237292"},
-      "Stube Verdinser Hof":{phone:"+39 0473 945716"}
+      "PRIMUS Garden Bistrot":{phone:"+39 328 918 5005",web:"https://primusgardenbistrot.com/",email:"info@primusgardenbistrot.com"}
     }
   },
   {
     id:"14", name:"Evening", time:"~21:00", timeLabel:"Night",
-    tagline:"Night walk along the lit-up Kurpromenade, or relax at the hotel",
+    tagline:"Night walk along the lit-up Kurpromenade, or relax at the Airbnb",
     spend:"Rest of evening", dist:"",
     lat:46.6685, lng:11.1560, group:"d2",
     desc:`<p>If the weather is nice, the Kurpromenade is beautifully lit at night \u2014 the Kurhaus glows and the river is calm. A lovely end to the day.</p>
-    <p>Otherwise, head back to the hotel and enjoy the quiet. Tomorrow is your last morning.</p>`,
+    <p>Otherwise, head back to the Airbnb and enjoy a quiet evening. Tomorrow is your last morning \u2014 checkout by 10:00!</p>`,
     alternatives:[
       {name:"Night walk (Kurpromenade)", lat:46.6685, lng:11.1560, tagline:"Beautifully lit riverside walk at night.", desc:"<p>The Kurpromenade is beautifully lit at night \u2014 the Kurhaus glows against the dark mountains and the river is calm. Walk hand in hand along the water. One of the most romantic things you can do in Merano.</p>", spend:"~30\u201345 min", dist:"Along the river"},
       {name:"Wine bar in town", lat:46.6715, lng:11.1610, tagline:"One more glass of local wine before bed.", desc:"<p>Plenty of cozy wine bars tucked into the old town streets. Order a glass of local Lagrein or Gew\u00fcrztraminer and reflect on the day. No rush \u2014 Italian evenings last as long as you want them to.</p>", spend:"~1 hr", dist:"In the old town"},
@@ -763,6 +751,17 @@ const cardMap = {};
 
 function getGroupColor(g) { return {d1:'#ec4899',d2:'#a78bfa',d3:'#22d3ee'}[g]||'#ec4899'; }
 
+// Platform-aware maps URL: Apple Maps on iOS, Google Maps elsewhere (with place_id when available)
+function getMapsUrl(lat, lng, placeId, name) {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (isIOS) {
+    return `https://maps.apple.com/?daddr=${lat},${lng}&dirflg=d&t=m`;
+  }
+  let url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  if (placeId) url += `&destination_place_id=${placeId}`;
+  return url;
+}
+
 function createMarker(stop) {
   const c = getGroupColor(stop.group);
   const isHome = stop.id === '2'; // Airbnb accommodation
@@ -822,7 +821,8 @@ function renderCardContent(card, stop, altIdx) {
   const displayDist = (alt && alt.dist) ? alt.dist : stop.dist;
   const currentLat = alt ? alt.lat : stop.lat;
   const currentLng = alt ? alt.lng : stop.lng;
-  const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${currentLat},${currentLng}`;
+  const currentPlaceId = (alt && alt.placeId) ? alt.placeId : stop.placeId;
+  const mapsUrl = getMapsUrl(currentLat, currentLng, currentPlaceId, displayName);
 
   let alternativesHtml = '';
   if (stop.alternatives && stop.alternatives.length > 0) {
@@ -837,6 +837,7 @@ function renderCardContent(card, stop, altIdx) {
     if (ci) {
       if (ci.phone) contactHtml += `<a href="tel:${ci.phone}" class="contact-btn call" onclick="event.stopPropagation()">&#x260E; Call</a>`;
       if (ci.web) contactHtml += `<a href="${ci.web}" target="_blank" rel="noopener" class="contact-btn web" onclick="event.stopPropagation()">&#x1F310; Web</a>`;
+      if (ci.email) contactHtml += `<a href="mailto:${ci.email}" class="contact-btn email" onclick="event.stopPropagation()">&#x2709; Email</a>`;
     }
   }
 
@@ -853,7 +854,7 @@ function renderCardContent(card, stop, altIdx) {
     <div class="card-actions">
       <button class="expand-btn" onclick="toggleDescription('${stop.id}')" aria-expanded="false"><span id="expand-text-${stop.id}">Details</span></button>
       <button class="action-btn" onclick="navigateToStop('${stop.id}')">&#x279C; Navigate</button>
-      <a href="${gmapsUrl}" target="_blank" rel="noopener" class="contact-btn gmaps" onclick="event.stopPropagation()">&#x1F5FA; Maps</a>
+      <a href="${mapsUrl}" target="_blank" rel="noopener" class="contact-btn gmaps" onclick="event.stopPropagation()">&#x1F5FA; Maps</a>
     </div>
     <div class="card-contact-row" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">${contactHtml}</div>
   `;
@@ -877,7 +878,8 @@ function showBottomSheet(stop) {
   const displaySpend = (alt && alt.spend) ? alt.spend : stop.spend;
   const currentLat = alt ? alt.lat : stop.lat;
   const currentLng = alt ? alt.lng : stop.lng;
-  const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${currentLat},${currentLng}`;
+  const currentPlaceId = (alt && alt.placeId) ? alt.placeId : stop.placeId;
+  const mapsUrl = getMapsUrl(currentLat, currentLng, currentPlaceId, displayName);
 
   let contactHtml = '';
   if (stop.contact) {
@@ -885,6 +887,7 @@ function showBottomSheet(stop) {
     if (ci) {
       if (ci.phone) contactHtml += `<a href="tel:${ci.phone}" class="sheet-action-btn green">&#x260E; Call</a>`;
       if (ci.web) contactHtml += `<a href="${ci.web}" target="_blank" rel="noopener" class="sheet-action-btn amber">&#x1F310; Website</a>`;
+      if (ci.email) contactHtml += `<a href="mailto:${ci.email}" class="sheet-action-btn amber">&#x2709; Email</a>`;
     }
   }
 
@@ -894,7 +897,7 @@ function showBottomSheet(stop) {
     ${displaySpend ? `<span class="card-spend">&#x23F1; ${displaySpend}</span> ` : ''}
     <div class="sheet-quick-actions">
       <button class="sheet-action-btn" onclick="navigateToStop('${stop.id}')">&#x279C; Navigate</button>
-      <a href="${gmapsUrl}" target="_blank" rel="noopener" class="sheet-action-btn">&#x1F5FA; Google Maps</a>
+      <a href="${mapsUrl}" target="_blank" rel="noopener" class="sheet-action-btn">&#x1F5FA; Maps</a>
       ${contactHtml}
     </div>
     <div class="sheet-card-desc">${displayDesc}</div>
