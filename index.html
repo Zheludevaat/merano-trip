@@ -226,9 +226,38 @@
     .leaflet-marker-icon:hover{filter:drop-shadow(0 4px 8px rgba(0,0,0,.2)) brightness(1.05)}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
     button:focus-visible,a:focus-visible{outline:2px solid #ec4899;outline-offset:2px}
+
+    /* SPLASH OVERLAY */
+    .splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(180deg,#2a1820 0%,#1a1014 100%);display:flex;align-items:center;justify-content:center;transition:opacity .6s ease;overflow:hidden}
+    .splash.hidden{opacity:0;pointer-events:none}
+    .splash-card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;opacity:0;transition:opacity .45s ease;pointer-events:none}
+    .splash-card.active{opacity:1;pointer-events:auto}
+    .splash-threshold{display:block;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);animation:pulse-dot 2.4s ease-in-out infinite}
+    @keyframes pulse-dot{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.7;transform:scale(1.4)}}
+    .splash-tap{background:none;border:none;color:rgba(255,255,255,.25);font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:1.5px;margin-top:32px;cursor:pointer;padding:12px 24px;transition:color .2s}
+    .splash-tap:active{color:rgba(255,255,255,.45)}
+    .splash-address{font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;font-weight:500;color:rgba(255,255,255,.9);letter-spacing:-.3px;margin-bottom:1.5em;text-align:center}
+    .splash-note{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:400;color:rgba(255,255,255,.6);line-height:1.7;text-align:center;max-width:320px}
+    .splash-btn{background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.8px;padding:12px 28px;border-radius:24px;cursor:pointer;margin-top:48px;transition:all .3s}
+    .splash-btn:active{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.7)}
+    .splash-replay{background:none;border:none;color:#be185d;font-size:1.1rem;cursor:pointer;padding:4px 8px;opacity:.6;transition:opacity .2s;line-height:1}
+    .splash-replay:active{opacity:1}
   </style>
 </head>
 <body>
+
+<!-- SPLASH OVERLAY -->
+<div class="splash" id="splash">
+  <div class="splash-card active" data-step="1" id="splashCard1">
+    <span class="splash-threshold"></span>
+    <button class="splash-tap" onclick="splashAdvance()">tap</button>
+  </div>
+  <div class="splash-card" data-step="2" id="splashCard2">
+    <h1 class="splash-address">Dork.</h1>
+    <p class="splash-note">I planned every hour. It&rsquo;s all in here. You don&rsquo;t have to be anywhere or anyone for the next two days. Just be next to me.</p>
+    <button class="splash-btn" onclick="splashDismiss()">Open it &rarr;</button>
+  </div>
+</div>
 
 <!-- HEADER -->
 <div class="header">
@@ -236,6 +265,7 @@
     <h1 id="contextualHeader">Merano Getaway</h1>
     <p class="subtitle">April 19&ndash;21, 2026 &bull; 3 Days / 2 Nights &bull; Samnaun &rarr; Merano</p>
   </div>
+  <button class="splash-replay" id="splashReplayBtn" onclick="splashReplay()" aria-label="Replay intro" title="Replay intro">&hearts;</button>
 </div>
 
 <!-- MAP -->
@@ -404,6 +434,50 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 // =============================================
+//  SPLASH / INTRO
+// =============================================
+(function() {
+  var revealed = false;
+  try { revealed = !!localStorage.getItem('merano-revealed'); } catch(e) {}
+  var splash = document.getElementById('splash');
+  if (revealed) {
+    splash.classList.add('hidden');
+    splash.style.display = 'none';
+  }
+})();
+
+var splashStep = 1;
+
+function splashAdvance() {
+  var c1 = document.getElementById('splashCard1');
+  var c2 = document.getElementById('splashCard2');
+  if (splashStep === 1) {
+    c1.classList.remove('active');
+    setTimeout(function() { c2.classList.add('active'); }, 100);
+    splashStep = 2;
+  }
+}
+
+function splashDismiss() {
+  var splash = document.getElementById('splash');
+  splash.classList.add('hidden');
+  try { localStorage.setItem('merano-revealed', '1'); } catch(e) {}
+  setTimeout(function() { splash.style.display = 'none'; }, 700);
+}
+
+function splashReplay() {
+  var splash = document.getElementById('splash');
+  var c1 = document.getElementById('splashCard1');
+  var c2 = document.getElementById('splashCard2');
+  splashStep = 1;
+  c2.classList.remove('active');
+  c1.classList.add('active');
+  splash.style.display = '';
+  splash.offsetHeight; // force reflow
+  splash.classList.remove('hidden');
+}
+
+// =============================================
 //  ACCURATE COORDINATES
 // =============================================
 // Verified via OpenStreetMap / Google Maps:
@@ -426,7 +500,8 @@ const day1Stops = [
     lat:46.9498, lng:10.3687, group:"d1",
     desc:`<p>Have lunch in Samnaun, then grab a coffee and fuel up the car. The drive is ~130 km via the scenic Reschenpass (toll-free). Head via Pfunds (Austria) toward Nauders, then over the pass into Italy.</p>
     <p><b>Airbnb check-in is 15:00\u201320:00</b> \u2014 leaving by ~13:00 gives you a comfortable 2-hour buffer.</p>
-    <p class="tip">Stop at Reschensee for photos of the famous sunken church tower rising from the lake. 10 min, totally worth it.</p>`
+    <p class="tip">Stop at Reschensee for photos of the famous sunken church tower rising from the lake. 10 min, totally worth it.</p>
+    <p class="tip">Fun fact: you'll cross three countries in 90 minutes \u2014 Switzerland, Austria (briefly), Italy. No Austrian Vignette needed for the B180 over Reschenpass; just keep your ID handy.</p>`
   },
   {
     id:"2", name:"Truma Swing Odeon", time:"15:00\u201320:00", timeLabel:"\u{1F3E0} Check-in window",
@@ -498,7 +573,8 @@ const day1Stops = [
     desc:`<p><b>Cibo by Wunderbar</b> \u2014 Mediterranean refined dining on Corso della Libert\u00e0. Oysters, creative plates, and an excellent wine-by-the-glass list. Sister venue to Wunderbar Lounge Passion next door.</p>
     <p><b>Price:</b> ~\u20ac40\u201360/person. Vegetarian-friendly.</p>
     <p><b>Hours Sunday:</b> 12:00\u201314:30, 19:00\u201321:30.</p>
-    <p class="tip">Your reservation is confirmed for 19:30 \u2014 enjoy!</p>`,
+    <p class="tip">Your reservation is confirmed for 19:30 \u2014 enjoy!</p>
+    <p class="tip">Dress smart-casual \u2014 the room leans elegant.</p>`,
     contact:{
       "Cibo by Wunderbar":{phone:"+39 331 741 9666",web:"https://www.facebook.com/cibobywunderbar/"}
     }
@@ -592,7 +668,8 @@ const day2Stops = [
     <p><b>Price:</b> ~\u20ac25\u201335 menu + wine. Small kitchen \u2014 book ahead.</p>
     <p><b>Hours Monday:</b> 12:00\u201314:30, 18:30\u201322:30. Closed Sundays.</p>
     <p><b>Signature dishes:</b> Pumpkin gnocchi, beetroot risotto.</p>
-    <p class="tip">Reservation pending \u2014 confirm ASAP via phone or email (info@primusgardenbistrot.com).</p>`,
+    <p class="tip">Reservation pending \u2014 confirm ASAP via phone or email (info@primusgardenbistrot.com).</p>
+    <p class="tip">Bistro-casual \u2014 relaxed atmosphere, no dress code pressure.</p>`,
     contact:{
       "PRIMUS Garden Bistrot":{phone:"+39 328 918 5005",web:"https://primusgardenbistrot.com/",email:"info@primusgardenbistrot.com"}
     }
@@ -722,7 +799,7 @@ const checklistData = [
   "Airbnb booking confirmation",
   "Reusable water bottle",
   "Snacks for the drive",
-  "Nice outfit for dinner",
+  "Two dinner outfits \u2014 smart-casual (Sun) + relaxed (Mon)",
   "This trip guide (bookmark it!)"
 ];
 
