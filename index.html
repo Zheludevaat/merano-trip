@@ -232,10 +232,6 @@
     .splash.hidden{opacity:0;pointer-events:none}
     .splash-card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;opacity:0;transition:opacity .45s ease;pointer-events:none}
     .splash-card.active{opacity:1;pointer-events:auto}
-    .splash-threshold{display:block;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);animation:pulse-dot 2.4s ease-in-out infinite}
-    @keyframes pulse-dot{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.7;transform:scale(1.4)}}
-    .splash-tap{background:none;border:none;color:rgba(255,255,255,.25);font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:1.5px;margin-top:32px;cursor:pointer;padding:12px 24px;transition:color .2s}
-    .splash-tap:active{color:rgba(255,255,255,.45)}
     .splash-address{font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;font-weight:500;color:rgba(255,255,255,.9);letter-spacing:-.3px;margin-bottom:1.5em;text-align:center}
     .splash-note{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:400;color:rgba(255,255,255,.6);line-height:1.7;text-align:center;max-width:320px}
     .splash-btn{background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.8px;padding:12px 28px;border-radius:24px;cursor:pointer;margin-top:48px;transition:all .3s}
@@ -248,11 +244,7 @@
 
 <!-- SPLASH OVERLAY -->
 <div class="splash" id="splash">
-  <div class="splash-card active" data-step="1" id="splashCard1">
-    <span class="splash-threshold"></span>
-    <button class="splash-tap" onclick="splashAdvance()">tap</button>
-  </div>
-  <div class="splash-card" data-step="2" id="splashCard2">
+  <div class="splash-card active" id="splashCard2">
     <h1 class="splash-address">Dork.</h1>
     <p class="splash-note">I planned every hour. It&rsquo;s all in here. You don&rsquo;t have to be anywhere or anyone for the next two days. Just be next to me.</p>
     <button class="splash-btn" onclick="splashDismiss()">Open it &rarr;</button>
@@ -446,18 +438,6 @@
   }
 })();
 
-var splashStep = 1;
-
-function splashAdvance() {
-  var c1 = document.getElementById('splashCard1');
-  var c2 = document.getElementById('splashCard2');
-  if (splashStep === 1) {
-    c1.classList.remove('active');
-    setTimeout(function() { c2.classList.add('active'); }, 100);
-    splashStep = 2;
-  }
-}
-
 function splashDismiss() {
   var splash = document.getElementById('splash');
   splash.classList.add('hidden');
@@ -467,11 +447,8 @@ function splashDismiss() {
 
 function splashReplay() {
   var splash = document.getElementById('splash');
-  var c1 = document.getElementById('splashCard1');
   var c2 = document.getElementById('splashCard2');
-  splashStep = 1;
-  c2.classList.remove('active');
-  c1.classList.add('active');
+  c2.classList.add('active');
   splash.style.display = '';
   splash.offsetHeight; // force reflow
   splash.classList.remove('hidden');
