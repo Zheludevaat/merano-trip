@@ -970,20 +970,12 @@
 // =============================================
 //  SPLASH / INTRO
 // =============================================
-(function() {
-  var revealed = false;
-  try { revealed = !!localStorage.getItem('merano-revealed'); } catch(e) {}
-  var splash = document.getElementById('splash');
-  if (revealed) {
-    splash.classList.add('hidden');
-    splash.style.display = 'none';
-  }
-})();
+// Splash always shows on each app open; only the Replay button brings it back after dismiss.
+// (Intentionally no localStorage gate here — see splashDismiss below.)
 
 function splashDismiss() {
   var splash = document.getElementById('splash');
   splash.classList.add('hidden');
-  try { localStorage.setItem('merano-revealed', '1'); } catch(e) {}
   setTimeout(function() { splash.style.display = 'none'; }, 700);
 }
 
