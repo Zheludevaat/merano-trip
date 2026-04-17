@@ -7,14 +7,17 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Merano Trip">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
   <title>Merano Getaway</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>@font-face{font-family:'Playfair Display';font-display:swap}@font-face{font-family:'Inter';font-display:swap}</style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    html,body{width:100%;height:100%;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fdf2f8;color:#4a3728;overflow:hidden}
+    html,body{width:100%;height:100%;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(180deg,#fefcfb 0%,#fdf2f8 50%,#faf5f0 100%);color:#4a3728;overflow:hidden}
     body{display:flex;flex-direction:column}
 
     /* HEADER — warm, intimate, not dashboard */
@@ -22,11 +25,22 @@
     .header-left h1{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:500;color:#3d2e22;letter-spacing:-.3px}
     .header-left .subtitle{font-size:.72rem;color:#9d8b80;font-weight:400;margin-top:1px;letter-spacing:.1px}
 
-    /* MAP */
-    .map-container{position:relative;flex:0 0 25vh;background:#fce7f3;z-index:10;border-bottom:1px solid rgba(219,39,119,.12);transition:flex .4s ease}
-    .map-container.fullscreen{flex:1;position:fixed;top:0;left:0;right:0;bottom:0;z-index:200}
-    .map-container.map-expanded{flex:0 0 50vh}
+    /* MAP — collapsed drawer, content-first on mobile */
+    .map-container{position:relative;flex:0 0 44px;background:#fce7f3;z-index:10;border-bottom:1px solid rgba(61,46,34,.06);transition:flex .4s ease;overflow:hidden}
+    .map-container.fullscreen{flex:1;position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;overflow:visible}
+    .map-container.map-open{flex:0 0 50vh;overflow:visible}
     #map{width:100%;height:100%}
+
+    /* MAP TAP BAR — collapsed strip */
+    .map-tap-bar{position:absolute;bottom:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(180deg,rgba(252,231,243,.85),rgba(252,231,243,.98));backdrop-filter:blur(6px);z-index:401;cursor:pointer;font-size:.78rem;font-weight:600;color:#9d174d;letter-spacing:.2px;border-top:1px solid rgba(219,39,119,.08)}
+    .map-tap-bar svg{transition:transform .3s ease}
+    .map-container.map-open .map-tap-bar svg{transform:rotate(180deg)}
+    .map-container.fullscreen .map-tap-bar{display:none}
+
+    /* Hide map controls when collapsed */
+    .map-container .map-day-pills,.map-container .next-stop-btn,.map-container .gps-btn,.map-container .gps-status,.map-container .map-fullscreen-btn{opacity:0;pointer-events:none;transition:opacity .3s ease}
+    .map-container.map-open .map-day-pills,.map-container.map-open .next-stop-btn,.map-container.map-open .gps-btn,.map-container.map-open .gps-status,.map-container.map-open .map-fullscreen-btn,
+    .map-container.fullscreen .map-day-pills,.map-container.fullscreen .next-stop-btn,.map-container.fullscreen .gps-btn,.map-container.fullscreen .gps-status,.map-container.fullscreen .map-fullscreen-btn{opacity:1;pointer-events:auto}
 
     /* MAP OVERLAY CONTROLS */
     .map-day-pills{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:400;display:flex;gap:6px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);padding:5px 8px;border-radius:24px;box-shadow:0 2px 12px rgba(0,0,0,.1);border:1px solid rgba(219,39,119,.1)}
@@ -35,19 +49,16 @@
 
     .map-fullscreen-btn{position:absolute;top:12px;right:12px;z-index:400;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.06);color:#9d174d;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:all .2s}
     .map-fullscreen-btn:active{transform:scale(.95)}
-    .map-expand-toggle{position:absolute;top:12px;right:54px;z-index:400;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.06);color:#9d174d;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:all .2s}
-    .map-expand-toggle:active{transform:scale(.95)}
-    .map-expand-toggle svg{transition:transform .3s ease}
-    .map-container.map-expanded .map-expand-toggle svg{transform:rotate(180deg)}
+    .map-expand-toggle{display:none}
 
-    .gps-btn{position:absolute;bottom:16px;right:16px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#db2777);border:2px solid rgba(255,255,255,.5);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(219,39,119,.35);transition:all .3s;z-index:400;padding:0}
+    .gps-btn{position:absolute;bottom:54px;right:16px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#db2777);border:2px solid rgba(255,255,255,.5);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(219,39,119,.35);transition:all .3s;z-index:400;padding:0}
     .gps-btn:active{transform:scale(.95)}
     .gps-btn:disabled{opacity:.5;cursor:not-allowed}
-    .gps-status{position:absolute;bottom:70px;right:16px;background:rgba(255,255,255,.95);border:1px solid rgba(219,39,119,.2);color:#9d174d;padding:8px 12px;border-radius:12px;font-size:.75rem;font-weight:600;text-align:center;min-width:80px;display:none;z-index:400;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+    .gps-status{position:absolute;bottom:108px;right:16px;background:rgba(255,255,255,.95);border:1px solid rgba(219,39,119,.2);color:#9d174d;padding:8px 12px;border-radius:12px;font-size:.75rem;font-weight:600;text-align:center;min-width:80px;display:none;z-index:400;box-shadow:0 2px 8px rgba(0,0,0,.08)}
     .gps-status.active{display:block;animation:pulse 2s infinite}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 
-    .next-stop-btn{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:400;padding:10px 22px;border-radius:24px;background:linear-gradient(135deg,#ec4899,#db2777);color:white;border:2px solid rgba(255,255,255,.4);font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(219,39,119,.35);display:flex;align-items:center;gap:8px;white-space:nowrap;transition:all .2s}
+    .next-stop-btn{position:absolute;bottom:54px;left:50%;transform:translateX(-50%);z-index:400;padding:10px 22px;border-radius:24px;background:linear-gradient(135deg,#ec4899,#db2777);color:white;border:2px solid rgba(255,255,255,.4);font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(219,39,119,.35);display:flex;align-items:center;gap:8px;white-space:nowrap;transition:all .2s}
     .next-stop-btn:active{transform:translateX(-50%) scale(.96)}
 
     .gps-dot{width:14px;height:14px;background:#ec4899;border:3px solid white;border-radius:50%;box-shadow:0 0 0 4px rgba(236,72,153,.25),0 2px 6px rgba(0,0,0,.15)}
@@ -92,21 +103,21 @@
     .nav-step-dist{flex-shrink:0;font-size:.75rem;color:#be185d;font-weight:600}
 
     /* CONTENT PANE */
-    .content-pane{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative;background:linear-gradient(180deg,#fefcfd 0%,#fdf2f8 30%,#fef7f7 100%);transition:opacity .3s}
+    .content-pane{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative;background:linear-gradient(180deg,#fefcfb 0%,#fdf2f8 50%,#faf5f0 100%);transition:opacity .3s}
     .content-pane.hidden{display:none}
     .content-inner{padding:20px 22px;padding-bottom:max(80px,calc(20px + env(safe-area-inset-bottom)))}
 
     /* FILTER BAR — understated, functional */
-    .filter-bar{display:flex;gap:6px;margin-bottom:12px;padding:8px 0;align-items:center;flex-wrap:wrap;opacity:.75;transition:opacity .2s}
-    .filter-bar:hover,.filter-bar:focus-within{opacity:1}
+    .filter-bar{display:flex;gap:6px;margin-bottom:12px;padding:8px 0;align-items:center;flex-wrap:wrap;transition:opacity .2s}
     .filter-label{font-size:.68rem;font-weight:500;text-transform:uppercase;color:#9d8b80;letter-spacing:.5px;margin-right:4px}
     .filter-btn{padding:6px 12px;border-radius:16px;border:1px solid rgba(219,39,119,.08);background:transparent;color:#9d8b80;font-size:.76rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:inherit}
     .filter-btn:active{transform:scale(.98)}
-    .filter-btn.active{border-color:rgba(219,39,119,.2);background:rgba(252,231,243,.5);color:#9d174d;font-weight:600}
+    .filter-btn.active{border-color:rgba(219,39,119,.25);background:linear-gradient(135deg,rgba(252,231,243,.6),rgba(252,231,243,.4));color:#9d174d;font-weight:700;box-shadow:0 1px 4px rgba(219,39,119,.1)}
 
-    /* LEGEND — minimal */
-    .legend-bar{display:flex;gap:12px;margin-bottom:14px;padding:6px 0;flex-wrap:wrap;font-size:.72rem;opacity:.6;transition:opacity .2s}
+    /* LEGEND — hidden when map collapsed, shown when map open */
+    .legend-bar{display:none;gap:12px;margin-bottom:14px;padding:6px 0;flex-wrap:wrap;font-size:.72rem;opacity:.6;transition:opacity .2s}
     .legend-bar:hover{opacity:.85}
+    .legend-bar.visible{display:flex}
     .legend-item{display:flex;align-items:center;gap:5px;color:#9d8b80}
     .legend-swatch{width:10px;height:10px;border-radius:3px;flex-shrink:0}
     .legend-swatch.dashed{border:1.5px dashed currentColor;background:transparent}
@@ -115,24 +126,27 @@
     .day-block{margin-bottom:36px;animation:fadeIn .4s ease}
     .day-block.hidden{display:none}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    .day-header{padding:20px 0 16px;margin-bottom:8px}
-    .day-title{font-family:'Playfair Display',Georgia,serif;font-size:1.35rem;font-weight:700;margin-bottom:4px;letter-spacing:-.3px}
+    .day-header{padding:28px 0 16px;margin-bottom:8px}
+    .day-title{font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;font-weight:700;margin-bottom:6px;letter-spacing:-.3px;display:flex;align-items:center;gap:10px}
+    .day-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,0,0,.08),transparent)}
+    .day-title .day-icon{font-size:1.1rem;flex-shrink:0}
     .day-title.d1{color:#831843}
     .day-title.d2{color:#5b21b6}
     .day-title.d3{color:#0e7490}
-    .day-subtitle{font-size:.82rem;color:#9d8b80;margin-bottom:0;font-weight:400;line-height:1.5}
+    .day-subtitle{font-size:.82rem;color:#9d8b80;margin-bottom:0;font-weight:400;line-height:1.5;font-style:italic}
 
     /* TIMELINE */
-    .timeline{position:relative;padding-left:28px}
-    .timeline::before{content:'';position:absolute;left:10px;top:8px;bottom:8px;width:1.5px;background:linear-gradient(to bottom,rgba(219,39,119,.12),rgba(219,39,119,.04))}
+    .timeline{position:relative;padding-left:32px}
+    .timeline::before{content:'';position:absolute;left:11px;top:8px;bottom:8px;width:1.5px;background:linear-gradient(to bottom,rgba(219,39,119,.12),rgba(219,39,119,.04))}
     .timeline-item{position:relative;margin-bottom:18px}
-    .timeline-dot{position:absolute;left:-24px;top:18px;width:10px;height:10px;border-radius:50%;border:2px solid;background:white;z-index:2}
+    .timeline-dot{position:absolute;left:-27px;top:20px;width:10px;height:10px;border-radius:50%;border:2px solid;background:white;z-index:2}
     .timeline-dot.d1{border-color:#e8809c}
     .timeline-dot.d2{border-color:#a78bfa}
     .timeline-dot.d3{border-color:#22d3ee}
 
     /* CARDS */
-    .card{background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border:1px solid rgba(219,39,119,.07);border-radius:18px;padding:18px;border-left:3px solid;box-shadow:0 1px 8px rgba(0,0,0,.03);transition:all .3s;cursor:pointer;animation:slideUp .4s ease}
+    .card{background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border:1px solid rgba(219,39,119,.07);border-radius:18px;padding:20px;border-left:3px solid;box-shadow:0 1px 8px rgba(0,0,0,.03);transition:all .3s;cursor:pointer;animation:slideUp .4s ease;animation-fill-mode:both}
+    .card.reserved{background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(252,231,243,.3));box-shadow:0 0 0 1px rgba(219,39,119,.15),0 4px 20px rgba(219,39,119,.08)}
     @keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .card.d1{border-left-color:#e8809c}
     .card.d2{border-left-color:#a78bfa}
@@ -142,7 +156,7 @@
     .card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
     .card-title{font-family:'Playfair Display',Georgia,serif;font-size:1.08rem;font-weight:600;color:#3d2e22;flex:1;line-height:1.3}
     .card-time{font-size:.72rem;font-weight:600;background:rgba(253,242,248,.8);color:#be185d;padding:4px 10px;border-radius:10px;white-space:nowrap;flex-shrink:0;border:1px solid rgba(219,39,119,.1)}
-    .card-tagline{font-size:.84rem;color:#8a7e76;margin-bottom:10px;font-weight:400;line-height:1.5}
+    .card-tagline{font-size:.84rem;color:#8a7e76;margin-bottom:10px;font-weight:400;line-height:1.6}
     .card-time .badge-reserved{background:#dcfce7;color:#166534;border:1px solid #bbf7d0;padding:2px 8px;border-radius:8px;font-size:.68rem;font-weight:700;letter-spacing:.3px}
     .card-time .badge-pending{background:#fef9c3;color:#854d0e;border:1px solid #fde68a;padding:2px 8px;border-radius:8px;font-size:.68rem;font-weight:700;letter-spacing:.3px}
     .card-spend{font-size:.72rem;color:#059669;font-weight:600;background:rgba(236,253,245,.7);padding:3px 9px;border-radius:10px;display:inline-block;margin-bottom:6px;border:1px solid rgba(5,150,105,.12)}
@@ -154,8 +168,9 @@
     .card-description a{color:#db2777;text-decoration:none;font-weight:500;border-bottom:1px solid rgba(219,39,119,.3)}
 
     /* CARD PHOTO */
-    .card-photo{width:calc(100% + 36px);margin:-18px -18px 12px;border-radius:18px 18px 0 0;overflow:hidden;position:relative}
+    .card-photo{width:calc(100% + 40px);margin:-20px -20px 12px;border-radius:18px 18px 0 0;overflow:hidden;position:relative}
     .card-photo img{width:100%;height:140px;object-fit:cover;display:block;filter:brightness(.95);transition:filter .3s}
+    .card-photo.hero img{height:200px}
     .card:hover .card-photo img{filter:brightness(1)}
     .card-photo-credit{position:absolute;bottom:4px;right:6px;font-size:.55rem;color:rgba(255,255,255,.7);text-shadow:0 1px 2px rgba(0,0,0,.5)}
 
@@ -172,8 +187,14 @@
     .contact-btn.gmaps{color:#4285f4;border-color:rgba(66,133,244,.1);background:rgba(232,240,254,.4)}
     .contact-btn.email{color:#7c3aed;border-color:rgba(124,58,237,.1);background:rgba(245,243,255,.4)}
 
-    /* ALTERNATIVES — subtle toggle, less decision weight */
-    .alt-controls{display:flex;gap:0;margin-bottom:8px;background:rgba(0,0,0,.03);padding:2px;border-radius:8px;margin-top:8px}
+    /* ALTERNATIVES — collapsed by default */
+    .alt-wrapper{display:none;margin-top:4px}
+    .alt-wrapper.open{display:block}
+    .alt-toggle{background:none;border:none;color:#be185d;font-size:.74rem;font-weight:500;cursor:pointer;padding:6px 0;font-family:inherit;display:flex;align-items:center;gap:4px;margin-top:6px;opacity:.7;transition:opacity .2s}
+    .alt-toggle:active{opacity:1}
+    .alt-toggle svg{transition:transform .2s}
+    .alt-toggle.open svg{transform:rotate(90deg)}
+    .alt-controls{display:flex;gap:0;margin-bottom:8px;background:rgba(0,0,0,.03);padding:2px;border-radius:8px;margin-top:6px}
     .alt-btn{flex:1;padding:5px 6px;border:none;background:transparent;color:#9d8b80;font-size:.68rem;font-weight:500;cursor:pointer;border-radius:6px;transition:all .2s;font-family:inherit;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .alt-btn.active{background:rgba(255,255,255,.9);color:#3d2e22;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 
@@ -217,6 +238,15 @@
     .summary-item{background:rgba(255,255,255,.5);border:1px solid rgba(0,0,0,.04);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:3px;box-shadow:none}
     .summary-label{font-size:.65rem;font-weight:600;text-transform:uppercase;color:#9d8b80;letter-spacing:.4px}
     .summary-value{font-size:.82rem;font-weight:600;color:#4a3728}
+
+    /* TRIP DETAILS ACCORDION */
+    .trip-details-wrapper{margin-top:24px}
+    .trip-details-toggle{display:flex;align-items:center;gap:8px;padding:14px 0;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:600;color:#9d8b80;letter-spacing:-.2px}
+    .trip-details-toggle svg{transition:transform .3s ease;flex-shrink:0}
+    .trip-details-wrapper.open .trip-details-toggle svg{transform:rotate(90deg)}
+    .trip-details-toggle::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,0,0,.06),transparent);margin-left:8px}
+    .trip-details-content{display:none}
+    .trip-details-wrapper.open .trip-details-content{display:block;animation:fadeIn .3s ease}
 
     /* BACK TO TOP */
     .back-to-top{position:fixed;bottom:20px;right:20px;bottom:max(20px,calc(20px + env(safe-area-inset-bottom)));background:linear-gradient(135deg,#ec4899,#db2777);border:none;color:white;width:42px;height:42px;border-radius:50%;display:none;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;z-index:30;font-size:1rem;font-weight:600;box-shadow:0 4px 12px rgba(219,39,119,.3)}
@@ -298,6 +328,10 @@
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
     <span id="nextStopLabel">Next stop</span>
   </button>
+  <div class="map-tap-bar" id="mapTapBar" onclick="toggleMapDrawer()">
+    <span>Map</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
 </div>
 
 <!-- Bottom Sheet -->
@@ -340,7 +374,7 @@
     <!-- DAY 1: Sunday April 19 -->
     <div class="day-block" data-group="d1">
       <div class="day-header">
-        <div class="day-title d1">Day 1 &mdash; Sunday, April 19</div>
+        <div class="day-title d1"><span class="day-icon">&#x1F697;</span> Day 1 &mdash; Sunday, April 19</div>
         <p class="day-subtitle">Lunch in Samnaun &bull; Drive to Merano &bull; Check in 15:00 &bull; Old Town &bull; Dinner</p>
       </div>
       <div id="d1-list" class="timeline"></div>
@@ -349,7 +383,7 @@
     <!-- DAY 2: Monday April 20 -->
     <div class="day-block" data-group="d2">
       <div class="day-header">
-        <div class="day-title d2">Day 2 &mdash; Monday, April 20</div>
+        <div class="day-title d2"><span class="day-icon">&#x1F9D6;</span> Day 2 &mdash; Monday, April 20</div>
         <p class="day-subtitle">Breakfast &bull; Terme Merano &bull; Lunch &bull; Trauttmansdorff Gardens &bull; Dinner</p>
       </div>
       <div id="d2-list" class="timeline"></div>
@@ -358,11 +392,19 @@
     <!-- DAY 3: Tuesday April 21 -->
     <div class="day-block" data-group="d3">
       <div class="day-header">
-        <div class="day-title d3">Day 3 &mdash; Tuesday, April 21</div>
+        <div class="day-title d3"><span class="day-icon">&#x1F3D4;</span> Day 3 &mdash; Tuesday, April 21</div>
         <p class="day-subtitle">Checkout by 10:00 &bull; Breakfast &bull; Last stroll &bull; Lunch &bull; Drive home by ~19:00</p>
       </div>
       <div id="d3-list" class="timeline"></div>
     </div>
+
+    <!-- TRIP DETAILS ACCORDION -->
+    <div class="trip-details-wrapper" id="tripDetailsWrapper">
+      <button class="trip-details-toggle" onclick="toggleTripDetails()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+        Trip Details
+      </button>
+      <div class="trip-details-content">
 
     <!-- PARKING -->
     <div class="info-section" id="parkingSection">
@@ -424,14 +466,6 @@
       <ul class="checklist" id="checklistItems"></ul>
     </div>
 
-    <!-- TRACKLIST -->
-    <div class="info-section" id="tracklistSection">
-      <div class="info-section-title">&#x1F3B5; Road Trip Playlist</div>
-      <p style="font-size:.84rem;color:#57534e;line-height:1.6;margin-bottom:12px">Songs for the drive. Put this on somewhere between Nauders and the Reschenpass.</p>
-      <div id="tracklistItems" style="font-size:.82rem;color:#9d8b80;font-style:italic;padding:8px 0">Tracklist coming soon&hellip;</div>
-      <div style="margin-top:12px"><a href="#" id="spotifyLink" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;background:rgba(30,215,96,.08);border:1px solid rgba(30,215,96,.15);color:#1DB954;font-size:.78rem;font-weight:600;text-decoration:none;transition:all .2s" target="_blank" rel="noopener">&#x1F3A7; Open in Spotify</a></div>
-    </div>
-
     <!-- QUICK REFERENCE -->
     <div class="trip-summary">
       <h3>Quick Reference</h3>
@@ -449,7 +483,9 @@
         <div class="summary-item"><span class="summary-label">Tourist Tax</span><span class="summary-value">~&euro;2.20/person/night (cash)</span></div>
         <div class="summary-item"><span class="summary-label">Currency</span><span class="summary-value">Euro (&euro;)</span></div>
       </div>
-    </div>
+    </div><!-- end trip-summary -->
+      </div><!-- end trip-details-content -->
+    </div><!-- end trip-details-wrapper -->
   </div>
 </div>
 
@@ -518,6 +554,7 @@ const day1Stops = [
     tagline:"\u2B50 4.81 \u2022 Guest favorite \u2022 4 min to Terme \u2022 5 min to centre",
     spend:"Check in & settle", dist:"130 km from Samnaun (~2 hrs)",
     lat:46.6693, lng:11.1600, group:"d1",
+    photo:{src:"https://a0.muscache.com/im/pictures/prohost-api/Hosting-588040504385157856/original/0c9c5d9b-4680-4ff8-86b9-f0b041655106.jpeg?im_w=720",alt:"Truma Swing Odeon apartment",credit:"via Airbnb"},
     desc:`<p><b>Truma Swing Odeon</b> \u2014 your Airbnb in central Merano. 1 bedroom (queen bed + couch), kitchen, Wi-Fi, garden view, and a projector with internet TV for cozy evenings.</p>
     <p><b>Location:</b> 4-min walk to Terme Merano, 5 min to the city centre, 1 min to nearest restaurant.</p>
     <p><b>Parking:</b> Free on-site (availability-based, not reserved). Thermengarage is a 5-min walk as backup (\u20ac12/day).</p>
@@ -677,6 +714,7 @@ const day2Stops = [
     tagline:"\u23F3 RESERVATION PENDING \u2014 Mon Apr 20, 20:00 \u2022 \u2B50 4.8",
     spend:"~1.5\u20132 hrs", dist:"10 min walk from centre",
     lat:46.6753106, lng:11.1557249, group:"d2", placeId:"ChIJy2Hqorq5gkcRkY0xv_8pfFg",
+    photo:{src:"https://lh3.googleusercontent.com/p/AF1QipOEmotFaX6YARq8daO4QJ29TrG9bJls8eu0__SB=w800-h600-k",alt:"PRIMUS Garden Bistrot interior",credit:"via Google Maps"},
     desc:`<p><b>PRIMUS Garden Bistrot</b> \u2014 Contemporary Mediterranean by Chef Antonio + owner Emily. Fully lactose-free menu, vegetarian-forward, with vintage American music setting the mood.</p>
     <p><b>Price:</b> ~\u20ac25\u201335 menu + wine. Small kitchen \u2014 book ahead.</p>
     <p><b>Hours Monday:</b> 12:00\u201314:30, 18:30\u201322:30. Closed Sundays.</p>
@@ -875,6 +913,9 @@ function createMarker(stop) {
   markerMap[stop.id] = marker;
 }
 
+// Track card index per day for staggered animations
+const dayCardIndex = {d1:0, d2:0, d3:0};
+
 function createCard(stop) {
   const container = document.getElementById(`${stop.group}-list`);
   if (!container) return;
@@ -888,8 +929,13 @@ function createCard(stop) {
   card.dataset.group = stop.group;
   card.dataset.stopId = stop.id;
 
+  // Change 8: Staggered entrance animation
+  const idx = dayCardIndex[stop.group] || 0;
+  card.style.animationDelay = `${idx * 0.06}s`;
+  dayCardIndex[stop.group] = idx + 1;
+
   card.addEventListener('click', function(e) {
-    if (e.target.closest('button, a, .card-actions, .alt-controls, .contact-btn')) return;
+    if (e.target.closest('button, a, .card-actions, .alt-controls, .alt-wrapper, .alt-toggle, .contact-btn')) return;
     map.flyTo([stop.lat,stop.lng], 17, {duration:0.8});
   });
 
@@ -914,11 +960,20 @@ function renderCardContent(card, stop, altIdx) {
   const currentPlaceId = (alt && alt.placeId) ? alt.placeId : stop.placeId;
   const mapsUrl = getMapsUrl(currentLat, currentLng, currentPlaceId, displayName);
 
+  // Change 3: Reserved card treatment
+  const tl = stop.timeLabel || '';
+  if (tl.includes('badge-reserved') || tl.includes('badge-pending')) {
+    card.classList.add('reserved');
+  } else {
+    card.classList.remove('reserved');
+  }
+
+  // Change 5: Alternatives wrapped in collapsible toggle
   let alternativesHtml = '';
   if (stop.alternatives && stop.alternatives.length > 0) {
-    alternativesHtml = `<div class="alt-controls" role="group">${stop.alternatives.map((a,i) =>
+    alternativesHtml = `<button class="alt-toggle" onclick="toggleAlternatives('${stop.id}', this); event.stopPropagation();">Or try&hellip; <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button><div class="alt-wrapper" id="alt-wrapper-${stop.id}"><div class="alt-controls" role="group">${stop.alternatives.map((a,i) =>
       `<button class="alt-btn ${i===altIdx?'active':''}" onclick="selectAlternative('${stop.id}',${i})" aria-pressed="${i===altIdx}">${a.name}</button>`
-    ).join('')}</div>`;
+    ).join('')}</div></div>`;
   }
 
   let contactHtml = '';
@@ -931,7 +986,9 @@ function renderCardContent(card, stop, altIdx) {
     }
   }
 
-  const photoHtml = stop.photo ? `<div class="card-photo"><img src="${stop.photo.src}" alt="${stop.photo.alt}" loading="lazy"><span class="card-photo-credit">${stop.photo.credit}</span></div>` : '';
+  // Change 4: Hero photo for stop id "1"
+  const heroClass = stop.id === '1' ? ' hero' : '';
+  const photoHtml = stop.photo ? `<div class="card-photo${heroClass}"><img src="${stop.photo.src}" alt="${stop.photo.alt}" loading="lazy"><span class="card-photo-credit">${stop.photo.credit}</span></div>` : '';
 
   card.innerHTML = `
     ${photoHtml}
@@ -1031,13 +1088,16 @@ function hideBottomSheet() {
 })();
 
 // =============================================
-//  MAP EXPAND/COLLAPSE
+//  MAP EXPAND/COLLAPSE (drawer)
 // =============================================
-function toggleMapExpand() {
+function toggleMapDrawer() {
   const mc = document.getElementById('mapContainer');
-  mc.classList.toggle('map-expanded');
+  mc.classList.toggle('map-open');
+  // Show/hide legend bar in sync
+  document.querySelector('.legend-bar').classList.toggle('visible', mc.classList.contains('map-open'));
   setTimeout(()=>map.invalidateSize(),400);
 }
+function toggleMapExpand() { toggleMapDrawer(); }
 
 // =============================================
 //  FULLSCREEN MAP
@@ -1095,9 +1155,8 @@ function setFilter(group) {
   document.querySelectorAll('.day-block').forEach(el=>{
     if(group==='all'||el.dataset.group===group)el.classList.remove('hidden');else el.classList.add('hidden');
   });
-  ['parkingSection','emergencySection','weatherSection','budgetSection','checklistSection'].forEach(id=>{
-    const el=document.getElementById(id);if(el)el.style.display=(group==='all')?'':'none';
-  });
+  const tdw=document.getElementById('tripDetailsWrapper');
+  if(tdw)tdw.style.display=(group==='all')?'':'none';
 }
 
 // =============================================
@@ -1138,6 +1197,10 @@ function selectAlternative(stopId, altIndex) {
   // Re-render entire card content with new alternative selected
   renderCardContent(card, stop, altIndex);
 
+  // Keep alternatives wrapper open after re-render
+  const aw = document.getElementById(`alt-wrapper-${stopId}`);
+  if (aw) { aw.classList.add('open'); const tb = aw.previousElementSibling; if (tb && tb.classList.contains('alt-toggle')) tb.classList.add('open'); }
+
   // Fly map to selected alternative
   map.flyTo([alt.lat, alt.lng], 17, {duration:0.8});
 
@@ -1167,6 +1230,20 @@ function updateWalkRouteForDay(group) {
 function getActiveAltIndex(stopId) {
   const btns=document.querySelectorAll(`[data-stop-id="${stopId}"] .alt-btn`);
   let idx=0;btns.forEach((b,i)=>{if(b.classList.contains('active'))idx=i;});return idx;
+}
+
+// Change 5: Toggle alternatives visibility
+function toggleAlternatives(stopId, btn) {
+  const wrapper = document.getElementById(`alt-wrapper-${stopId}`);
+  if (wrapper) {
+    wrapper.classList.toggle('open');
+    if (btn) btn.classList.toggle('open');
+  }
+}
+
+// Change 6: Toggle trip details accordion
+function toggleTripDetails() {
+  document.getElementById('tripDetailsWrapper').classList.toggle('open');
 }
 
 function scrollToTop() { document.querySelector('.content-pane').scrollTo({top:0,behavior:'smooth'}); }
