@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#fdf6ef">
+<title>Pack this</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #fdf6ef 0%, #f5e7da 50%, #f0e0d0 100%);
+    color: #4a3728;
+    min-height: 100dvh;
+    padding: 0 0 env(safe-area-inset-bottom);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .header {
+    padding: 14px 20px;
+    padding-top: max(14px, env(safe-area-inset-top));
+    background: #fdf6ef;
+    border-bottom: 1px solid rgba(61,46,34,.06);
+    text-align: center;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #3d2e22;
+    letter-spacing: -.3px;
+  }
+
+  .header .subtitle {
+    font-size: .72rem;
+    color: #7a6a5e;
+    margin-top: 2px;
+    letter-spacing: .1px;
+  }
+
+  /* COUNTDOWN */
+  .countdown {
+    text-align: center;
+    padding: 24px 16px 4px;
+  }
+
+  .countdown-time {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #3d2e22;
+    letter-spacing: -.5px;
+    line-height: 1.2;
+    transition: opacity .6s;
+  }
+
+  .countdown-label {
+    font-size: .68rem;
+    color: #8a7e76;
+    margin-top: 4px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    transition: opacity .6s;
+  }
+
+  .countdown.done .countdown-time {
+    font-size: 1.1rem;
+    color: #b56576;
+  }
+
+  .content {
+    padding: 16px 16px 32px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .section {
+    margin-bottom: 24px;
+  }
+
+  .section-label {
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8a7e76;
+    margin-bottom: 10px;
+    padding-left: 4px;
+    font-weight: 600;
+  }
+
+  .items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,.8);
+    border-radius: 14px;
+    border: 1px solid rgba(142,59,70,.06);
+    cursor: pointer;
+    transition: all .2s cubic-bezier(.4,0,.2,1);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,.03);
+  }
+
+  .item:active {
+    transform: scale(.98);
+    background: rgba(255,255,255,.6);
+  }
+
+  .item.checked {
+    background: rgba(245,231,218,.4);
+    border-color: rgba(142,59,70,.04);
+    box-shadow: none;
+  }
+
+  .item.checked .item-text {
+    color: #a8a29e;
+    text-decoration: line-through;
+    text-decoration-color: rgba(168,162,158,.4);
+  }
+
+  .item.checked .item-hint {
+    color: #a8a29e;
+  }
+
+  .checkbox {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    border: 1.5px solid rgba(142,59,70,.2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .25s cubic-bezier(.34,1.56,.64,1);
+    background: rgba(255,255,255,.6);
+  }
+
+  .item.checked .checkbox {
+    background: linear-gradient(135deg, #b56576, #8e3b46);
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(142,59,70,.3);
+  }
+
+  .check-mark {
+    opacity: 0;
+    transform: scale(0);
+    transition: all .25s cubic-bezier(.34,1.56,.64,1);
+    color: white;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .item.checked .check-mark {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .item-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-text {
+    font-size: .88rem;
+    font-weight: 500;
+    color: #3d2e22;
+    transition: all .3s;
+    line-height: 1.3;
+  }
+
+  .item-hint {
+    font-size: .72rem;
+    color: #8a7e76;
+    margin-top: 2px;
+    transition: color .3s;
+    font-style: italic;
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    padding: 0 4px;
+    margin-bottom: 20px;
+  }
+
+  .progress-text {
+    text-align: center;
+    font-size: .7rem;
+    color: #8a7e76;
+    margin-bottom: 8px;
+    letter-spacing: .3px;
+    transition: color .6s;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: rgba(142,59,70,.08);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: box-shadow .6s;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #b56576, #c9838f);
+    border-radius: 2px;
+    width: 0%;
+    transition: width .4s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* COMPLETION STATE */
+  .progress-wrap.complete .progress-bar {
+    box-shadow: 0 0 12px rgba(181,101,118,.35);
+  }
+
+  .progress-wrap.complete .progress-text {
+    color: #b56576;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    margin-top: 12px;
+    padding: 20px 16px;
+    min-height: 60px;
+  }
+
+  .footer p {
+    font-size: .78rem;
+    color: #8a7e76;
+    line-height: 1.6;
+    transition: all .6s cubic-bezier(.4,0,.2,1);
+  }
+
+  .footer .heart {
+    color: #b56576;
+  }
+
+  .footer .complete-msg {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: .95rem;
+    color: #3d2e22;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all .8s cubic-bezier(.4,0,.2,1);
+    position: absolute;
+    width: 100%;
+    left: 0;
+    padding: 0 16px;
+  }
+
+  .footer {
+    position: relative;
+  }
+
+  .footer.done .default-msg {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  .footer.done .complete-msg {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Pack this, dork.</h1>
+  <div class="subtitle">Two nights. Don't ask questions.</div>
+</div>
+
+<div class="countdown" id="countdown">
+  <div class="countdown-time" id="countdownTime"></div>
+  <div class="countdown-label" id="countdownLabel"></div>
+</div>
+
+<div class="content">
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-text" id="progressText">0 of 14</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Wear & carry</div>
+    <ul class="items">
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">Comfortable walking shoes</div>
+          <div class="item-hint">you'll be on your feet</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">One nice outfit</div>
+          <div class="item-hint">think date night</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">One comfy going-out outfit</div>
+          <div class="item-hint">relaxed but cute</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">Light jacket</div>
+          <div class="item-hint">April in the mountains</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">Sunglasses</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Trust me on these</div>
+    <ul class="items">
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">Swimsuit</div>
+          <div class="item-hint">that's all I'm saying</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">Sunscreen</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">A towel</div>
+          <div class="item-hint">or two</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Essentials</div>
+    <ul class="items">
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">ID / passport</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">Phone charger & power bank</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">Some cash</div>
+          <div class="item-hint">euros, not francs</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">Camera</div>
+          <div class="item-hint">you'll want it</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">Snacks for the drive</div>
+          <div class="item-hint">~2 hours</div>
+        </div>
+      </li>
+      <li class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="check-mark">✓</span></div>
+        <div class="item-content">
+          <div class="item-text">Water bottle</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="footer" id="footer">
+    <p class="default-msg">Everything else is handled. <span class="heart">♥</span></p>
+    <p class="complete-msg">Ready. See you Sunday, dork.</p>
+  </div>
+
+</div>
+
+<script>
+  // ── Countdown ──
+  // Sunday April 19, 2026, 13:00 CEST (UTC+2)
+  var TARGET = new Date('2026-04-19T13:00:00+02:00').getTime();
+
+  function updateCountdown() {
+    var now = Date.now();
+    var diff = TARGET - now;
+    var el = document.getElementById('countdown');
+    var timeEl = document.getElementById('countdownTime');
+    var labelEl = document.getElementById('countdownLabel');
+
+    if (diff <= 0) {
+      el.classList.add('done');
+      timeEl.textContent = "It's time.";
+      labelEl.textContent = '';
+      return;
+    }
+
+    var days = Math.floor(diff / 86400000);
+    var hrs = Math.floor((diff % 86400000) / 3600000);
+    var mins = Math.floor((diff % 3600000) / 60000);
+
+    var parts = [];
+    if (days > 0) parts.push(days + (days === 1 ? ' day' : ' days'));
+    parts.push(hrs + (hrs === 1 ? ' hour' : ' hours'));
+    if (days === 0) parts.push(mins + (mins === 1 ? ' min' : ' mins'));
+
+    timeEl.textContent = parts.join(', ');
+    labelEl.textContent = 'until we go';
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+
+  // ── Checklist ──
+  var KEY = 'merano-packlist';
+  var total = document.querySelectorAll('.item').length;
+  var wasComplete = false;
+
+  function updateProgress() {
+    var checked = document.querySelectorAll('.item.checked').length;
+    var pct = checked / total * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = checked + ' of ' + total;
+
+    var isComplete = checked === total;
+
+    if (isComplete) {
+      document.getElementById('progressWrap').classList.add('complete');
+      document.getElementById('footer').classList.add('done');
+    } else {
+      document.getElementById('progressWrap').classList.remove('complete');
+      document.getElementById('footer').classList.remove('done');
+    }
+
+    wasComplete = isComplete;
+  }
+
+  function loadState() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+      document.querySelectorAll('.item').forEach(function(el, i) {
+        if (saved[i]) el.classList.add('checked');
+      });
+    } catch(e) {}
+    updateProgress();
+  }
+
+  function saveState() {
+    try {
+      var state = {};
+      document.querySelectorAll('.item').forEach(function(el, i) {
+        if (el.classList.contains('checked')) state[i] = true;
+      });
+      localStorage.setItem(KEY, JSON.stringify(state));
+    } catch(e) {}
+  }
+
+  function toggle(el) {
+    el.classList.toggle('checked');
+    saveState();
+    updateProgress();
+  }
+
+  loadState();
+</script>
+
+</body>
+</html>
