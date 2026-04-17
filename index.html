@@ -339,6 +339,10 @@
     .playlist-open-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;background:linear-gradient(135deg,#1db954,#22c55e);color:white;border:none;font-family:inherit;font-size:.84rem;font-weight:600;text-decoration:none;box-shadow:0 4px 14px rgba(34,197,94,.3);margin-bottom:14px;transition:all .2s;cursor:pointer}
     .playlist-open-btn:active{transform:scale(.97);box-shadow:0 2px 8px rgba(34,197,94,.25)}
     .playlist-open-btn svg{width:16px;height:16px}
+    .spotify-embed-wrap{margin:4px 0 18px;border-radius:14px;overflow:hidden;box-shadow:0 10px 32px rgba(0,0,0,.22),0 2px 10px rgba(34,197,94,.18);background:#121212;animation:fadeInUp .55s cubic-bezier(.22,1,.36,1) both;animation-delay:.08s}
+    .spotify-embed{display:block;width:100%;height:352px;border:0;background:#121212}
+    @keyframes fadeInUp{0%{opacity:0;transform:translateY(12px)}100%{opacity:1;transform:translateY(0)}}
+    @media (prefers-reduced-motion:reduce){.spotify-embed-wrap{animation:none}}
 
     .phase-block{margin-top:22px;animation:slideUp .5s ease both}
     .phase-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:8px 0;cursor:pointer;user-select:none;border-bottom:1px solid rgba(219,39,119,.08)}
@@ -1702,8 +1706,7 @@ const playlistPhases = [
       {title:"Ophelia", artist:"The Lumineers", familiar:true, note:"Familiar opener, sets the tone."},
       {title:"Sunroof", artist:"Nicky Youre, hey daisy", familiar:true, note:"From Damn good day — instant good mood."},
       {title:"live more & love more", artist:"Cat Burns", familiar:true, note:"From Roadtrippin — comfort pick."},
-      {title:"Golden Hour", artist:"JVKE", familiar:false, note:"Discovery — exactly her indie-pop lane."},
-      {title:"Peach", artist:"Brooke Alexx", familiar:false, note:"Discovery — dreamy road trip feel."}
+      {title:"Golden Hour", artist:"JVKE", familiar:false, note:"Discovery — exactly her indie-pop lane."}
     ]
   },
   {
@@ -1776,10 +1779,13 @@ function renderPlaylist(){
       <h2 class="playlist-title"><span class="playlist-title-dot"></span>Drive to Merano</h2>
       <p class="playlist-subtitle">${totalTracks} tracks sequenced for the 2-hour drive. Familiar tracks she already loves, mixed with discoveries that match her taste.</p>
       <div class="playlist-meta">~2 hrs \u2022 Samnaun \u2192 Merano \u2022 Heart = she already has it</div>
-      <a class="playlist-open-btn" href="${spotifySearchUrl('Drive to Merano','')}" target="_blank" rel="noopener">
+      <a class="playlist-open-btn" href="https://open.spotify.com/playlist/54NWgZ6OPitLNiU76EGMJQ" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.59 14.39a.62.62 0 01-.85.21c-2.33-1.42-5.26-1.74-8.71-.95a.62.62 0 11-.28-1.21c3.77-.86 7.01-.49 9.63 1.1.29.18.38.57.21.85zm1.22-2.72a.78.78 0 01-1.07.26c-2.66-1.63-6.7-2.11-9.85-1.15a.78.78 0 11-.45-1.49c3.59-1.1 8.04-.56 11.1 1.31.37.22.49.71.27 1.07zm.11-2.83c-3.19-1.89-8.45-2.07-11.5-1.14a.94.94 0 11-.54-1.8c3.5-1.05 9.32-.85 13 1.33a.94.94 0 11-.95 1.61z"/></svg>
-        Open Spotify search
+        Open in Spotify
       </a>
+      <div class="spotify-embed-wrap">
+        <iframe class="spotify-embed" src="https://open.spotify.com/embed/playlist/54NWgZ6OPitLNiU76EGMJQ?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      </div>
     </div>
   `;
 
@@ -1813,7 +1819,7 @@ function renderPlaylist(){
 
   html += `
     <div class="playlist-footer">
-      Tap a track to open it on Spotify. Or tap <strong>Open Spotify search</strong> at the top to build the full playlist there. Then just play it through the car\u2019s Bluetooth when you pull out of Samnaun. <strong>If she asks &ldquo;what playlist is this?&rdquo; — that&rsquo;s the moment.</strong>
+      Press play above, or tap <strong>Open in Spotify</strong> to send it to the car\u2019s Bluetooth when you pull out of Samnaun. Built track-by-track for the drive \u2014 familiar songs she\u2019ll sing along to, mixed with discoveries that fit her taste. <strong>When she asks &ldquo;what is this playlist?&rdquo; \u2014 that\u2019s the moment.</strong>
     </div>
   `;
   target.innerHTML = html;
