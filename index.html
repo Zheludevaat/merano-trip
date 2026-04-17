@@ -381,7 +381,10 @@
     .day-header{padding:28px 0 16px;margin-bottom:8px}
     .day-title{font-family:var(--font-display);font-size:1.7rem;font-weight:500;margin-bottom:6px;letter-spacing:-.3px;display:flex;align-items:center;gap:10px;font-variation-settings:"SOFT" 100,"opsz" 72}
     .day-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--color-ink-a08),transparent)}
-    .day-title .day-icon{font-size:1.1rem;flex-shrink:0}
+    .day-title .day-icon{display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;flex-shrink:0;background:color-mix(in srgb,currentColor 15%,transparent)}
+    .day-title .day-icon svg{width:16px;height:16px;stroke-width:1.6}
+    .info-section-title svg{width:18px;height:18px;stroke-width:1.6;flex-shrink:0}
+    .info-card-label svg,.card-distance svg{width:14px;height:14px;stroke-width:1.6;vertical-align:-2px;margin-right:3px;display:inline-block}
     .day-title.d1{color:var(--day1-strong)}
     .day-title.d2{color:var(--color-violet-800)}
     .day-title.d3{color:var(--color-cyan-800)}
@@ -461,10 +464,22 @@
     .info-card a{color:var(--color-pink-800);text-decoration:none;font-weight:500}
 
     /* WEATHER */
+    .weather-section{padding-bottom:18px}
+    .weather-hero{display:flex;align-items:center;gap:16px;padding:18px 18px;margin-bottom:12px;background:linear-gradient(135deg,var(--color-pink-mist-a50),var(--color-pink-whisper-a80));border-radius:var(--radius-16);border:1px solid var(--color-pink-brand-a10);box-shadow:var(--shadow-02)}
+    .weather-hero-icon{width:56px;height:56px;color:var(--color-pink-800);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+    .weather-hero-icon svg{width:100%;height:100%;stroke-width:1.4}
+    .weather-hero-main{flex:1;min-width:0}
+    .weather-hero-temp{font-family:var(--font-display);font-size:2.2rem;font-weight:500;color:var(--color-pink-900);line-height:1;font-variation-settings:"SOFT" 100,"opsz" 96;margin-bottom:4px;letter-spacing:-1px}
+    .weather-hero-temp .weather-hero-unit{font-size:1.1rem;font-weight:400;color:var(--color-taupe-500);margin-left:2px}
+    .weather-hero-desc{font-size:.92rem;color:var(--color-cocoa-800);margin-bottom:6px;font-weight:500}
+    .weather-hero-meta{font-size:.72rem;color:var(--color-taupe-500);display:flex;gap:12px;flex-wrap:wrap;font-variant-numeric:oldstyle-nums}
+    .weather-hero-loading{color:var(--color-pink-800);padding:8px;font-size:.85rem}
+    .weather-updated{font-size:.68rem;color:var(--color-taupe-500);margin-top:8px;text-align:right;font-style:italic;opacity:.8;letter-spacing:.2px}
     .weather-row{display:flex;gap:10px;overflow-x:auto;padding:4px 0;-webkit-overflow-scrolling:touch}
     .weather-day{min-width:100px;flex-shrink:0;background:var(--color-pink-mist-a30);border-radius:var(--radius-12);padding:12px;text-align:center;border:1px solid var(--color-pink-brand-a08)}
-    .weather-day-name{font-size:.72rem;font-weight:600;color:var(--color-pink-700);text-transform:uppercase;margin-bottom:6px}
-    .weather-icon{font-size:1.5rem;margin-bottom:4px}
+    .weather-day-name{font-size:.72rem;font-weight:600;color:var(--color-pink-700);text-transform:uppercase;margin-bottom:6px;letter-spacing:.3px}
+    .weather-icon{display:flex;justify-content:center;margin-bottom:4px;color:var(--color-pink-800)}
+    .weather-icon svg{width:28px;height:28px;stroke-width:1.6}
     .weather-temp{font-size:.88rem;font-weight:700;color:var(--color-pink-900)}
     .weather-desc{font-size:.7rem;color:var(--color-stone-500);margin-top:2px}
 
@@ -831,7 +846,7 @@
     <!-- DAY 1: Sunday April 19 -->
     <div class="day-block" data-group="d1">
       <div class="day-header">
-        <div class="day-title d1"><span class="day-icon">&#x1F697;</span> Day 1 &mdash; Sunday, April 19</div>
+        <div class="day-title d1"><span class="day-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.646 5H8.4a2 2 0 0 0-1.903 1.257L5 10 3 8"/><path d="M7 14h.01"/><path d="M17 14h.01"/><rect width="18" height="8" x="3" y="10" rx="2"/><path d="M5 18v2"/><path d="M19 18v2"/></svg></span> Day 1 &mdash; Sunday, April 19</div>
         <p class="day-subtitle">Lunch in Samnaun &bull; Drive to Merano &bull; Check in 15:00 &bull; Old Town &bull; Dinner</p>
       </div>
       <div id="d1-list" class="timeline"></div>
@@ -840,7 +855,7 @@
     <!-- DAY 2: Monday April 20 -->
     <div class="day-block" data-group="d2">
       <div class="day-header">
-        <div class="day-title d2"><span class="day-icon">&#x1F9D6;</span> Day 2 &mdash; Monday, April 20</div>
+        <div class="day-title d2"><span class="day-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4 8 6"/><path d="M17 19v2"/><path d="M2 12h20"/><path d="M7 19v2"/><path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg></span> Day 2 &mdash; Monday, April 20</div>
         <p class="day-subtitle">Breakfast &bull; Terme Merano &bull; Lunch &bull; Trauttmansdorff Gardens &bull; Dinner</p>
       </div>
       <div id="d2-list" class="timeline"></div>
@@ -849,7 +864,7 @@
     <!-- DAY 3: Tuesday April 21 -->
     <div class="day-block" data-group="d3">
       <div class="day-header">
-        <div class="day-title d3"><span class="day-icon">&#x1F3D4;</span> Day 3 &mdash; Tuesday, April 21</div>
+        <div class="day-title d3"><span class="day-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/><path d="M4.14 15.08c2.62-1.57 5.24-1.43 7.86.42 2.74 1.94 5.49 2 8.23.19"/></svg></span> Day 3 &mdash; Tuesday, April 21</div>
         <p class="day-subtitle">Checkout by 10:00 &bull; Breakfast &bull; Last stroll &bull; Lunch &bull; Drive home by ~19:00</p>
       </div>
       <div id="d3-list" class="timeline"></div>
@@ -863,12 +878,20 @@
       </button>
       <div class="trip-details-content">
 
+    <!-- WEATHER (live, top of details) -->
+    <div class="info-section weather-section" id="weatherSection">
+      <div class="info-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg> Live Weather &bull; Merano</div>
+      <div class="weather-hero" id="weatherHero"><div class="weather-hero-loading">Loading live weather…</div></div>
+      <div class="weather-row" id="weatherRow"><div style="color:var(--color-pink-800);font-size:.85rem;padding:8px">Loading forecast…</div></div>
+      <div class="weather-updated" id="weatherUpdated"></div>
+    </div>
+
     <!-- PARKING -->
     <div class="info-section" id="parkingSection">
-      <div class="info-section-title">&#x1F697; Parking</div>
+      <div class="info-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg> Parking</div>
       <div class="info-grid">
         <div class="info-card" style="border:1.5px solid #22c55e">
-          <div class="info-card-label">&#x1F3E0; Airbnb on-site</div>
+          <div class="info-card-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Airbnb on-site</div>
           <div class="info-card-value" style="color:#16a34a">FREE (availability-based)</div>
           <div class="info-card-sub">Not reserved &mdash; ask host to confirm</div>
         </div>
@@ -883,7 +906,7 @@
 
     <!-- EMERGENCY -->
     <div class="info-section" id="emergencySection">
-      <div class="info-section-title">&#x1F6D1; Emergency Info</div>
+      <div class="info-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"/><path d="M21 12h1"/><path d="M18.5 4.5 18 5"/><path d="M2 12h1"/><path d="M12 2v1"/><path d="m4.929 4.929.707.707"/><path d="M12 12v6"/></svg> Emergency Info</div>
       <div class="info-grid">
         <div class="info-card"><div class="info-card-label">Emergency</div><div class="info-card-value"><a href="tel:112">112</a></div><div class="info-card-sub">All emergencies (EU-wide)</div></div>
         <div class="info-card"><div class="info-card-label">Ambulance</div><div class="info-card-value"><a href="tel:118">118</a></div><div class="info-card-sub">Medical emergency (Italy)</div></div>
@@ -893,15 +916,9 @@
       </div>
     </div>
 
-    <!-- WEATHER -->
-    <div class="info-section" id="weatherSection">
-      <div class="info-section-title">&#x26C5; Weather Forecast</div>
-      <div class="weather-row" id="weatherRow"><div style="color:#5d2a2f;font-size:.85rem;padding:8px">Loading forecast...</div></div>
-    </div>
-
     <!-- BUDGET -->
     <div class="info-section" id="budgetSection">
-      <div class="info-section-title">&#x1F4B0; Estimated Budget (2 people)</div>
+      <div class="info-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg> Estimated Budget (2 people)</div>
       <div id="budgetList">
         <div class="budget-row"><span class="budget-item">Airbnb &mdash; Truma Swing Odeon (2 nights)</span><span class="budget-cost">Check Airbnb</span></div>
         <div class="budget-row"><span class="budget-item">Tourist tax (~&euro;2.20/person/night &times; 2)</span><span class="budget-cost">~&euro;9</span></div>
@@ -919,7 +936,7 @@
 
     <!-- CHECKLIST -->
     <div class="info-section" id="checklistSection">
-      <div class="info-section-title">&#x2705; Packing Checklist</div>
+      <div class="info-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2"/><path d="M8 18V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v14"/><path d="M10 20h4"/><circle cx="16" cy="20" r="2"/><circle cx="8" cy="20" r="2"/></svg> Packing Checklist</div>
       <ul class="checklist" id="checklistItems"></ul>
     </div>
 
@@ -1459,7 +1476,7 @@ function renderCardContent(card, stop, altIdx) {
     </div>
     <div class="card-tagline">${displayTagline}</div>
     ${displaySpend ? `<span class="card-spend">&#x23F1; ${displaySpend}</span> ` : ''}
-    ${displayDist ? `<span class="card-distance">&#x1F4CD; ${displayDist}</span>` : ''}
+    ${displayDist ? `<span class="card-distance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>${displayDist}</span>` : ''}
     <div class="card-description" id="desc-${stop.id}">${(alt && alt.desc) ? alt.desc : stop.desc}</div>
     ${alternativesHtml}
     <div class="card-actions">
@@ -1816,21 +1833,74 @@ function cancelNavigation(){
 }
 
 // =============================================
-//  WEATHER
+//  WEATHER (live · Merano)
 // =============================================
+const WEATHER_ICONS={
+  sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
+  moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>',
+  cloudSun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg>',
+  cloudMoon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 16a3 3 0 0 1 0 6H7a5 5 0 1 1 4.9-6z"/><path d="M18.376 14.512a6 6 0 0 0 3.461-4.127c.148-.625-.659-.97-1.248-.714a4 4 0 0 1-5.259-5.26c.255-.589-.09-1.395-.716-1.248a6 6 0 0 0-4.594 5.36"/></svg>',
+  cloud:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>',
+  cloudFog:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 17H7"/><path d="M17 21H9"/></svg>',
+  cloudDrizzle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M8 19v1"/><path d="M8 14v1"/><path d="M16 19v1"/><path d="M16 14v1"/><path d="M12 21v1"/><path d="M12 16v1"/></svg>',
+  cloudRain:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v6"/><path d="M8 14v6"/><path d="M12 16v6"/></svg>',
+  cloudSnow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M8 15h.01"/><path d="M8 19h.01"/><path d="M12 17h.01"/><path d="M12 21h.01"/><path d="M16 15h.01"/><path d="M16 19h.01"/></svg>',
+  cloudLightning:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg>'
+};
+const WMO_DESC={0:'Clear sky',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Rime fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',56:'Freezing drizzle',57:'Freezing drizzle',61:'Light rain',63:'Moderate rain',65:'Heavy rain',66:'Freezing rain',67:'Freezing rain',71:'Light snow',73:'Snow',75:'Heavy snow',77:'Snow grains',80:'Light showers',81:'Showers',82:'Heavy showers',85:'Snow showers',86:'Snow showers',95:'Thunderstorm',96:'Storm w/ hail',99:'Storm w/ hail'};
+function wmoToIcon(c,isDay){if(c===0||c===1)return isDay?'sun':'moon';if(c===2)return isDay?'cloudSun':'cloudMoon';if(c===3)return'cloud';if(c===45||c===48)return'cloudFog';if(c>=51&&c<=57)return'cloudDrizzle';if(c>=61&&c<=67)return'cloudRain';if(c>=71&&c<=77)return'cloudSnow';if(c>=80&&c<=82)return'cloudRain';if(c>=85&&c<=86)return'cloudSnow';if(c>=95)return'cloudLightning';return'cloud';}
 async function loadWeather(){
   try{
-    const res=await fetch('https://api.open-meteo.com/v1/forecast?latitude=46.67&longitude=11.16&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode&timezone=Europe/Rome&start_date=2026-04-19&end_date=2026-04-21');
+    const url='https://api.open-meteo.com/v1/forecast?latitude=46.67&longitude=11.16&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,is_day&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code&timezone=Europe/Rome&forecast_days=7';
+    const res=await fetch(url,{cache:'no-store'});
     const data=await res.json();
+    // ─── HERO: current weather ───
+    if(data.current){
+      const c=data.current;
+      const ik=wmoToIcon(c.weather_code,c.is_day===1);
+      document.getElementById('weatherHero').innerHTML=
+        `<div class="weather-hero-icon">${WEATHER_ICONS[ik]}</div>`+
+        `<div class="weather-hero-main">`+
+          `<div class="weather-hero-temp">${Math.round(c.temperature_2m)}\u00b0<span class="weather-hero-unit">C</span></div>`+
+          `<div class="weather-hero-desc">${WMO_DESC[c.weather_code]||'Variable'}</div>`+
+          `<div class="weather-hero-meta">`+
+            `<span>Feels ${Math.round(c.apparent_temperature)}\u00b0</span>`+
+            `<span>${c.relative_humidity_2m}% humidity</span>`+
+            `<span>${Math.round(c.wind_speed_10m)} km/h wind</span>`+
+          `</div>`+
+        `</div>`;
+    }
+    // ─── 3-DAY TRIP FORECAST ───
     if(data.daily){
+      // Find indices for Apr 19, 20, 21
+      const tripDates=['2026-04-19','2026-04-20','2026-04-21'];
       const dn=['Sun Apr 19','Mon Apr 20','Tue Apr 21'];
-      const ic={0:'\u2600\uFE0F',1:'\u26C5',2:'\u26C5',3:'\u2601\uFE0F',45:'\uD83C\uDF2B\uFE0F',48:'\uD83C\uDF2B\uFE0F',51:'\uD83C\uDF26\uFE0F',53:'\uD83C\uDF27\uFE0F',55:'\uD83C\uDF27\uFE0F',61:'\uD83C\uDF27\uFE0F',63:'\uD83C\uDF27\uFE0F',65:'\uD83C\uDF27\uFE0F',80:'\uD83C\uDF26\uFE0F',81:'\uD83C\uDF27\uFE0F',82:'\u26C8\uFE0F',95:'\u26C8\uFE0F'};
-      const dc={0:'Clear sky',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',51:'Light drizzle',53:'Drizzle',61:'Light rain',63:'Moderate rain',65:'Heavy rain',80:'Light showers',81:'Showers',82:'Heavy showers',95:'Thunderstorm'};
-      let h='';for(let i=0;i<3;i++){const wc=data.daily.weathercode[i];h+=`<div class="weather-day"><div class="weather-day-name">${dn[i]}</div><div class="weather-icon">${ic[wc]||'\u26C5'}</div><div class="weather-temp">${Math.round(data.daily.temperature_2m_min[i])}\u00b0/${Math.round(data.daily.temperature_2m_max[i])}\u00b0</div><div class="weather-desc">${dc[wc]||'Variable'}</div>${data.daily.precipitation_sum[i]>0?`<div class="weather-desc">\uD83D\uDCA7 ${data.daily.precipitation_sum[i]}mm</div>`:''}</div>`;}
+      let h='';
+      tripDates.forEach((td,di)=>{
+        const idx=data.daily.time.indexOf(td);
+        if(idx<0){h+=`<div class="weather-day"><div class="weather-day-name">${dn[di]}</div><div class="weather-desc" style="padding:18px 0;">—</div></div>`;return;}
+        const wc=data.daily.weather_code[idx];
+        const ik=wmoToIcon(wc,true);
+        h+=`<div class="weather-day">`+
+           `<div class="weather-day-name">${dn[di]}</div>`+
+           `<div class="weather-icon">${WEATHER_ICONS[ik]}</div>`+
+           `<div class="weather-temp">${Math.round(data.daily.temperature_2m_min[idx])}\u00b0/${Math.round(data.daily.temperature_2m_max[idx])}\u00b0</div>`+
+           `<div class="weather-desc">${WMO_DESC[wc]||'Variable'}</div>`+
+           (data.daily.precipitation_sum[idx]>0?`<div class="weather-desc">${data.daily.precipitation_sum[idx]}mm rain</div>`:'')+
+        `</div>`;
+      });
       document.getElementById('weatherRow').innerHTML=h;
     }
-  }catch(e){document.getElementById('weatherRow').innerHTML='<div style="color:#5d2a2f;font-size:.85rem;padding:8px">Weather data unavailable \u2014 check closer to trip.</div>';}
+    // ─── Timestamp ───
+    const now=new Date();
+    const pad=n=>String(n).padStart(2,'0');
+    document.getElementById('weatherUpdated').textContent=`Updated ${pad(now.getHours())}:${pad(now.getMinutes())} · auto-refreshes every 5 min`;
+  }catch(e){
+    document.getElementById('weatherHero').innerHTML='<div class="weather-hero-loading">Live weather unavailable right now.</div>';
+    document.getElementById('weatherRow').innerHTML='<div style="color:var(--color-pink-800);font-size:.85rem;padding:8px">Forecast unavailable — check closer to trip.</div>';
+  }
 }
+if(!window.__weatherInterval){window.__weatherInterval=setInterval(loadWeather,5*60*1000);}
 
 // =============================================
 //  CHECKLIST
