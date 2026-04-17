@@ -1717,10 +1717,12 @@ function hideBottomSheet() {
 // =============================================
 function toggleMapDrawer() {
   const mc = document.getElementById('mapContainer');
+  if (!mc) return;
   mc.classList.toggle('map-open');
-  // Show/hide legend bar in sync
-  document.querySelector('.legend-bar').classList.toggle('visible', mc.classList.contains('map-open'));
-  setTimeout(()=>map.invalidateSize(),400);
+  // Show/hide legend bar in sync (guarded — .legend-bar may not exist)
+  const lb = document.querySelector('.legend-bar');
+  if (lb) lb.classList.toggle('visible', mc.classList.contains('map-open'));
+  setTimeout(()=>{ try { map.invalidateSize(); } catch(e){} },400);
 }
 function toggleMapExpand() { toggleMapDrawer(); }
 
@@ -2175,154 +2177,4 @@ const playlistPhases = [
       {title:"Ophelia", artist:"The Lumineers", familiar:true, note:"Familiar opener, sets the tone."},
       {title:"Sunroof", artist:"Nicky Youre, hey daisy", familiar:true, note:"From Damn good day \u2014 instant good mood."},
       {title:"live more & love more", artist:"Cat Burns", familiar:true, note:"From Roadtrippin \u2014 comfort pick."},
-      {title:"Lonely Boy", artist:"The Avener", familiar:false, note:"Warm French electronic \u2014 close enough to her world that it doesn\u2019t interrupt."}
-    ]
-  },
-  {
-    name: "Open road \u2014 Austrian valley",
-    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3L4 21M16 3l4 18M4 12h16M12 3v18"/></svg>',
-    tracks: [
-      {title:"NO BAD DAYS (ft. Collett)", artist:"Macklemore", familiar:true, note:"She\u2019ll sing along."},
-      {title:"Green Green Grass (Sam Feldt Remix)", artist:"George Ezra", familiar:true, note:"From Roadtrippin."},
-      {title:"Original Sin", artist:"SOFI TUKKER", familiar:false, note:"Keeps the pulse, shifts electronic."},
-      {title:"Auf und davon", artist:"Casper", familiar:true, note:"From her Casper playlist \u2014 literally \u201Cup and away.\u201D"},
-      {title:"Glorious (ft. Skylar Grey)", artist:"Macklemore", familiar:true, note:"First energy peak \u2014 big driving anthem."}
-    ]
-  },
-  {
-    name: "Valley \u2014 first breath",
-    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M8 22V15M16 22V15M4 22V18M20 22V18M3 10l9-8 9 8"/></svg>',
-    tracks: [
-      {title:"Good Life", artist:"ZHU", familiar:false, note:"Groove eases down after the first peak."},
-      {title:"Coastline", artist:"Hollow Coves", familiar:false, note:"The real discovery \u2014 Australian indie folk."},
-      {title:"Little Hollywood", artist:"Alle Farben, Janieck", familiar:true, note:"From HER playlist \u2014 she hears her own music doing what his does."},
-      {title:"Symphony", artist:"Imagine Dragons", familiar:true, note:"Warm without spiking."}
-    ]
-  },
-  {
-    name: "Second build \u2014 approaching mountains",
-    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21l5-9 5 6 5-10 5 13H2z"/></svg>',
-    tracks: [
-      {title:"I Lived", artist:"OneRepublic", familiar:true, note:"Second peak anthem."},
-      {title:"No Place", artist:"R\u00DCF\u00DCS DU SOL", familiar:false, note:"Melodic electronic bridge \u2014 lives between her anthems and his deep cuts."},
-      {title:"Breathing (ft. Malou)", artist:"Ben B\u00F6hmer, Nils Hoffmann", familiar:false, note:"The central track \u2014 exact frequency where their tastes meet."},
-      {title:"Amsterdam", artist:"Gregory Alan Isakov", familiar:true, note:"Eases in without whiplash."}
-    ]
-  },
-  {
-    name: "Mountain pass \u2014 Reschenpass",
-    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l-5 18h18L12 5l-4 14"/><path d="M12 5l4 9"/></svg>',
-    tracks: [
-      {title:"Vagabond", artist:"Caamp", familiar:true, note:"Folk warmth as the peaks come into view."},
-      {title:"Down by the Water", artist:"Ocie Elliott", familiar:true, note:"The gentlest track she listens to."},
-      {title:"Heartbeat", artist:"Danit", familiar:false, note:"The track where she hears who he actually is \u2014 soulful, pulsing, unmistakably him."},
-      {title:"Ganz sch\u00F6n okay (ft. Kraftklub)", artist:"Casper", familiar:true, note:"Reflective Casper at the pass. The playlist name."},
-      {title:"Take Off Your Cool (ft. Norah Jones)", artist:"Outkast", familiar:false, note:"The whisper lands as they look at the sunken church tower."}
-    ]
-  },
-  {
-    name: "Crossing into Italy \u2014 Vinschgau descent",
-    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4M4 4h13l-3 5 3 5H4"/></svg>',
-    tracks: [
-      {title:"Via con me (It\u2019s Wonderful)", artist:"Paolo Conte", familiar:false, note:"The instant they cross into Italy. Road signs switch. \u201CIt\u2019s wonderful\u2026 good luck my baby.\u201D"},
-      {title:"Daydream", artist:"Lily Meola", familiar:true, note:"On two of her playlists \u2014 dreamy."},
-      {title:"Dandelions", artist:"Ruth B.", familiar:true, note:"Soft and sweet as orchards appear."},
-      {title:"Shelter", artist:"Joy Oladokun", familiar:true, note:"From Roadtrippin \u2014 warm, reassuring."},
-      {title:"When I Get There", artist:"Big Wild", familiar:false, note:"Lifts into the final approach."}
-    ]
-  },
-  {
-    name: "Arriving in Merano",
-    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>',
-    tracks: [
-      {title:"Good Company", artist:"Andy Grammer", familiar:true, note:"From Roadtrippin \u2014 \u201Cyou and me\u201D energy."},
-      {title:"Sure Thing", artist:"Miguel", familiar:true, note:"Smooth, warm, romantic undertone."},
-      {title:"Cover Me In Sunshine", artist:"P!nk, Willow Sage Hart", familiar:true, note:"Light and happy."},
-      {title:"Control", artist:"Emmit Fenn", familiar:false, note:"Cinematic build as Merano appears."},
-      {title:"Until I Found You", artist:"Stephen Sanchez", familiar:true, note:"One intimate closer. Then silence. Then they\u2019re there."}
-    ]
-  }
-];
-
-function spotifySearchUrl(title, artist){
-  const q = encodeURIComponent(`${title} ${artist}`);
-  return `https://open.spotify.com/search/${q}`;
-}
-
-function renderPlaylist(){
-  const target = document.getElementById('playlistInner');
-  if(!target) return;
-  let trackNum = 0;
-  const totalTracks = playlistPhases.reduce((n,p)=>n+p.tracks.length, 0);
-
-  let html = `
-    <div class="playlist-header">
-      <h2 class="playlist-title"><span class="playlist-title-dot"></span>Drive to Merano</h2>
-      <p class="playlist-subtitle">${totalTracks} tracks sequenced for the 2-hour drive. Familiar tracks she already loves, mixed with discoveries that match her taste.</p>
-      <div class="playlist-meta">~2 hrs \u2022 Samnaun \u2192 Merano \u2022 Heart = she already has it</div>
-      <a class="playlist-open-btn" href="https://open.spotify.com/playlist/54NWgZ6OPitLNiU76EGMJQ" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.59 14.39a.62.62 0 01-.85.21c-2.33-1.42-5.26-1.74-8.71-.95a.62.62 0 11-.28-1.21c3.77-.86 7.01-.49 9.63 1.1.29.18.38.57.21.85zm1.22-2.72a.78.78 0 01-1.07.26c-2.66-1.63-6.7-2.11-9.85-1.15a.78.78 0 11-.45-1.49c3.59-1.1 8.04-.56 11.1 1.31.37.22.49.71.27 1.07zm.11-2.83c-3.19-1.89-8.45-2.07-11.5-1.14a.94.94 0 11-.54-1.8c3.5-1.05 9.32-.85 13 1.33a.94.94 0 11-.95 1.61z"/></svg>
-        Open in Spotify
-      </a>
-      <div class="spotify-embed-wrap">
-        <iframe class="spotify-embed" src="https://open.spotify.com/embed/playlist/54NWgZ6OPitLNiU76EGMJQ?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </div>
-  `;
-
-  playlistPhases.forEach((phase, pi) => {
-    html += `
-      <div class="phase-block" data-phase="${pi}">
-        <div class="phase-header" onclick="togglePhase(${pi})">
-          <div class="phase-number">${phase.icon}</div>
-          <div class="phase-title">${phase.name}</div>
-          <svg class="phase-caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="phase-tracks">
-    `;
-    phase.tracks.forEach(t => {
-      trackNum++;
-      const famClass = t.familiar ? ' familiar' : '';
-      html += `
-          <a class="track${famClass}" href="${spotifySearchUrl(t.title, t.artist)}" target="_blank" rel="noopener">
-            <div class="track-num">${trackNum}</div>
-            <div class="track-body">
-              <div class="track-title">${t.title}</div>
-              <div class="track-artist">${t.artist}</div>
-              ${t.note ? `<div class="track-note">${t.note}</div>` : ''}
-            </div>
-            <div class="track-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
-          </a>
-      `;
-    });
-    html += `</div></div>`;
-  });
-
-  html += `
-    <div class="playlist-footer">
-      Press play above, or tap <strong>Open in Spotify</strong> to send it to the car\u2019s Bluetooth when you pull out of Samnaun. Built track-by-track for the drive \u2014 familiar songs she\u2019ll sing along to, mixed with discoveries that fit her taste. <strong>When she asks &ldquo;what is this playlist?&rdquo; \u2014 that\u2019s the moment.</strong>
-    </div>
-  `;
-  target.innerHTML = html;
-}
-
-function togglePhase(idx){
-  const block = document.querySelector(`.phase-block[data-phase="${idx}"]`);
-  if(block) block.classList.toggle('collapsed');
-}
-
-// =============================================
-//  RENDER ALL
-// =============================================
-day1Stops.forEach(s=>{createMarker(s);createCard(s);});
-day2Stops.forEach(s=>{createMarker(s);createCard(s);});
-day3Stops.forEach(s=>{createMarker(s);createCard(s);});
-
-if(allStopsFlat.length>0)document.getElementById('nextStopLabel').textContent=allStopsFlat[0].name.substring(0,22);
-
-loadWeather();renderChecklist();updateContextualHeader();renderPlaylist();
-
-if('serviceWorker' in navigator){navigator.serviceWorker.register('data:text/javascript,console.log("PWA ready")').catch(()=>{});}
-</script>
-</body>
-</html>
+      {title:"Lonely Boy", artist:"The Avener", familiar:false, note:"Warm F
