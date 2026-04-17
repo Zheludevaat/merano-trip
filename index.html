@@ -110,7 +110,118 @@
       box-shadow: 0 0 0 3px var(--color-pink-brand, #b56576), 0 8px 20px rgba(181,101,118,0.25) !important;
       transition: box-shadow 0.3s ease;
     }
-</style>
+
+    /* ANIM_PATCH_V1 */
+
+    /* ============================================================
+       ANIM_PATCH_V1  â€”  Extra motion polish
+       Adds: marker entrance, popup rise, tap-bar hint, card press,
+       back-to-top pop, marker click bounce, popup button press.
+       All respect prefers-reduced-motion via the existing rule.
+       ============================================================ */
+
+    /* Leaflet marker entrance â€” stagger applied via JS */
+    @keyframes markerPop {
+      0%   { transform: scale(.2) translateY(6px); opacity: 0; }
+      65%  { transform: scale(1.12) translateY(0);  opacity: 1; }
+      100% { transform: scale(1)    translateY(0);  opacity: 1; }
+    }
+    .custom-marker { transform-origin: 50% 90%; }
+    .custom-marker.marker-enter {
+      animation: markerPop var(--dur-500) var(--ease-bounce) both;
+    }
+
+    /* Leaflet marker click bounce */
+    @keyframes markerBounce {
+      0%   { transform: scale(1)    translateY(0); }
+      40%  { transform: scale(1.22) translateY(-4px); }
+      70%  { transform: scale(.96)  translateY(0); }
+      100% { transform: scale(1)    translateY(0); }
+    }
+    .custom-marker.marker-bounce {
+      animation: markerBounce var(--dur-450) var(--ease-bounce);
+    }
+
+    /* Leaflet popup â€” scale + fade entrance */
+    @keyframes popupRise {
+      from { opacity: 0; transform: scale(.92) translateY(6px); }
+      to   { opacity: 1; transform: scale(1)   translateY(0); }
+    }
+    .leaflet-popup {
+      transform-origin: 50% calc(100% - 12px);
+      animation: popupRise var(--dur-250) var(--ease-out-expo) both;
+    }
+
+    /* Map tap-bar chevron â€” one-time pulse hint (3 bounces) */
+    @keyframes chevHint {
+      0%, 80%, 100% { transform: translateY(0); }
+      40%           { transform: translateY(-3px); }
+    }
+    .map-container:not(.map-open):not(.fullscreen) .map-tap-bar svg {
+      animation: chevHint var(--dur-2200) ease-in-out 800ms 3 both;
+    }
+    /* Disable hint after user interacts */
+    body.map-touched .map-tap-bar svg { animation: none !important; }
+
+    /* Route polyline draw-on â€” set via JS */
+    .route-draw {
+      stroke-dasharray: var(--rl, 1000);
+      stroke-dashoffset: var(--rl, 1000);
+      animation: drawLine var(--dur-1200) var(--ease-out-expo) forwards;
+    }
+    @keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+    /* Card tap feedback â€” tactile press */
+    .card { transition: transform var(--dur-120) var(--ease-standard),
+                        box-shadow var(--dur-300) ease,
+                        border-color var(--dur-300) ease; }
+    .card:active { transform: scale(.985); }
+
+    /* Popup action button â€” press feedback */
+    .stop-popup-btn:active { transform: scale(.96); }
+
+    /* Back-to-top â€” pop on appear */
+    .back-to-top {
+      transform: scale(.6) translateY(8px);
+      opacity: 0; pointer-events: none;
+      transition: transform var(--dur-300) var(--ease-bounce),
+                  opacity var(--dur-250) ease;
+    }
+    .back-to-top.visible {
+      transform: scale(1) translateY(0);
+      opacity: 1; pointer-events: auto;
+    }
+
+    /* Day pill â€” subtle scale on active */
+    .map-day-pill.active { transform: scale(1.04); }
+    .map-day-pill { transition: background-color var(--dur-250) ease,
+                                color var(--dur-250) ease,
+                                transform var(--dur-250) var(--ease-bounce); }
+
+    /* Filter button â€” press feedback */
+    .filter-btn:active { transform: scale(.96); }
+
+    /* Tab button â€” press feedback */
+    .tab-btn:active svg { transform: scale(.9); }
+
+    /* Checklist tick â€” draw animation when checked */
+    @keyframes drawCheck {
+      to { stroke-dashoffset: 0; }
+    }
+    .check-box.checked svg path {
+      stroke-dasharray: 24;
+      stroke-dashoffset: 24;
+      animation: drawCheck var(--dur-300) var(--ease-out-expo) forwards;
+    }
+
+    /* Highlight pulse â€” stronger, more visible */
+    @keyframes cardHighlightPulse {
+      0%, 100% { box-shadow: 0 0 0 0 var(--color-pink-brand-a25); }
+      40%      { box-shadow: 0 0 0 10px var(--color-pink-brand-a00, rgba(255,56,92,0)); }
+    }
+    .card.highlight { animation: cardHighlightPulse var(--dur-1200) ease-out; }
+
+  </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <style>
     /*
@@ -1493,6 +1604,7 @@ map.fitBounds(L.latLngBounds(allPoints).pad(0.05));
 //  MARKERS & CARDS
 // =============================================
 const markerMap = {};
+let markerStaggerIdx = 0;
 const cardMap = {};
 
 function getGroupColor(g) { return {d1:'#b56576',d2:'#a78bfa',d3:'#22d3ee'}[g]||'#b56576'; }
@@ -1533,6 +1645,23 @@ function createMarker(stop) {
     }
   });
   markerMap[stop.id] = marker;
+  // ANIM_PATCH_V1: stagger-pop on entrance
+  try {
+    marker.on('add', function(){
+      const el = this.getElement && this.getElement();
+      if (!el) return;
+      el.classList.remove('marker-enter'); void el.offsetWidth;
+      el.style.animationDelay = ((markerStaggerIdx++ % 18) * 0.04) + 's';
+      el.classList.add('marker-enter');
+    });
+    marker.on('click', function(){
+      const el = this.getElement && this.getElement();
+      if (!el) return;
+      el.classList.remove('marker-bounce'); void el.offsetWidth;
+      el.classList.add('marker-bounce');
+      setTimeout(()=>el.classList.remove('marker-bounce'), 520);
+    });
+  } catch(e) {}
 }
 
 // Track card index per day for staggered animations
@@ -1716,6 +1845,7 @@ function hideBottomSheet() {
 //  MAP EXPAND/COLLAPSE (drawer)
 // =============================================
 function toggleMapDrawer() {
+  document.body.classList.add('map-touched');
   const mc = document.getElementById('mapContainer');
   if (!mc) return;
   mc.classList.toggle('map-open');
@@ -1748,6 +1878,7 @@ function toggleFullscreen() {
 //  MAP DAY FILTER
 // =============================================
 function setMapDay(day) {
+  markerStaggerIdx = 0;
   currentMapDay = day;
   document.querySelectorAll('.map-day-pill').forEach(p=>p.classList.remove('active'));
   document.querySelector(`.map-day-pill[onclick="setMapDay('${day}')"]`).classList.add('active');
@@ -1769,6 +1900,7 @@ function setMapDay(day) {
   else map.fitBounds(L.latLngBounds(allPoints).pad(0.05));
 
   setFilter(day==='all'?'all':day);
+  setTimeout(()=>{ try { window.__drawRouteLines && window.__drawRouteLines(); } catch(e){} }, 100);
 }
 
 // =============================================
@@ -2325,6 +2457,41 @@ if(allStopsFlat.length>0)document.getElementById('nextStopLabel').textContent=al
 loadWeather();renderChecklist();updateContextualHeader();renderPlaylist();
 
 if('serviceWorker' in navigator){navigator.serviceWorker.register('data:text/javascript,console.log("PWA ready")').catch(()=>{});}
+
+// ANIM_PATCH_V1: back-to-top pop-in + route draw
+(function(){
+  var btt = document.getElementById('backToTop') || document.querySelector('.back-to-top');
+  if (btt) {
+    var scroller = document.querySelector('.content-pane') || window;
+    function onScroll(){
+      var y = scroller === window ? window.scrollY : scroller.scrollTop;
+      if (y > 220) btt.classList.add('visible'); else btt.classList.remove('visible');
+    }
+    (scroller === window ? window : scroller).addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  }
+  // Route line draw animation: walk through any existing routeLines after first render
+  function drawRouteLines(){
+    try {
+      if (typeof routeLines !== 'object') return;
+      Object.values(routeLines).forEach(function(ln){
+        if (!ln || !ln._path) return;
+        var path = ln._path;
+        try {
+          var len = path.getTotalLength();
+          if (!len) return;
+          path.style.setProperty('--rl', len);
+          path.classList.remove('route-draw'); void path.getBoundingClientRect();
+          path.classList.add('route-draw');
+        } catch(e){}
+      });
+    } catch(e){}
+  }
+  // initial draw
+  setTimeout(drawRouteLines, 600);
+  // re-draw on day switch
+  window.__drawRouteLines = drawRouteLines;
+})();
 </script>
 </body>
 </html>
