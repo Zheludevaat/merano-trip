@@ -1645,15 +1645,18 @@ function createMarker(stop) {
     }
   });
   markerMap[stop.id] = marker;
-  // ANIM_PATCH_V1: stagger-pop on entrance
+  // ANIM_PATCH_V1: stagger-pop on entrance  (fires for initial add + re-add)
   try {
-    marker.on('add', function(){
-      const el = this.getElement && this.getElement();
+    const applyEnter = function() {
+      const el = marker.getElement && marker.getElement();
       if (!el) return;
       el.classList.remove('marker-enter'); void el.offsetWidth;
       el.style.animationDelay = ((markerStaggerIdx++ % 18) * 0.04) + 's';
       el.classList.add('marker-enter');
-    });
+    };
+    marker.on('add', applyEnter);
+    // Apply immediately since marker was already addTo(map) above
+    setTimeout(applyEnter, 0);
     marker.on('click', function(){
       const el = this.getElement && this.getElement();
       if (!el) return;
