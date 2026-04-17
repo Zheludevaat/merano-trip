@@ -287,6 +287,161 @@
     .splash-replay{background:none;border:none;color:#9d174d;font-size:1rem;cursor:pointer;padding:4px 8px;opacity:.4;transition:opacity .3s;line-height:1}
     .splash-replay:hover{opacity:.7}
     .splash-replay:active{opacity:1}
+
+    /* ============================================= */
+    /* TAB SYSTEM                                     */
+    /* ============================================= */
+    .tabs-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;min-height:0}
+    .tab-pane{display:none;flex:1;min-height:0;overflow:hidden;flex-direction:column;position:relative;animation:tabFadeIn .35s cubic-bezier(.4,0,.2,1)}
+    .tab-pane.active{display:flex}
+    @keyframes tabFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .pane-scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;background:linear-gradient(180deg,#fefcfb 0%,#fdf2f8 50%,#faf5f0 100%)}
+
+    /* Map inside its tab fills the pane */
+    #pane-map{background:#fce7f3}
+    #pane-map .map-container{position:relative!important;flex:1!important;height:100%!important;width:100%!important;overflow:visible!important;border-bottom:none!important;background:#fce7f3}
+    #pane-map .map-container #map{width:100%;height:100%}
+    #pane-map .map-tap-bar{display:none!important}
+    #pane-map .map-fullscreen-btn{display:none!important}
+    #pane-map .map-expand-toggle{display:none!important}
+    #pane-map .map-day-pills,#pane-map .next-stop-btn,#pane-map .gps-btn,#pane-map .gps-status{opacity:1!important;pointer-events:auto!important}
+    #pane-map .gps-btn{bottom:20px}
+    #pane-map .gps-status{bottom:74px}
+    #pane-map .next-stop-btn{bottom:20px}
+
+    /* BOTTOM TAB BAR */
+    .tab-bar{display:flex;background:rgba(26,16,20,.9);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border-top:1px solid rgba(219,39,119,.22);padding:6px 6px;padding-bottom:max(6px,env(safe-area-inset-bottom));z-index:600;flex-shrink:0;box-shadow:0 -6px 24px rgba(0,0,0,.18),0 -1px 0 rgba(255,255,255,.04) inset;position:relative}
+    .tab-btn{flex:1;background:none;border:none;color:rgba(255,255,255,.55);font-family:inherit;font-size:.64rem;font-weight:600;letter-spacing:.4px;padding:8px 4px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .25s ease,transform .15s ease;border-radius:12px;position:relative;min-height:50px;text-transform:uppercase}
+    .tab-btn svg{width:22px;height:22px;stroke-width:1.8;transition:transform .35s cubic-bezier(.34,1.56,.64,1),filter .25s ease}
+    .tab-btn:active{transform:scale(.92)}
+    .tab-btn.active{color:#f9a8d4}
+    .tab-btn.active svg{transform:translateY(-1px) scale(1.12);filter:drop-shadow(0 0 8px rgba(236,72,153,.65))}
+    .tab-btn.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:28px;height:3px;background:linear-gradient(90deg,#ec4899,#f472b6);border-radius:0 0 4px 4px;box-shadow:0 0 8px rgba(236,72,153,.5)}
+    .tab-label{line-height:1}
+
+    /* Inside-pane content tweaks */
+    #pane-itinerary .content-inner,#pane-details .content-inner,#pane-playlist .content-inner{padding:20px 22px;padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+    #pane-details .content-inner{padding-top:8px}
+    #pane-details .info-section:first-of-type{margin-top:16px}
+    #pane-details .details-heading{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:500;color:#3d2e22;letter-spacing:-.3px;margin-top:14px;margin-bottom:4px}
+    #pane-details .details-sub{font-size:.82rem;color:#9d8b80;font-style:italic;margin-bottom:8px}
+    #pane-playlist .content-inner{padding-top:8px}
+
+    /* ============================================= */
+    /* PLAYLIST TAB                                   */
+    /* ============================================= */
+    .playlist-header{padding:18px 0 8px;text-align:left}
+    .playlist-title{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:500;color:#3d2e22;letter-spacing:-.3px;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+    .playlist-title .playlist-title-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#1db954,#22c55e);box-shadow:0 0 10px rgba(34,197,94,.5);animation:pulseSpot 2.4s ease-in-out infinite}
+    @keyframes pulseSpot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.18);opacity:.7}}
+    .playlist-subtitle{font-size:.84rem;color:#9d8b80;font-style:italic;margin-bottom:4px;line-height:1.55}
+    .playlist-meta{font-size:.72rem;color:#be185d;letter-spacing:.3px;margin-bottom:18px;font-weight:500}
+    .playlist-open-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;background:linear-gradient(135deg,#1db954,#22c55e);color:white;border:none;font-family:inherit;font-size:.84rem;font-weight:600;text-decoration:none;box-shadow:0 4px 14px rgba(34,197,94,.3);margin-bottom:14px;transition:all .2s;cursor:pointer}
+    .playlist-open-btn:active{transform:scale(.97);box-shadow:0 2px 8px rgba(34,197,94,.25)}
+    .playlist-open-btn svg{width:16px;height:16px}
+
+    .phase-block{margin-top:22px;animation:slideUp .5s ease both}
+    .phase-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:8px 0;cursor:pointer;user-select:none;border-bottom:1px solid rgba(219,39,119,.08)}
+    .phase-number{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#fce7f3,#fbcfe8);color:#9d174d;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:inherit}
+    .phase-title{flex:1;font-family:'Playfair Display',Georgia,serif;font-size:1.02rem;font-weight:600;color:#831843;letter-spacing:-.2px;line-height:1.3}
+    .phase-caret{color:#be185d;transition:transform .3s cubic-bezier(.4,0,.2,1);flex-shrink:0}
+    .phase-block.collapsed .phase-caret{transform:rotate(-90deg)}
+    .phase-tracks{overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1);max-height:2000px}
+    .phase-block.collapsed .phase-tracks{max-height:0}
+
+    .track{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid rgba(219,39,119,.05);cursor:pointer;transition:background .2s,transform .15s;text-decoration:none;color:inherit;border-radius:8px}
+    .track:last-child{border-bottom:none}
+    .track:hover{background:rgba(252,231,243,.35)}
+    .track:active{transform:scale(.99);background:rgba(252,231,243,.5)}
+    .track-num{font-size:.72rem;font-weight:700;color:#be185d;min-width:22px;text-align:center;opacity:.7}
+    .track-body{flex:1;min-width:0}
+    .track-title{font-size:.92rem;font-weight:600;color:#3d2e22;line-height:1.25;letter-spacing:-.1px}
+    .track-artist{font-size:.76rem;color:#8a7e76;margin-top:2px;line-height:1.3}
+    .track-note{font-size:.7rem;color:#be185d;font-style:italic;margin-top:4px;line-height:1.35;opacity:.85}
+    .track-icon{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:rgba(252,231,243,.6);display:flex;align-items:center;justify-content:center;color:#be185d;transition:all .25s;opacity:.5}
+    .track:hover .track-icon{background:linear-gradient(135deg,#1db954,#22c55e);color:white;opacity:1;transform:scale(1.05)}
+    .track.familiar .track-num::after{content:'\2665';display:inline-block;color:#ec4899;font-size:.7rem;margin-left:2px;opacity:.8}
+
+    .playlist-footer{margin-top:28px;padding:16px;background:rgba(255,255,255,.55);border:1px solid rgba(219,39,119,.08);border-radius:14px;font-size:.78rem;color:#78716c;line-height:1.6;font-style:italic}
+    .playlist-footer strong{color:#9d174d;font-style:normal;font-weight:600}
+
+    /* Refined card entrance — extended delay for tab reveal */
+    @keyframes cardRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .tab-pane.active .card{animation:cardRise .5s cubic-bezier(.22,1,.36,1) both}
+
+    /* Tab button micro-interactions */
+    @media(hover:hover){.tab-btn:hover{color:rgba(255,255,255,.85)}}
+
+    /* ============================================= */
+    /* POLISH ANIMATIONS                              */
+    /* ============================================= */
+
+    /* Header — gentle aurora sheen */
+    .header{position:relative;overflow:hidden}
+    .header::before{content:'';position:absolute;top:0;left:-30%;right:-30%;height:100%;background:radial-gradient(ellipse at 20% 50%,rgba(252,231,243,.6),transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(237,233,254,.45),transparent 55%);opacity:.65;pointer-events:none;animation:auroraShift 18s ease-in-out infinite;z-index:0}
+    .header > *{position:relative;z-index:1}
+    @keyframes auroraShift{0%,100%{transform:translateX(-4%) scale(1)}50%{transform:translateX(4%) scale(1.04)}}
+
+    /* Playlist phases — stagger in on render */
+    #pane-playlist.active .phase-block:nth-child(2){animation-delay:.05s}
+    #pane-playlist.active .phase-block:nth-child(3){animation-delay:.12s}
+    #pane-playlist.active .phase-block:nth-child(4){animation-delay:.2s}
+    #pane-playlist.active .phase-block:nth-child(5){animation-delay:.28s}
+    #pane-playlist.active .phase-block:nth-child(6){animation-delay:.36s}
+    #pane-playlist.active .phase-block:nth-child(7){animation-delay:.44s}
+
+    /* Playlist header rise */
+    #pane-playlist.active .playlist-header{animation:fadeInDown .6s cubic-bezier(.22,1,.36,1) both}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Map controls — fade-in after tab reveal */
+    #pane-map.active .map-day-pills,#pane-map.active .next-stop-btn,#pane-map.active .gps-btn{animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both}
+    #pane-map.active .next-stop-btn{animation-delay:.15s}
+    #pane-map.active .gps-btn{animation-delay:.25s}
+    @keyframes popIn{from{opacity:0;transform:translateY(8px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+    #pane-map.active .map-day-pills{animation-delay:.08s}
+
+    /* Alternatives — smooth open/close */
+    .alt-wrapper{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease;opacity:0;display:block!important;margin-top:0}
+    .alt-wrapper.open{max-height:200px;opacity:1;margin-top:4px}
+    .alt-toggle svg{transition:transform .3s cubic-bezier(.4,0,.2,1)}
+    .alt-toggle.open svg{transform:rotate(90deg)}
+
+    /* Card photo — gentle breathing / parallax-like scale on view */
+    .card-photo img{transition:filter .4s ease,transform .9s cubic-bezier(.22,1,.36,1)}
+    .tab-pane.active .card:not(.hover-once) .card-photo img{transform:scale(1.02)}
+    .tab-pane.active .card .card-photo img{animation:photoSettle 1.1s cubic-bezier(.22,1,.36,1) both}
+    @keyframes photoSettle{from{transform:scale(1.08);filter:brightness(.82) blur(2px)}to{transform:scale(1);filter:brightness(.95) blur(0)}}
+
+    /* Today's day — subtle pulse on dots */
+    .day-block.is-today .day-title{position:relative}
+    .day-block.is-today .day-title::before{content:'';position:absolute;left:-20px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#db2777);box-shadow:0 0 0 0 rgba(236,72,153,.55);animation:todayPulse 2.2s ease-in-out infinite}
+    @keyframes todayPulse{0%{box-shadow:0 0 0 0 rgba(236,72,153,.55)}70%{box-shadow:0 0 0 10px rgba(236,72,153,0)}100%{box-shadow:0 0 0 0 rgba(236,72,153,0)}}
+
+    /* Splash button — gentle breathing */
+    .splash-btn{transition:border-color .3s ease,color .3s ease,transform .2s ease,box-shadow .3s ease}
+    .splash-btn:hover{border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.9);box-shadow:0 0 20px rgba(236,72,153,.2)}
+
+    /* Smooth caret on trip-details accordion (legacy, now unused but kept) */
+    .trip-details-toggle svg{transition:transform .35s cubic-bezier(.4,0,.2,1)}
+
+    /* Filter buttons — soft slide highlight */
+    .filter-btn{position:relative;overflow:hidden}
+    .filter-btn::after{content:'';position:absolute;inset:0;border-radius:16px;background:linear-gradient(135deg,rgba(252,231,243,.5),rgba(252,231,243,.2));opacity:0;transition:opacity .25s ease;pointer-events:none}
+    .filter-btn.active::after{opacity:1}
+
+    /* Contextual header letter-breathing on load */
+    #contextualHeader{animation:headerGlow 1.2s ease-out both}
+    @keyframes headerGlow{from{opacity:0;letter-spacing:0}to{opacity:1;letter-spacing:-.3px}}
+
+    /* Bottom-sheet subtle refinement */
+    .bottom-sheet{transition:transform .45s cubic-bezier(.22,1,.36,1)}
+
+    /* Reduced motion respect */
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+      .playlist-title-dot{animation:none}
+    }
   </style>
 </head>
 <body>
@@ -309,7 +464,18 @@
   <button class="splash-replay" id="splashReplayBtn" onclick="splashReplay()" aria-label="Replay intro" title="Replay intro">&hearts;</button>
 </div>
 
-<!-- MAP -->
+<!-- TAB SYSTEM -->
+<div class="tabs-wrap" id="tabsWrap">
+
+<!-- ITINERARY TAB -->
+<section class="tab-pane active" id="pane-itinerary" role="tabpanel" aria-labelledby="tab-btn-itinerary">
+  <div class="pane-scroll" id="itineraryScroll">
+    <div class="content-inner" id="itineraryInner"></div>
+  </div>
+</section>
+
+<!-- MAP TAB -->
+<section class="tab-pane" id="pane-map" role="tabpanel" aria-labelledby="tab-btn-map">
 <div class="map-container" id="mapContainer">
   <div id="map"></div>
   <div class="map-day-pills" id="mapDayPills">
@@ -337,6 +503,43 @@
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
   </div>
 </div>
+</section><!-- /#pane-map -->
+
+<!-- PLAYLIST TAB -->
+<section class="tab-pane" id="pane-playlist" role="tabpanel" aria-labelledby="tab-btn-playlist">
+  <div class="pane-scroll">
+    <div class="content-inner" id="playlistInner"></div>
+  </div>
+</section>
+
+<!-- DETAILS TAB -->
+<section class="tab-pane" id="pane-details" role="tabpanel" aria-labelledby="tab-btn-details">
+  <div class="pane-scroll">
+    <div class="content-inner" id="detailsInner"></div>
+  </div>
+</section>
+
+</div><!-- /.tabs-wrap -->
+
+<!-- BOTTOM TAB BAR -->
+<nav class="tab-bar" role="tablist" aria-label="Main sections">
+  <button class="tab-btn active" id="tab-btn-itinerary" role="tab" aria-selected="true" onclick="setTab('itinerary')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1.4" fill="currentColor"/><circle cx="3.5" cy="12" r="1.4" fill="currentColor"/><circle cx="3.5" cy="18" r="1.4" fill="currentColor"/></svg>
+    <span class="tab-label">Itinerary</span>
+  </button>
+  <button class="tab-btn" id="tab-btn-map" role="tab" aria-selected="false" onclick="setTab('map')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3l-6 3v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg>
+    <span class="tab-label">Map</span>
+  </button>
+  <button class="tab-btn" id="tab-btn-playlist" role="tab" aria-selected="false" onclick="setTab('playlist')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    <span class="tab-label">Playlist</span>
+  </button>
+  <button class="tab-btn" id="tab-btn-details" role="tab" aria-selected="false" onclick="setTab('details')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="tab-label">Details</span>
+  </button>
+</nav>
 
 <!-- Bottom Sheet -->
 <div class="bottom-sheet" id="bottomSheet">
@@ -358,8 +561,8 @@
   <div class="nav-loading" id="navLoading" style="display:none">Fetching route&hellip;</div>
 </div>
 
-<!-- CONTENT PANE -->
-<div class="content-pane" id="contentPane">
+<!-- LEGACY CONTENT SOURCE — contents moved to tab panes at init -->
+<div class="content-pane legacy-source" id="contentPane" style="display:none" aria-hidden="true">
   <div class="content-inner">
     <div class="filter-bar" role="group" aria-label="Filter stops">
       <span class="filter-label">Show:</span>
@@ -367,12 +570,6 @@
       <button class="filter-btn d1" onclick="setFilter('d1')" aria-pressed="false">Day 1</button>
       <button class="filter-btn d2" onclick="setFilter('d2')" aria-pressed="false">Day 2</button>
       <button class="filter-btn d3" onclick="setFilter('d3')" aria-pressed="false">Day 3</button>
-    </div>
-    <div class="legend-bar" aria-label="Map legend">
-      <div class="legend-item"><div class="legend-swatch dashed" style="color:#ec4899"></div><span>Day 1 drive</span></div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#f59e0b"></div><span>Day 1 walk</span></div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#a78bfa"></div><span>Day 2 walk</span></div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#22d3ee"></div><span>Day 3 drive</span></div>
     </div>
 
     <!-- DAY 1: Sunday April 19 -->
@@ -1163,8 +1360,6 @@ function setFilter(group) {
   document.querySelectorAll('.day-block').forEach(el=>{
     if(group==='all'||el.dataset.group===group)el.classList.remove('hidden');else el.classList.add('hidden');
   });
-  const tdw=document.getElementById('tripDetailsWrapper');
-  if(tdw)tdw.style.display=(group==='all')?'':'none';
 }
 
 // =============================================
@@ -1254,11 +1449,11 @@ function toggleTripDetails() {
   document.getElementById('tripDetailsWrapper').classList.toggle('open');
 }
 
-function scrollToTop() { document.querySelector('.content-pane').scrollTo({top:0,behavior:'smooth'}); }
-
-document.querySelector('.content-pane').addEventListener('scroll',function(){
-  document.getElementById('backToTop').classList.toggle('visible',this.scrollTop>300);
-});
+function scrollToTop() {
+  const activePane = document.querySelector('.tab-pane.active');
+  const scroller = activePane && activePane.querySelector('.pane-scroll');
+  if(scroller) scroller.scrollTo({top:0,behavior:'smooth'});
+}
 
 // =============================================
 //  GPS
@@ -1293,6 +1488,8 @@ function formatDist(m){return m<1000?`${Math.round(m)} m`:`${(m/1000).toFixed(1)
 
 async function navigateToStop(stopId){
   const stop=allStopsFlat.find(s=>s.id===stopId);if(!stop)return;
+  // Auto-switch to Map tab so the route is visible
+  if(typeof setTab==='function') setTab('map');
   // Use the currently selected alternative's coordinates and name
   let lat=stop.lat,lng=stop.lng,navName=stop.name;
   if(stop.alternatives){
@@ -1404,8 +1601,227 @@ function updateContextualHeader(){
   const h=document.getElementById('contextualHeader');
   const now=new Date();const hr=now.getHours(),mo=now.getMonth()+1,d=now.getDate(),y=now.getFullYear();
   let g=hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
-  if(y===2026&&mo===4){if(d===19){h.textContent=`${g} \u2014 Day 1`;return;}if(d===20){h.textContent=`${g} \u2014 Day 2`;return;}if(d===21){h.textContent=`${g} \u2014 Day 3`;return;}}
-  h.textContent='Merano Getaway';
+  let todayGroup=null;
+  if(y===2026&&mo===4){if(d===19){h.textContent=`${g} \u2014 Day 1`;todayGroup='d1';}
+    else if(d===20){h.textContent=`${g} \u2014 Day 2`;todayGroup='d2';}
+    else if(d===21){h.textContent=`${g} \u2014 Day 3`;todayGroup='d3';}
+    else{h.textContent='Merano Getaway';}
+  } else {
+    h.textContent='Merano Getaway';
+  }
+  // Highlight today's day block, auto-scroll it into view
+  if(todayGroup){
+    const block=document.querySelector(`.day-block[data-group="${todayGroup}"]`);
+    if(block){block.classList.add('is-today');}
+  }
+}
+
+// =============================================
+//  TAB SYSTEM — migrate legacy content + switch tabs
+// =============================================
+(function migrateLegacyContent(){
+  const legacy = document.getElementById('contentPane');
+  const itineraryTarget = document.getElementById('itineraryInner');
+  const detailsTarget = document.getElementById('detailsInner');
+  if(!legacy || !itineraryTarget || !detailsTarget) return;
+
+  const inner = legacy.querySelector('.content-inner');
+  if(!inner) return;
+
+  // Move filter-bar and day-blocks into the itinerary tab (preserves IDs so createCard still works)
+  const filterBar = inner.querySelector('.filter-bar');
+  if(filterBar) itineraryTarget.appendChild(filterBar);
+  inner.querySelectorAll('.day-block').forEach(db => itineraryTarget.appendChild(db));
+
+  // Details header
+  const dh = document.createElement('div');
+  dh.innerHTML = '<h2 class="details-heading">Trip Details</h2><p class="details-sub">Parking, emergency, weather, budget, and packing list.</p>';
+  detailsTarget.appendChild(dh);
+
+  // Unwrap the accordion — move its inner sections straight into the details tab
+  const tdw = document.getElementById('tripDetailsWrapper');
+  if(tdw){
+    const tdc = tdw.querySelector('.trip-details-content');
+    if(tdc){
+      while(tdc.firstChild) detailsTarget.appendChild(tdc.firstChild);
+    }
+  }
+
+  // Remove the now-empty legacy wrapper from DOM layout calculations
+  legacy.parentNode && legacy.parentNode.removeChild(legacy);
+})();
+
+function setTab(name){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  const pane = document.getElementById('pane-'+name);
+  if(pane) pane.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    b.classList.remove('active');
+    b.setAttribute('aria-selected','false');
+  });
+  const btn = document.getElementById('tab-btn-'+name);
+  if(btn){ btn.classList.add('active'); btn.setAttribute('aria-selected','true'); }
+  // Leaflet needs invalidateSize when its container becomes visible
+  if(name==='map'){
+    setTimeout(()=>{
+      try{
+        map.invalidateSize();
+        map.fitBounds(L.latLngBounds(allPoints).pad(0.05));
+      }catch(e){}
+    }, 320);
+  } else {
+    // Close any open bottom-sheet when leaving map
+    hideBottomSheet();
+  }
+  // Reset scroll on the newly-active pane
+  const scrollEl = pane && pane.querySelector('.pane-scroll');
+  if(scrollEl) scrollEl.scrollTop = 0;
+}
+
+// Wire back-to-top button to the active pane's scroller
+(function wireBackToTop(){
+  const backBtn = document.getElementById('backToTop');
+  if(!backBtn) return;
+  document.querySelectorAll('.pane-scroll').forEach(scroller=>{
+    scroller.addEventListener('scroll', function(){
+      const pane = this.closest('.tab-pane');
+      if(!pane || !pane.classList.contains('active')) return;
+      backBtn.classList.toggle('visible', this.scrollTop > 300);
+    });
+  });
+})();
+
+// =============================================
+//  PLAYLIST — Merano drive
+// =============================================
+const playlistPhases = [
+  {
+    name: "Warm start — leaving Samnaun",
+    icon: "\u{1F697}",
+    tracks: [
+      {title:"Ophelia", artist:"The Lumineers", familiar:true, note:"Familiar opener, sets the tone."},
+      {title:"Sunroof", artist:"Nicky Youre, hey daisy", familiar:true, note:"From Damn good day — instant good mood."},
+      {title:"live more & love more", artist:"Cat Burns", familiar:true, note:"From Roadtrippin — comfort pick."},
+      {title:"Golden Hour", artist:"JVKE", familiar:false, note:"Discovery — exactly her indie-pop lane."},
+      {title:"Peach", artist:"Brooke Alexx", familiar:false, note:"Discovery — dreamy road trip feel."}
+    ]
+  },
+  {
+    name: "Open road — into Austria & the valley",
+    icon: "\u{1F3DE}\uFE0F",
+    tracks: [
+      {title:"NO BAD DAYS", artist:"Macklemore ft. Collett", familiar:true, note:"She\u2019ll sing along."},
+      {title:"Green Green Grass (Sam Feldt Remix)", artist:"George Ezra", familiar:true, note:"From Roadtrippin."},
+      {title:"Heat Waves", artist:"Glass Animals", familiar:false, note:"Fits between her Nicky Youre and Lumineers."},
+      {title:"Auf und davon", artist:"Casper", familiar:true, note:"From her Casper playlist \u2014 literally \u201Cup and away.\u201D"},
+      {title:"Glorious", artist:"Macklemore ft. Skylar Grey", familiar:true, note:"From her \u{1F917} playlist \u2014 big driving energy."},
+      {title:"Symphony", artist:"Imagine Dragons", familiar:true, note:"From Roadtrippin."},
+      {title:"I Lived", artist:"OneRepublic", familiar:true, note:"Anthem energy for the straightaway."}
+    ]
+  },
+  {
+    name: "Into the mountains — approaching Reschenpass",
+    icon: "\u{1F3D4}\uFE0F",
+    tracks: [
+      {title:"Amsterdam", artist:"Gregory Alan Isakov", familiar:true, note:"Quieter, contemplative, mountain-pass perfect."},
+      {title:"Vagabond", artist:"Caamp", familiar:true, note:"Folk warmth as the peaks come into view."},
+      {title:"Down by the Water", artist:"Ocie Elliott", familiar:true, note:"The gentlest track she listens to."},
+      {title:"The Night We Met", artist:"Lord Huron", familiar:false, note:"Discovery \u2014 fits her Isakov mood exactly."},
+      {title:"Ganz sch\u00f6n okay", artist:"Casper ft. Kraftklub", familiar:true, note:"Her playlist is named after this song."}
+    ]
+  },
+  {
+    name: "Reschenpass — the sunken church, crossing into Italy",
+    icon: "\u{26EA}",
+    tracks: [
+      {title:"Daydream", artist:"Lily Meola", familiar:true, note:"On two of her playlists \u2014 dreamy."},
+      {title:"Shelter", artist:"Joy Oladokun", familiar:true, note:"From Roadtrippin \u2014 warm, reassuring."},
+      {title:"Holocene", artist:"Bon Iver", familiar:false, note:"Discovery \u2014 the mountain track."},
+      {title:"So perfekt", artist:"Casper ft. Marteria", familiar:true, note:"Fits the downhill into Vinschgau."}
+    ]
+  },
+  {
+    name: "Vinschgau valley — descending toward Merano",
+    icon: "\u{1F347}",
+    tracks: [
+      {title:"Good Company", artist:"Andy Grammer", familiar:true, note:"From Roadtrippin \u2014 \u201Cyou and me\u201D energy."},
+      {title:"Sure Thing", artist:"Miguel", familiar:true, note:"Smooth, warm, romantic undertone."},
+      {title:"Cover Me In Sunshine", artist:"P!nk ft. Willow", familiar:true, note:"Light, happy, arriving energy."},
+      {title:"Until I Found You", artist:"Stephen Sanchez", familiar:true, note:"Romantic, the drive is almost done."}
+    ]
+  },
+  {
+    name: "Arrival — pulling into Merano",
+    icon: "\u{1F3E1}",
+    tracks: [
+      {title:"Perfect", artist:"Ed Sheeran", familiar:true, note:"From her \u{1F917} \u2014 she knows every word."},
+      {title:"Dandelions", artist:"Ruth B.", familiar:true, note:"Soft, sweet \u2014 you\u2019re here."}
+    ]
+  }
+];
+
+function spotifySearchUrl(title, artist){
+  const q = encodeURIComponent(`${title} ${artist}`);
+  return `https://open.spotify.com/search/${q}`;
+}
+
+function renderPlaylist(){
+  const target = document.getElementById('playlistInner');
+  if(!target) return;
+  let trackNum = 0;
+  const totalTracks = playlistPhases.reduce((n,p)=>n+p.tracks.length, 0);
+
+  let html = `
+    <div class="playlist-header">
+      <h2 class="playlist-title"><span class="playlist-title-dot"></span>Drive to Merano</h2>
+      <p class="playlist-subtitle">${totalTracks} tracks sequenced for the 2-hour drive. Familiar tracks she already loves, mixed with discoveries that match her taste.</p>
+      <div class="playlist-meta">~2 hrs \u2022 Samnaun \u2192 Merano \u2022 Heart = she already has it</div>
+      <a class="playlist-open-btn" href="${spotifySearchUrl('Drive to Merano','')}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.59 14.39a.62.62 0 01-.85.21c-2.33-1.42-5.26-1.74-8.71-.95a.62.62 0 11-.28-1.21c3.77-.86 7.01-.49 9.63 1.1.29.18.38.57.21.85zm1.22-2.72a.78.78 0 01-1.07.26c-2.66-1.63-6.7-2.11-9.85-1.15a.78.78 0 11-.45-1.49c3.59-1.1 8.04-.56 11.1 1.31.37.22.49.71.27 1.07zm.11-2.83c-3.19-1.89-8.45-2.07-11.5-1.14a.94.94 0 11-.54-1.8c3.5-1.05 9.32-.85 13 1.33a.94.94 0 11-.95 1.61z"/></svg>
+        Open Spotify search
+      </a>
+    </div>
+  `;
+
+  playlistPhases.forEach((phase, pi) => {
+    html += `
+      <div class="phase-block" data-phase="${pi}">
+        <div class="phase-header" onclick="togglePhase(${pi})">
+          <div class="phase-number">${phase.icon}</div>
+          <div class="phase-title">${phase.name}</div>
+          <svg class="phase-caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="phase-tracks">
+    `;
+    phase.tracks.forEach(t => {
+      trackNum++;
+      const famClass = t.familiar ? ' familiar' : '';
+      html += `
+          <a class="track${famClass}" href="${spotifySearchUrl(t.title, t.artist)}" target="_blank" rel="noopener">
+            <div class="track-num">${trackNum}</div>
+            <div class="track-body">
+              <div class="track-title">${t.title}</div>
+              <div class="track-artist">${t.artist}</div>
+              ${t.note ? `<div class="track-note">${t.note}</div>` : ''}
+            </div>
+            <div class="track-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+          </a>
+      `;
+    });
+    html += `</div></div>`;
+  });
+
+  html += `
+    <div class="playlist-footer">
+      Tap a track to open it on Spotify. Or tap <strong>Open Spotify search</strong> at the top to build the full playlist there. Then just play it through the car\u2019s Bluetooth when you pull out of Samnaun. <strong>If she asks &ldquo;what playlist is this?&rdquo; — that&rsquo;s the moment.</strong>
+    </div>
+  `;
+  target.innerHTML = html;
+}
+
+function togglePhase(idx){
+  const block = document.querySelector(`.phase-block[data-phase="${idx}"]`);
+  if(block) block.classList.toggle('collapsed');
 }
 
 // =============================================
@@ -1417,7 +1833,7 @@ day3Stops.forEach(s=>{createMarker(s);createCard(s);});
 
 if(allStopsFlat.length>0)document.getElementById('nextStopLabel').textContent=allStopsFlat[0].name.substring(0,22);
 
-loadWeather();renderChecklist();updateContextualHeader();
+loadWeather();renderChecklist();updateContextualHeader();renderPlaylist();
 
 if('serviceWorker' in navigator){navigator.serviceWorker.register('data:text/javascript,console.log("PWA ready")').catch(()=>{});}
 </script>
