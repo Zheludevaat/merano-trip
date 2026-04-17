@@ -13,7 +13,104 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@500;600&display=swap" rel="stylesheet">
-  <style>@font-face{font-family:'Fraunces';font-display:swap}@font-face{font-family:'Inter';font-display:swap}</style>
+  <style>@font-face{font-family:'Fraunces';font-display:swap}@font-face{font-family:'Inter';font-display:swap}
+    /* ==========================================================
+       MERGED MAP + ITINERARY PANE  (mobile-first)
+       ========================================================== */
+    #pane-itinerary { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+    #pane-itinerary .map-container {
+      flex: 0 0 44px;
+      position: relative;
+      width: 100%;
+      background: var(--color-pink-100);
+      border-bottom: 1px solid var(--color-cocoa-a06);
+      transition: flex-basis var(--dur-400) ease;
+      overflow: hidden;
+      z-index: 15;
+    }
+    #pane-itinerary .map-container.map-open {
+      flex: 0 0 45vh;
+      overflow: visible;
+    }
+    #pane-itinerary .map-container.fullscreen {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 500; flex: 1 1 100%;
+    }
+    #pane-itinerary .pane-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+
+    /* Desktop (>=900px): true side-by-side split */
+    @media (min-width: 900px) {
+      #pane-itinerary { flex-direction: row; }
+      #pane-itinerary .map-container {
+        flex: 0 0 50%;
+        height: 100%;
+        border-right: 1px solid var(--color-cocoa-a06);
+        border-bottom: none;
+      }
+      #pane-itinerary .map-container.map-open { flex: 0 0 50%; }
+      #pane-itinerary .map-container.fullscreen { flex: 1 1 100%; position: fixed; }
+      #pane-itinerary .pane-scroll { flex: 1 1 50%; }
+      #pane-itinerary .map-container .map-tap-bar { display: none; }
+      #pane-itinerary .map-container .map-day-pills,
+      #pane-itinerary .map-container .map-fullscreen-btn,
+      #pane-itinerary .map-container .gps-btn,
+      #pane-itinerary .map-container .gps-status,
+      #pane-itinerary .map-container .next-stop-btn { opacity: 1 !important; pointer-events: auto !important; }
+    }
+
+    /* ==========================================================
+       GOOGLE-MAPS-STYLE STOP POPUP
+       ========================================================== */
+    .stop-popup-wrap .leaflet-popup-content-wrapper {
+      background: var(--color-snow, #fff);
+      border-radius: 14px;
+      padding: 0;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .stop-popup-wrap .leaflet-popup-content { margin: 0; width: 260px !important; }
+    .stop-popup-wrap .leaflet-popup-tip { background: var(--color-snow, #fff); }
+    .stop-popup-wrap .leaflet-popup-close-button {
+      top: 6px; right: 6px; color: #fff !important;
+      background: rgba(0,0,0,0.45); border-radius: 50%;
+      width: 22px; height: 22px; line-height: 20px; font-size: 18px;
+      text-align: center; padding: 0 !important; font-weight: 300;
+    }
+    .stop-popup { font: 14px/1.35 var(--font-body, system-ui, -apple-system, sans-serif); color: var(--color-cocoa, #2a1f1f); }
+    .stop-popup-photo {
+      width: 100%; height: 120px;
+      background-size: cover; background-position: center;
+      background-color: var(--color-pink-100, #fbe9eb);
+    }
+    .stop-popup-body { padding: 10px 12px 12px; }
+    .stop-popup-time {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+      text-transform: uppercase; color: var(--color-pink-brand, #b56576);
+      margin-bottom: 2px;
+    }
+    .stop-popup-name { font-size: 15px; font-weight: 700; line-height: 1.25; margin-bottom: 4px; color: var(--color-cocoa, #2a1f1f); }
+    .stop-popup-tagline { font-size: 12.5px; line-height: 1.35; color: rgba(42,31,31,0.72); margin-bottom: 10px; }
+    .stop-popup-actions { display: flex; gap: 6px; }
+    .stop-popup-btn {
+      flex: 1 1 50%; display: inline-flex; align-items: center; justify-content: center;
+      gap: 5px; padding: 8px 10px; border-radius: 8px; font-size: 12.5px; font-weight: 600;
+      text-decoration: none; cursor: pointer; border: 1px solid transparent;
+      min-height: 36px; transition: transform 0.15s ease, background-color 0.15s ease;
+      font-family: inherit;
+    }
+    .stop-popup-btn.primary { background: var(--color-pink-brand, #b56576); color: #fff; }
+    .stop-popup-btn.primary:hover { background: #9c5063; }
+    .stop-popup-btn.secondary { background: rgba(0,0,0,0.04); color: var(--color-cocoa, #2a1f1f); border-color: rgba(0,0,0,0.08); }
+    .stop-popup-btn.secondary:hover { background: rgba(0,0,0,0.08); }
+    .stop-popup-btn:active { transform: scale(0.97); }
+
+    /* Card highlight effect when user taps a marker */
+    .card.highlight {
+      box-shadow: 0 0 0 3px var(--color-pink-brand, #b56576), 0 8px 20px rgba(181,101,118,0.25) !important;
+      transition: box-shadow 0.3s ease;
+    }
+</style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <style>
     /*
@@ -740,14 +837,8 @@
 
 <!-- ITINERARY TAB -->
 <section class="tab-pane active" id="pane-itinerary" role="tabpanel" aria-labelledby="tab-btn-itinerary">
-  <div class="pane-scroll" id="itineraryScroll">
-    <div class="content-inner" id="itineraryInner"></div>
-  </div>
-</section>
-
-<!-- MAP TAB -->
-<section class="tab-pane" id="pane-map" role="tabpanel" aria-labelledby="tab-btn-map">
-<div class="map-container" id="mapContainer">
+  
+  <div class="map-container" id="mapContainer">
   <div id="map"></div>
   <div class="map-day-pills" id="mapDayPills">
     <button class="map-day-pill active" onclick="setMapDay('all')">All</button>
@@ -774,7 +865,12 @@
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
   </div>
 </div>
-</section><!-- /#pane-map -->
+  <div class="pane-scroll" id="itineraryScroll">
+    <div class="content-inner" id="itineraryInner"></div>
+  </div>
+</section>
+
+
 
 <!-- PLAYLIST TAB -->
 <section class="tab-pane" id="pane-playlist" role="tabpanel" aria-labelledby="tab-btn-playlist">
@@ -798,10 +894,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1.4" fill="currentColor"/><circle cx="3.5" cy="12" r="1.4" fill="currentColor"/><circle cx="3.5" cy="18" r="1.4" fill="currentColor"/></svg>
     <span class="tab-label">Itinerary</span>
   </button>
-  <button class="tab-btn" id="tab-btn-map" role="tab" aria-selected="false" onclick="setTab('map')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3l-6 3v15l6-3 6 3 6-3V3l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg>
-    <span class="tab-label">Map</span>
-  </button>
+  
   <button class="tab-btn" id="tab-btn-playlist" role="tab" aria-selected="false" onclick="setTab('playlist')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
     <span class="tab-label">Playlist</span>
@@ -972,6 +1065,62 @@
 // =============================================
 // Splash always shows on each app open; only the Replay button brings it back after dismiss.
 // (Intentionally no localStorage gate here — see splashDismiss below.)
+
+
+// =============================================
+//  STOP POPUP (Google Maps style: image + info + nav + details)
+// =============================================
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function buildStopPopupHtml(stop) {
+  const photoUrl = stop.photo && stop.photo.src ? stop.photo.src : '';
+  const timeLabel = stop.time || stop.timeLabel || '';
+  const name = escHtml(stop.name || '');
+  const tagline = escHtml(stop.tagline || '');
+  const mapsUrl = getMapsUrl(stop.lat, stop.lng, stop.placeId, stop.name);
+  const photoHtml = photoUrl
+    ? `<div class="stop-popup-photo" style="background-image:url('${escHtml(photoUrl)}')" role="img" aria-label="${escHtml((stop.photo && stop.photo.alt) || stop.name || '')}"></div>`
+    : '';
+  const timeHtml = timeLabel ? `<div class="stop-popup-time">${escHtml(timeLabel)}</div>` : '';
+  const taglineHtml = tagline ? `<div class="stop-popup-tagline">${tagline}</div>` : '';
+  return `<div class="stop-popup">
+    ${photoHtml}
+    <div class="stop-popup-body">
+      ${timeHtml}
+      <div class="stop-popup-name">${name}</div>
+      ${taglineHtml}
+      <div class="stop-popup-actions">
+        <a class="stop-popup-btn primary" href="${escHtml(mapsUrl)}" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          Navigate
+        </a>
+        <button class="stop-popup-btn secondary" onclick="scrollToStopCard('${escHtml(stop.id)}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Details
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+function scrollToStopCard(stopId) {
+  try { if (typeof map !== 'undefined' && map.closePopup) map.closePopup(); } catch(e) {}
+  const card = document.getElementById('card-' + stopId);
+  if (!card) return;
+  card.scrollIntoView({behavior:'smooth', block:'center'});
+  card.classList.add('highlight');
+  setTimeout(()=>card.classList.remove('highlight'), 1600);
+}
+function openMapDrawer() {
+  const mc = document.getElementById('mapContainer');
+  if (!mc) return;
+  if (!mc.classList.contains('map-open') && !mc.classList.contains('fullscreen')) {
+    mc.classList.add('map-open');
+    const lb = document.querySelector('.legend-bar');
+    if (lb) lb.classList.add('visible');
+    setTimeout(()=>{ try { map.invalidateSize(); } catch(e){} }, 400);
+  }
+}
 
 function splashDismiss() {
   var splash = document.getElementById('splash');
@@ -1370,14 +1519,17 @@ function createMarker(stop) {
       html: markerSvg,
       iconSize: isHome ? [36,36] : [32,32], iconAnchor: isHome ? [18,18] : [16,16], className:'custom-marker'
     })
-  }).bindPopup(stop.name, {offset:[0,-12], closeButton:false, autoPan:false}).addTo(map).on('click', function() {
+  }).bindPopup(buildStopPopupHtml(stop), {offset:[0,-14], closeButton:true, autoPan:true, maxWidth:280, minWidth:220, className:'stop-popup-wrap'}).addTo(map).on('click', function() {
     this.openPopup();
     const ll = this.getLatLng();
-    map.flyTo([ll.lat,ll.lng], 17, {duration:0.8});
-    if (isFullscreen) showBottomSheet(stop);
-    else {
-      const card = document.getElementById(`card-${stop.id}`);
-      if (card) { card.scrollIntoView({behavior:'smooth',block:'start'}); card.classList.add('highlight'); setTimeout(()=>card.classList.remove('highlight'),1200); }
+    map.flyTo([ll.lat,ll.lng], 17, {duration:0.6});
+    if (isFullscreen) return; // fullscreen shows bottom sheet instead
+    // Scroll the matching card into view on the list below the map
+    const card = document.getElementById(`card-${stop.id}`);
+    if (card) {
+      card.scrollIntoView({behavior:'smooth', block:'center'});
+      card.classList.add('highlight');
+      setTimeout(()=>card.classList.remove('highlight'), 1400);
     }
   });
   markerMap[stop.id] = marker;
@@ -1406,7 +1558,10 @@ function createCard(stop) {
 
   card.addEventListener('click', function(e) {
     if (e.target.closest('button, a, .card-actions, .alt-controls, .alt-wrapper, .alt-toggle, .contact-btn')) return;
-    map.flyTo([stop.lat,stop.lng], 17, {duration:0.8});
+    openMapDrawer(); // ensure the map is visible on mobile when you tap a stop
+    map.flyTo([stop.lat,stop.lng], 17, {duration:0.7});
+    const m = markerMap[stop.id];
+    if (m) { setTimeout(()=>m.openPopup(), 400); }
   });
 
   renderCardContent(card, stop, 0);
@@ -1754,7 +1909,7 @@ function formatDist(m){return m<1000?`${Math.round(m)} m`:`${(m/1000).toFixed(1)
 async function navigateToStop(stopId){
   const stop=allStopsFlat.find(s=>s.id===stopId);if(!stop)return;
   // Auto-switch to Map tab so the route is visible
-  if(typeof setTab==='function') setTab('map');
+  if(typeof setTab==='function') setTab('itinerary'); openMapDrawer();
   // Use the currently selected alternative's coordinates and name
   let lat=stop.lat,lng=stop.lng,navName=stop.name;
   if(stop.alternatives){
