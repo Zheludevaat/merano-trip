@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <meta name="theme-color" content="#fdf2f8">
+  <meta name="theme-color" content="#fdf6ef">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Merano Trip">
@@ -20,46 +20,46 @@
  * Phase 0 — Tokenization inventory.
  * Distinct hex values found in the original file (input for Phase 1 palette swap):
  *   #059669  --color-emerald-600
- *   #0e7490  --color-cyan-800
+ *   #2e6b6b  --color-cyan-800
  *   #121212  --color-neutral-950
  *   #166534  --color-green-800
  *   #1a1014  --color-plum-950
  *   #1db954  --color-spotify-green
  *   #22c55e  --color-green-500
- *   #22d3ee  --color-cyan-400
+ *   #5fa394  --color-cyan-400
  *   #2a1820  --color-plum-900
  *   #3d2e22  --color-cocoa-900
  *   #4285f4  --color-azure-500
  *   #4a3728  --color-cocoa-800
  *   #57534e  --color-stone-700
- *   #5b21b6  --color-violet-800
+ *   #6b3aa5  --color-violet-800
  *   #78716c  --color-stone-500
- *   #7c3aed  --color-violet-600
- *   #831843  --color-pink-900
+ *   #84599a  --color-violet-600
+ *   #3e1a1f  --color-pink-900
  *   #854d0e  --color-amber-800
  *   #8a7e76  --color-taupe-600
  *   #92400e  --color-amber-900
- *   #9d174d  --color-pink-800
- *   #9d8b80  --color-taupe-500
- *   #a78bfa  --color-violet-400
+ *   #5d2a2f  --color-pink-800
+ *   #7a6a5e  --color-taupe-500
+ *   #9b7ec0  --color-violet-400
  *   #a8a29e  --color-stone-400
  *   #b45309  --color-amber-700
  *   #bbf7d0  --color-green-200
- *   #be185d  --color-pink-700
- *   #db2777  --color-pink-600
+ *   #6f3039  --color-pink-700
+ *   #8e3b46  --color-pink-600
  *   #dc2626  --color-red-600
  *   #dcfce7  --color-green-100
- *   #e8809c  --color-pink-muted
- *   #ec4899  --color-pink-500
- *   #f472b6  --color-pink-400
- *   #f9a8d4  --color-pink-300
- *   #faf5f0  --color-cream
- *   #fbcfe8  --color-pink-200
- *   #fce7f3  --color-pink-100
+ *   #c97064  --color-pink-muted
+ *   #b56576  --color-pink-500
+ *   #c9838f  --color-pink-400
+ *   #d9a488  --color-pink-300
+ *   #f0e0d0  --color-cream
+ *   #e8c4a8  --color-pink-200
+ *   #f0d8c4  --color-pink-100
  *   #fde68a  --color-amber-200
- *   #fdf2f8  --color-pink-50
+ *   #f5e7da  --color-pink-50
  *   #fef9c3  --color-amber-100
- *   #fefcfb  --color-ivory
+ *   #fdf6ef  --color-ivory
  *   #ffffff  --color-white
  */
 :root{
@@ -72,27 +72,28 @@
   --color-azure-500: #4285f4;
   --color-cocoa-800: #4a3728;
   --color-cocoa-900: #3d2e22;
-  --color-cream: #faf5f0;
-  --color-cyan-400: #22d3ee;
-  --color-cyan-800: #0e7490;
+  --color-cream: #f0e0d0;
+  --color-cyan-400: #5fa394;
+  --color-cyan-800: #2e6b6b;
   --color-emerald-600: #059669;
   --color-green-100: #dcfce7;
   --color-green-200: #bbf7d0;
   --color-green-500: #22c55e;
   --color-green-800: #166534;
-  --color-ivory: #fefcfb;
+  --color-ivory: #fdf6ef;
   --color-neutral-950: #121212;
-  --color-pink-100: #fce7f3;
-  --color-pink-200: #fbcfe8;
-  --color-pink-300: #f9a8d4;
-  --color-pink-400: #f472b6;
-  --color-pink-50: #fdf2f8;
-  --color-pink-500: #ec4899;
-  --color-pink-600: #db2777;
-  --color-pink-700: #be185d;
-  --color-pink-800: #9d174d;
-  --color-pink-900: #831843;
-  --color-pink-muted: #e8809c;
+  --color-pink-100: #f0d8c4;
+  --color-pink-200: #e8c4a8;
+  --color-pink-300: #d9a488;
+  --color-pink-400: #c9838f;
+  --color-pink-50: #f5e7da;
+  --color-pink-500: #b56576;
+  --color-pink-600: #8e3b46;
+  --color-pink-700: #6f3039;
+  --color-pink-800: #5d2a2f;
+  --color-pink-900: #3e1a1f;
+  --color-pink-muted: #c97064;
+  --day1-strong: #a44a3f;
   --color-plum-900: #2a1820;
   --color-plum-950: #1a1014;
   --color-red-600: #dc2626;
@@ -100,11 +101,11 @@
   --color-stone-400: #a8a29e;
   --color-stone-500: #78716c;
   --color-stone-700: #57534e;
-  --color-taupe-500: #9d8b80;
+  --color-taupe-500: #7a6a5e;
   --color-taupe-600: #8a7e76;
-  --color-violet-400: #a78bfa;
-  --color-violet-600: #7c3aed;
-  --color-violet-800: #5b21b6;
+  --color-violet-400: #9b7ec0;
+  --color-violet-600: #84599a;
+  --color-violet-800: #6b3aa5;
   --color-white: #ffffff;
   /* ── Color primitives (rgba) ── */
   --color-amber-a15: rgba(180,83,9,.15);
@@ -134,40 +135,40 @@
   --color-lilac-a40: rgba(245,243,255,.4);
   --color-mint-a40: rgba(236,253,245,.4);
   --color-mint-a70: rgba(236,253,245,.7);
-  --color-pink-brand-a04: rgba(219,39,119,.04);
-  --color-pink-brand-a05: rgba(219,39,119,.05);
-  --color-pink-brand-a06: rgba(219,39,119,.06);
-  --color-pink-brand-a07: rgba(219,39,119,.07);
-  --color-pink-brand-a08: rgba(219,39,119,.08);
-  --color-pink-brand-a10: rgba(219,39,119,.1);
-  --color-pink-brand-a12: rgba(219,39,119,.12);
-  --color-pink-brand-a15: rgba(219,39,119,.15);
-  --color-pink-brand-a20: rgba(219,39,119,.2);
-  --color-pink-brand-a22: rgba(219,39,119,.22);
-  --color-pink-brand-a25: rgba(219,39,119,.25);
-  --color-pink-brand-a30: rgba(219,39,119,.3);
-  --color-pink-brand-a35: rgba(219,39,119,.35);
-  --color-pink-glow-a00: rgba(236,72,153,0);
-  --color-pink-glow-a12: rgba(236,72,153,.12);
-  --color-pink-glow-a20: rgba(236,72,153,.2);
-  --color-pink-glow-a25: rgba(236,72,153,.25);
-  --color-pink-glow-a50: rgba(236,72,153,.5);
-  --color-pink-glow-a55: rgba(236,72,153,.55);
-  --color-pink-glow-a65: rgba(236,72,153,.65);
-  --color-pink-mist-a20: rgba(252,231,243,.2);
-  --color-pink-mist-a30: rgba(252,231,243,.3);
-  --color-pink-mist-a35: rgba(252,231,243,.35);
-  --color-pink-mist-a40: rgba(252,231,243,.4);
-  --color-pink-mist-a50: rgba(252,231,243,.5);
-  --color-pink-mist-a60: rgba(252,231,243,.6);
-  --color-pink-mist-a85: rgba(252,231,243,.85);
-  --color-pink-mist-a98: rgba(252,231,243,.98);
-  --color-pink-whisper-a80: rgba(253,242,248,.8);
+  --color-pink-brand-a04: rgba(142,59,70,.04);
+  --color-pink-brand-a05: rgba(142,59,70,.05);
+  --color-pink-brand-a06: rgba(142,59,70,.06);
+  --color-pink-brand-a07: rgba(142,59,70,.07);
+  --color-pink-brand-a08: rgba(142,59,70,.08);
+  --color-pink-brand-a10: rgba(142,59,70,.1);
+  --color-pink-brand-a12: rgba(142,59,70,.12);
+  --color-pink-brand-a15: rgba(142,59,70,.15);
+  --color-pink-brand-a20: rgba(142,59,70,.2);
+  --color-pink-brand-a22: rgba(142,59,70,.22);
+  --color-pink-brand-a25: rgba(142,59,70,.25);
+  --color-pink-brand-a30: rgba(142,59,70,.3);
+  --color-pink-brand-a35: rgba(142,59,70,.35);
+  --color-pink-glow-a00: rgba(181,101,118,0);
+  --color-pink-glow-a12: rgba(181,101,118,.12);
+  --color-pink-glow-a20: rgba(181,101,118,.2);
+  --color-pink-glow-a25: rgba(181,101,118,.25);
+  --color-pink-glow-a50: rgba(181,101,118,.5);
+  --color-pink-glow-a55: rgba(181,101,118,.55);
+  --color-pink-glow-a65: rgba(181,101,118,.65);
+  --color-pink-mist-a20: rgba(240,216,196,.2);
+  --color-pink-mist-a30: rgba(240,216,196,.3);
+  --color-pink-mist-a35: rgba(240,216,196,.35);
+  --color-pink-mist-a40: rgba(240,216,196,.4);
+  --color-pink-mist-a50: rgba(240,216,196,.5);
+  --color-pink-mist-a60: rgba(240,216,196,.6);
+  --color-pink-mist-a85: rgba(240,216,196,.85);
+  --color-pink-mist-a98: rgba(240,216,196,.98);
+  --color-pink-whisper-a80: rgba(245,231,218,.8);
   --color-plum-a90: rgba(26,16,20,.9);
   --color-red-a10: rgba(239,68,68,.1);
   --color-red-a20: rgba(239,68,68,.2);
   --color-red-a25: rgba(239,68,68,.25);
-  --color-rose-pale-a30: rgba(254,205,211,.3);
+  --color-rose-pale-a30: rgba(232,192,168,.3);
   --color-sky-a40: rgba(232,240,254,.4);
   --color-snow-a04: rgba(255,255,255,.04);
   --color-snow-a15: rgba(255,255,255,.15);
@@ -377,7 +378,7 @@
     .day-title{font-family:var(--font-serif);font-size:1.5rem;font-weight:700;margin-bottom:6px;letter-spacing:-.3px;display:flex;align-items:center;gap:10px}
     .day-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--color-ink-a08),transparent)}
     .day-title .day-icon{font-size:1.1rem;flex-shrink:0}
-    .day-title.d1{color:var(--color-pink-900)}
+    .day-title.d1{color:var(--day1-strong)}
     .day-title.d2{color:var(--color-violet-800)}
     .day-title.d3{color:var(--color-cyan-800)}
     .day-subtitle{font-size:.82rem;color:var(--color-taupe-500);margin-bottom:0;font-weight:400;line-height:1.5;font-style:italic}
@@ -883,7 +884,7 @@
         <div class="info-card"><div class="info-card-label">Emergency</div><div class="info-card-value"><a href="tel:112">112</a></div><div class="info-card-sub">All emergencies (EU-wide)</div></div>
         <div class="info-card"><div class="info-card-label">Ambulance</div><div class="info-card-value"><a href="tel:118">118</a></div><div class="info-card-sub">Medical emergency (Italy)</div></div>
         <div class="info-card"><div class="info-card-label">Hospital</div><div class="info-card-value">Krankenhaus Meran</div><div class="info-card-sub"><a href="tel:+390473263333">+39 0473 263 333</a></div></div>
-        <div class="info-card"><div class="info-card-label">Pharmacy</div><div class="info-card-value"><a href="tel:+390473236826">Central Apotheke</a></div><div class="info-card-sub">Via Fossato Molini 6 &bull; <a href="https://www.farmacistialtoadige.it/turni" target="_blank" style="color:#9d174d">Night-duty lookup</a></div></div>
+        <div class="info-card"><div class="info-card-label">Pharmacy</div><div class="info-card-value"><a href="tel:+390473236826">Central Apotheke</a></div><div class="info-card-sub">Via Fossato Molini 6 &bull; <a href="https://www.farmacistialtoadige.it/turni" target="_blank" style="color:#5d2a2f">Night-duty lookup</a></div></div>
         <div class="info-card"><div class="info-card-label">Police</div><div class="info-card-value"><a href="tel:113">113</a> / <a href="tel:112">112</a></div><div class="info-card-sub">Carabinieri &amp; Polizia</div></div>
       </div>
     </div>
@@ -891,7 +892,7 @@
     <!-- WEATHER -->
     <div class="info-section" id="weatherSection">
       <div class="info-section-title">&#x26C5; Weather Forecast</div>
-      <div class="weather-row" id="weatherRow"><div style="color:#9d174d;font-size:.85rem;padding:8px">Loading forecast...</div></div>
+      <div class="weather-row" id="weatherRow"><div style="color:#5d2a2f;font-size:.85rem;padding:8px">Loading forecast...</div></div>
     </div>
 
     <!-- BUDGET -->
@@ -922,8 +923,8 @@
     <div class="trip-summary">
       <h3>Quick Reference</h3>
       <div class="summary-grid">
-        <div class="summary-item"><span class="summary-label">Accommodation</span><span class="summary-value"><a href="https://www.airbnb.com/rooms/588040504385157856" target="_blank" rel="noopener" style="color:#be185d;text-decoration:underline">Truma Swing Odeon</a> &star; 4.81</span></div>
-        <div class="summary-item"><span class="summary-label">Check-in</span><span class="summary-value" style="color:#be185d;font-weight:700">15:00&ndash;20:00</span></div>
+        <div class="summary-item"><span class="summary-label">Accommodation</span><span class="summary-value"><a href="https://www.airbnb.com/rooms/588040504385157856" target="_blank" rel="noopener" style="color:#6f3039;text-decoration:underline">Truma Swing Odeon</a> &star; 4.81</span></div>
+        <div class="summary-item"><span class="summary-label">Check-in</span><span class="summary-value" style="color:#6f3039;font-weight:700">15:00&ndash;20:00</span></div>
         <div class="summary-item"><span class="summary-label">Check-out</span><span class="summary-value">by 10:00 AM</span></div>
         <div class="summary-item"><span class="summary-label">Total Drive</span><span class="summary-value">~130 km each way</span></div>
         <div class="summary-item"><span class="summary-label">Drive Time</span><span class="summary-value">~2 hrs each way</span></div>
@@ -1113,7 +1114,7 @@ const day2Stops = [
     lat:46.669463, lng:11.1598389, group:"d2", placeId:"ChIJvTB4XVW5gkcRMWplWCX8uBs",
     photo:{src:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Therme_Meran_-_panoramio.jpg/960px-Therme_Meran_-_panoramio.jpg",alt:"Terme Merano spa building",credit:"Panoramio / CC BY 3.0"},
     desc:`<p>The Terme Merano complex designed by Matteo Thun \u2014 a huge glass cube with 25 pools, whirlpools, and a full sauna world. Open 09:00\u201321:00 daily, 365 days/year.</p>
-    <p><b>Prices:</b> Pools: 2hr \u20ac18 / 3hr \u20ac20 / day \u20ac28. Pools+Sauna: day \u20ac41+. <a href="https://www.termemerano.it/en/online-shop/admission-value-cards" target="_blank" rel="noopener" style="color:#be185d">Buy tickets online</a> (up to 60 days ahead).</p>
+    <p><b>Prices:</b> Pools: 2hr \u20ac18 / 3hr \u20ac20 / day \u20ac28. Pools+Sauna: day \u20ac41+. <a href="https://www.termemerano.it/en/online-shop/admission-value-cards" target="_blank" rel="noopener" style="color:#6f3039">Buy tickets online</a> (up to 60 days ahead).</p>
     <p><b>Sauna note:</b> Textile-free zone \u2014 standard South Tyrolean spa etiquette. Aufguss ceremonies are a highlight.</p>
     <p class="tip">Bring your own towels (rentable but adds cost). Go early to beat the crowds \u2014 the outdoor pools with mountain views are magical.</p>`,
     contact:{
@@ -1318,7 +1319,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r
 }).addTo(map);
 
 const routeLines = {};
-routeLines.drive = L.polyline(driveRoute, {color:'#ec4899',weight:4,opacity:.7,dashArray:'10,6',lineCap:'round',lineJoin:'round'}).addTo(map);
+routeLines.drive = L.polyline(driveRoute, {color:'#b56576',weight:4,opacity:.7,dashArray:'10,6',lineCap:'round',lineJoin:'round'}).addTo(map);
 routeLines.walk1 = L.polyline(day1WalkRoute, {color:'#f59e0b',weight:3.5,opacity:.8,lineCap:'round',lineJoin:'round'}).addTo(map);
 routeLines.walk2 = L.polyline(day2WalkRoute, {color:'#a78bfa',weight:3.5,opacity:.8,lineCap:'round',lineJoin:'round'}).addTo(map);
 routeLines.day3 = L.polyline(day3Route, {color:'#22d3ee',weight:4,opacity:.7,dashArray:'10,6',lineCap:'round',lineJoin:'round'}).addTo(map);
@@ -1332,7 +1333,7 @@ map.fitBounds(L.latLngBounds(allPoints).pad(0.05));
 const markerMap = {};
 const cardMap = {};
 
-function getGroupColor(g) { return {d1:'#ec4899',d2:'#a78bfa',d3:'#22d3ee'}[g]||'#ec4899'; }
+function getGroupColor(g) { return {d1:'#b56576',d2:'#a78bfa',d3:'#22d3ee'}[g]||'#b56576'; }
 
 // Platform-aware maps URL: Apple Maps on iOS, Google Maps elsewhere (with place_id when available)
 function getMapsUrl(lat, lng, placeId, name) {
@@ -1780,7 +1781,7 @@ async function fetchAndShowRoute(destLat,destLng,name){
       navigationRoute=data;navigationActive=true;
       const coords=data.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
       if(navigationMarker)map.removeLayer(navigationMarker);
-      navigationMarker=L.polyline(coords,{color:'#db2777',weight:5,opacity:.85,lineCap:'round',lineJoin:'round'}).addTo(map);
+      navigationMarker=L.polyline(coords,{color:'#8e3b46',weight:5,opacity:.85,lineCap:'round',lineJoin:'round'}).addTo(map);
       document.getElementById('navDistance').textContent=`${(data.routes[0].distance/1000).toFixed(1)} km`;
       document.getElementById('navTime').textContent=`~${Math.round(data.routes[0].duration/60)} min`;
       let html='';data.routes[0].legs[0].steps.forEach((step,i)=>{if(step.maneuver.type==='depart'||step.maneuver.type==='arrive'||step.distance>50){html+=`<div class="nav-step"><div class="nav-step-icon">${i+1}</div><div class="nav-step-text">${formatStep(step)}</div><div class="nav-step-dist">${formatDist(step.distance)}</div></div>`;}});
@@ -1824,7 +1825,7 @@ async function loadWeather(){
       let h='';for(let i=0;i<3;i++){const wc=data.daily.weathercode[i];h+=`<div class="weather-day"><div class="weather-day-name">${dn[i]}</div><div class="weather-icon">${ic[wc]||'\u26C5'}</div><div class="weather-temp">${Math.round(data.daily.temperature_2m_min[i])}\u00b0/${Math.round(data.daily.temperature_2m_max[i])}\u00b0</div><div class="weather-desc">${dc[wc]||'Variable'}</div>${data.daily.precipitation_sum[i]>0?`<div class="weather-desc">\uD83D\uDCA7 ${data.daily.precipitation_sum[i]}mm</div>`:''}</div>`;}
       document.getElementById('weatherRow').innerHTML=h;
     }
-  }catch(e){document.getElementById('weatherRow').innerHTML='<div style="color:#9d174d;font-size:.85rem;padding:8px">Weather data unavailable \u2014 check closer to trip.</div>';}
+  }catch(e){document.getElementById('weatherRow').innerHTML='<div style="color:#5d2a2f;font-size:.85rem;padding:8px">Weather data unavailable \u2014 check closer to trip.</div>';}
 }
 
 // =============================================
