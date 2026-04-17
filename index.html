@@ -2022,65 +2022,77 @@ function setTab(name){
 // =============================================
 const playlistPhases = [
   {
-    name: "Warm start — leaving Samnaun",
-    icon: "\u{1F697}",
+    name: "Warm start \u2014 leaving Samnaun",
+    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>',
     tracks: [
       {title:"Ophelia", artist:"The Lumineers", familiar:true, note:"Familiar opener, sets the tone."},
-      {title:"Sunroof", artist:"Nicky Youre, hey daisy", familiar:true, note:"From Damn good day — instant good mood."},
-      {title:"live more & love more", artist:"Cat Burns", familiar:true, note:"From Roadtrippin — comfort pick."},
-      {title:"Golden Hour", artist:"JVKE", familiar:false, note:"Discovery — exactly her indie-pop lane."}
+      {title:"Sunroof", artist:"Nicky Youre, hey daisy", familiar:true, note:"From Damn good day \u2014 instant good mood."},
+      {title:"live more & love more", artist:"Cat Burns", familiar:true, note:"From Roadtrippin \u2014 comfort pick."},
+      {title:"Lonely Boy", artist:"The Avener", familiar:false, note:"Warm French electronic \u2014 close enough to her world that it doesn\u2019t interrupt."}
     ]
   },
   {
-    name: "Open road — into Austria & the valley",
-    icon: "\u{1F3DE}\uFE0F",
+    name: "Open road \u2014 Austrian valley",
+    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3L4 21M16 3l4 18M4 12h16M12 3v18"/></svg>',
     tracks: [
-      {title:"NO BAD DAYS", artist:"Macklemore ft. Collett", familiar:true, note:"She\u2019ll sing along."},
+      {title:"NO BAD DAYS (ft. Collett)", artist:"Macklemore", familiar:true, note:"She\u2019ll sing along."},
       {title:"Green Green Grass (Sam Feldt Remix)", artist:"George Ezra", familiar:true, note:"From Roadtrippin."},
-      {title:"Heat Waves", artist:"Glass Animals", familiar:false, note:"Fits between her Nicky Youre and Lumineers."},
+      {title:"Original Sin", artist:"SOFI TUKKER", familiar:false, note:"Keeps the pulse, shifts electronic."},
       {title:"Auf und davon", artist:"Casper", familiar:true, note:"From her Casper playlist \u2014 literally \u201Cup and away.\u201D"},
-      {title:"Glorious", artist:"Macklemore ft. Skylar Grey", familiar:true, note:"From her \u{1F917} playlist \u2014 big driving energy."},
-      {title:"Symphony", artist:"Imagine Dragons", familiar:true, note:"From Roadtrippin."},
-      {title:"I Lived", artist:"OneRepublic", familiar:true, note:"Anthem energy for the straightaway."}
+      {title:"Glorious (ft. Skylar Grey)", artist:"Macklemore", familiar:true, note:"First energy peak \u2014 big driving anthem."}
     ]
   },
   {
-    name: "Into the mountains — approaching Reschenpass",
-    icon: "\u{1F3D4}\uFE0F",
+    name: "Valley \u2014 first breath",
+    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M8 22V15M16 22V15M4 22V18M20 22V18M3 10l9-8 9 8"/></svg>',
     tracks: [
-      {title:"Amsterdam", artist:"Gregory Alan Isakov", familiar:true, note:"Quieter, contemplative, mountain-pass perfect."},
+      {title:"Good Life", artist:"ZHU", familiar:false, note:"Groove eases down after the first peak."},
+      {title:"Coastline", artist:"Hollow Coves", familiar:false, note:"The real discovery \u2014 Australian indie folk."},
+      {title:"Little Hollywood", artist:"Alle Farben, Janieck", familiar:true, note:"From HER playlist \u2014 she hears her own music doing what his does."},
+      {title:"Symphony", artist:"Imagine Dragons", familiar:true, note:"Warm without spiking."}
+    ]
+  },
+  {
+    name: "Second build \u2014 approaching mountains",
+    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21l5-9 5 6 5-10 5 13H2z"/></svg>',
+    tracks: [
+      {title:"I Lived", artist:"OneRepublic", familiar:true, note:"Second peak anthem."},
+      {title:"No Place", artist:"R\u00DCF\u00DCS DU SOL", familiar:false, note:"Melodic electronic bridge \u2014 lives between her anthems and his deep cuts."},
+      {title:"Breathing (ft. Malou)", artist:"Ben B\u00F6hmer, Nils Hoffmann", familiar:false, note:"The central track \u2014 exact frequency where their tastes meet."},
+      {title:"Amsterdam", artist:"Gregory Alan Isakov", familiar:true, note:"Eases in without whiplash."}
+    ]
+  },
+  {
+    name: "Mountain pass \u2014 Reschenpass",
+    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l-5 18h18L12 5l-4 14"/><path d="M12 5l4 9"/></svg>',
+    tracks: [
       {title:"Vagabond", artist:"Caamp", familiar:true, note:"Folk warmth as the peaks come into view."},
       {title:"Down by the Water", artist:"Ocie Elliott", familiar:true, note:"The gentlest track she listens to."},
-      {title:"The Night We Met", artist:"Lord Huron", familiar:false, note:"Discovery \u2014 fits her Isakov mood exactly."},
-      {title:"Ganz sch\u00f6n okay", artist:"Casper ft. Kraftklub", familiar:true, note:"Her playlist is named after this song."}
+      {title:"Heartbeat", artist:"Danit", familiar:false, note:"The track where she hears who he actually is \u2014 soulful, pulsing, unmistakably him."},
+      {title:"Ganz sch\u00F6n okay (ft. Kraftklub)", artist:"Casper", familiar:true, note:"Reflective Casper at the pass. The playlist name."},
+      {title:"Take Off Your Cool (ft. Norah Jones)", artist:"Outkast", familiar:false, note:"The whisper lands as they look at the sunken church tower."}
     ]
   },
   {
-    name: "Reschenpass — the sunken church, crossing into Italy",
-    icon: "\u{26EA}",
+    name: "Crossing into Italy \u2014 Vinschgau descent",
+    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4M4 4h13l-3 5 3 5H4"/></svg>',
     tracks: [
+      {title:"Via con me (It\u2019s Wonderful)", artist:"Paolo Conte", familiar:false, note:"The instant they cross into Italy. Road signs switch. \u201CIt\u2019s wonderful\u2026 good luck my baby.\u201D"},
       {title:"Daydream", artist:"Lily Meola", familiar:true, note:"On two of her playlists \u2014 dreamy."},
+      {title:"Dandelions", artist:"Ruth B.", familiar:true, note:"Soft and sweet as orchards appear."},
       {title:"Shelter", artist:"Joy Oladokun", familiar:true, note:"From Roadtrippin \u2014 warm, reassuring."},
-      {title:"Holocene", artist:"Bon Iver", familiar:false, note:"Discovery \u2014 the mountain track."},
-      {title:"So perfekt", artist:"Casper ft. Marteria", familiar:true, note:"Fits the downhill into Vinschgau."}
+      {title:"When I Get There", artist:"Big Wild", familiar:false, note:"Lifts into the final approach."}
     ]
   },
   {
-    name: "Vinschgau valley — descending toward Merano",
-    icon: "\u{1F347}",
+    name: "Arriving in Merano",
+    icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>',
     tracks: [
       {title:"Good Company", artist:"Andy Grammer", familiar:true, note:"From Roadtrippin \u2014 \u201Cyou and me\u201D energy."},
       {title:"Sure Thing", artist:"Miguel", familiar:true, note:"Smooth, warm, romantic undertone."},
-      {title:"Cover Me In Sunshine", artist:"P!nk ft. Willow", familiar:true, note:"Light, happy, arriving energy."},
-      {title:"Until I Found You", artist:"Stephen Sanchez", familiar:true, note:"Romantic, the drive is almost done."}
-    ]
-  },
-  {
-    name: "Arrival — pulling into Merano",
-    icon: "\u{1F3E1}",
-    tracks: [
-      {title:"Perfect", artist:"Ed Sheeran", familiar:true, note:"From her \u{1F917} \u2014 she knows every word."},
-      {title:"Dandelions", artist:"Ruth B.", familiar:true, note:"Soft, sweet \u2014 you\u2019re here."}
+      {title:"Cover Me In Sunshine", artist:"P!nk, Willow Sage Hart", familiar:true, note:"Light and happy."},
+      {title:"Control", artist:"Emmit Fenn", familiar:false, note:"Cinematic build as Merano appears."},
+      {title:"Until I Found You", artist:"Stephen Sanchez", familiar:true, note:"One intimate closer. Then silence. Then they\u2019re there."}
     ]
   }
 ];
