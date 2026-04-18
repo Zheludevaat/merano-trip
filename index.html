@@ -1631,10 +1631,11 @@ function createMarker(stop) {
       html: markerSvg,
       iconSize: isHome ? [36,36] : [32,32], iconAnchor: isHome ? [18,18] : [16,16], className:'custom-marker'
     })
-  }).bindPopup(buildStopPopupHtml(stop), {offset:[0,-14], closeButton:true, autoPan:true, maxWidth:280, minWidth:220, className:'stop-popup-wrap'}).addTo(map).on('click', function() {
-    this.openPopup();
+  }).bindPopup(buildStopPopupHtml(stop), {offset:[0,-14], closeButton:true, autoPan:false, maxWidth:280, minWidth:220, className:'stop-popup-wrap'}).addTo(map).on('click', function() {
     const ll = this.getLatLng();
     map.flyTo([ll.lat,ll.lng], 17, {duration:0.6});
+    // Open popup after flyTo so the dot is centered when popup appears (autoPan off)
+    map.once('moveend', ()=>{ this.openPopup(); });
     if (isFullscreen) return; // fullscreen shows bottom sheet instead
     // Scroll the matching card into view on the list below the map
     const card = document.getElementById(`card-${stop.id}`);
@@ -1691,9 +1692,18 @@ function createCard(stop) {
   card.addEventListener('click', function(e) {
     if (e.target.closest('button, a, .card-actions, .alt-controls, .alt-wrapper, .alt-toggle, .contact-btn')) return;
     openMapDrawer(); // ensure the map is visible on mobile when you tap a stop
-    map.flyTo([stop.lat,stop.lng], 17, {duration:0.7});
     const m = markerMap[stop.id];
-    if (m) { setTimeout(()=>m.openPopup(), 400); }
+    // Wait until the drawer has finished expanding so flyTo centers in the final-sized map
+    setTimeout(function() {
+      try { map.invalidateSize(); } catch(e){}
+      map.flyTo([stop.lat,stop.lng], 17, {duration:0.7});
+      // When pan/zoom completes, open popup and re-center (popup autoPan is off)
+      map.once('moveend', function(){
+        if (m) m.openPopup();
+        // Re-center after popup opens in case any layout shift happened
+        setTimeout(function(){ map.panTo([stop.lat,stop.lng], {animate:true, duration:0.25}); }, 20);
+      });
+    }, 420);
   });
 
   renderCardContent(card, stop, 0);
