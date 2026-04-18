@@ -17,7 +17,7 @@
     /* ==========================================================
        MERGED MAP + ITINERARY PANE  (mobile-first)
        ========================================================== */
-    #pane-itinerary { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+    #pane-itinerary.active { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
     #pane-itinerary .map-container {
       flex: 0 0 44px;
       position: relative;
@@ -40,7 +40,7 @@
 
     /* Desktop (>=900px): true side-by-side split */
     @media (min-width: 900px) {
-      #pane-itinerary { flex-direction: row; }
+      #pane-itinerary.active { flex-direction: row; }
       #pane-itinerary .map-container {
         flex: 0 0 50%;
         height: 100%;
